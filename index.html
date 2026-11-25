@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pipeline - Lucas Fortes - CORRIGIDO</title>
+<link rel="icon" href="data:image/svg+xml,[STRIPPED]">
 <style>
 *{box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
 body{margin:0;background:#0B2A5B;color:#fff;padding:14px}
@@ -42,8 +43,10 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
 .cal-cell .qtd.nf{background:#22C55E}.cal-cell .qtd.ret{background:#EF4444}
 .lembrete{background:#FEF2F2;border:2px solid #FECACA;border-radius:12px;padding:10px;margin-bottom:8px;display:flex;gap:10px;align-items:center}
 .lembrete.urgente{background:#EF4444;color:#fff}
+.lembrete.feito{background:#F0FDF4;border-color:#BBF7D0}
 .alerta{position:fixed;top:14px;right:14px;left:14px;z-index:999;background:#EF4444;color:#fff;border-radius:16px;padding:16px;display:none}
 .alerta.show{display:block}
+.tabs{display:flex;gap:6px;margin:10px 0}.tabs button{flex:1;background:#E5E7EB}.tabs button.active{background:#0B2A5B;color:#fff}
 </style>
 </head>
 <body>
@@ -60,7 +63,6 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
 <h1>🚀 Pipeline + Foco + Retornos - CORRIGIDO</h1>
 <p class="sub">Lucas Fortes • Consórcio Porto Seguro • Versão sem erro</p>
 
-<!-- FOCO + MEU DIA -->
 <div class="foco">
   <div class="card foco-main">
     <h3 id="tituloModo" style="margin:0">🎯 1 HORA - FOCO NO C2S</h3>
@@ -88,10 +90,9 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
   </div>
 </div>
 
-<!-- RETORNOS -->
 <div class="card" style="border:2px solid #FECACA">
-  <h3 style="margin:0">🔔 Lembretes de Retorno <span id="badgeRetornos" style="background:#EF4444;color:#fff;padding:2px 8px;border-radius:20px;font-size:12px">0</span></h3>
-  <p style="font-size:13px;color:#666">Preencha aqui ou na Ficha. Aviso 5 min antes, com som e alerta vermelho. Deixe a aba aberta.</p>
+  <h3 style="margin:0">🔔 Lembretes de Retorno <span id="badgeRetornos" style="background:#EF4444;color:#fff;padding:2px 8px;border-radius:20px;font-size:12px">0</span> <span id="badgeHist" style="background:#E5E7EB;padding:2px 8px;border-radius:20px;font-size:12px">0 feitos</span></h3>
+  <p style="font-size:13px;color:#666">Ligar NÃO conclui mais. Só o botão ✅ Feito conclui e manda para o Histórico.</p>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
     <input id="retNome" placeholder="Nome" style="flex:1;min-width:120px;margin:0">
     <input id="retFone" placeholder="Telefone" style="flex:1;min-width:120px;margin:0">
@@ -103,11 +104,16 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
     <button onclick="ativarSom()" style="background:#FEF3C7;font-size:13px">🔔 Ativar som / notificações</button>
     <button onclick="testarAlarme()" style="background:#E5E7EB;font-size:13px">🔊 Testar alarme</button>
   </div>
+  <div class="tabs">
+    <button id="tabPend" class="active" onclick="setAbaRetorno('pend')">🔔 Pendentes (<span id="cntPend">0</span>)</button>
+    <button id="tabHist" onclick="setAbaRetorno('hist')">[STRIPPED 3 bytes] history Histórico (<span id="cntHist">0</span>)</button>
+  </div>
   <div id="listaRetornos" style="margin-top:10px"></div>
   <div id="semRetornos" style="text-align:center;color:#666;font-size:13px">Nenhum retorno agendado 🎉</div>
+  <div id="listaHistorico" style="display:none;margin-top:10px"></div>
+  <div id="semHistorico" style="display:none;text-align:center;color:#666;font-size:13px">Nenhum retorno concluído ainda.</div>
 </div>
 
-<!-- CALENDÁRIO + WHATSAPP - SEM IFRAME -->
 <div class="split">
   <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
@@ -120,7 +126,6 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
     <div style="display:flex;gap:6px;margin-top:10px"><button onclick="irHoje()" style="background:#FFC700;font-size:13px">📅 Hoje</button><button onclick="limparData()" style="background:#E5E7EB;font-size:13px">Limpar data</button><span id="filtroDataTxt" style="font-size:12px;font-weight:700;align-self:center"></span></div>
     <div id="listaDia" style="margin-top:10px;font-size:13px"></div>
   </div>
-
   <div class="card">
     <b style="font-size:17px">💬 WhatsApp</b><br><span style="font-size:12px;color:#666">O WhatsApp bloqueia abrir dentro de outros sites, por isso abrimos em aba ao lado. É o jeito que funciona.</span>
     <div style="background:#25D366;color:#fff;border-radius:12px;padding:14px;margin-top:12px;text-align:center">
@@ -134,7 +139,6 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
   </div>
 </div>
 
-<!-- METAS -->
 <div class="top">
   <div class="card meta"><span>🎯 META HOJE</span><b><span id="vendasHoje">0</span> / <span id="metaTxt">3</span></b><div class="bar"><i id="barra"></i></div><div style="display:flex;gap:6px;margin-top:8px"><input id="metaInput" type="number" value="3" style="margin:0"><button onclick="setMeta()" style="background:#0B2A5B;color:#fff">Salvar</button></div></div>
   <div class="card meta"><span>🏆 NF</span><b id="totalNF2">0</b><span>fichas 100%</span></div>
@@ -170,142 +174,67 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
 </div>
 
 <script>
-/* ============ RETORNOS ============ */
 var retornos = JSON.parse(localStorage.getItem('retornos_lucas') || '[]');
 var alertaAtualId = null;
+var abaRetorno = 'pend';
 function salvarRetornos(){ localStorage.setItem('retornos_lucas', JSON.stringify(retornos)); }
-function ativarSom(){
-  if('Notification' in window){ Notification.requestPermission(); }
-  try{ new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play(); }catch(e){}
-  alert('Som ativado! Deixe a aba aberta.');
-}
-function tocarAlarme(){
-  for(var i=0;i<3;i++){ (function(k){ setTimeout(function(){ try{ new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play(); }catch(e){} if(navigator.vibrate) navigator.vibrate([500,200,500]); }, k*800); })(i); }
-}
+function ativarSom(){ if('Notification' in window){ Notification.requestPermission(); } try{ new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play(); }catch(e){} alert('Som ativado! Deixe a aba aberta.'); }
+function tocarAlarme(){ for(var i=0;i<3;i++){ (function(k){ setTimeout(function(){ try{ new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play(); }catch(e){} if(navigator.vibrate) navigator.vibrate([500,200,500]); }, k*800); })(i); } }
 function testarAlarme(){ tocarAlarme(); alert('Se ouviu o apito, o alarme funciona!'); }
-function formatarDataHora(iso){ var d=new Date(iso); return d.toLocaleDateString('pt-BR')+' às '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}); }
-function tempoPara(data){
-  var diff=Math.floor((new Date(data)-new Date())/60000);
-  if(diff<0) return 'PASSOU DA HORA - LIGUE AGORA';
-  if(diff===0) return 'AGORA!';
-  if(diff<60) return 'Falta '+diff+' min';
-  if(diff<1440) return 'Falta '+Math.floor(diff/60)+'h '+(diff%60)+'min';
-  return formatarDataHora(data);
-}
-function addRetornoRapido(){
-  var nome=document.getElementById('retNome').value.trim();
-  var fone=document.getElementById('retFone').value.trim();
-  var data=document.getElementById('retData').value;
-  var motivo=document.getElementById('retMotivo').value.trim();
-  if(!nome || !data){ alert('Preencha nome e data/hora do retorno'); return; }
-  retornos.push({id:Date.now(), nome:nome, fone:fone, data:data, motivo:motivo||'Retornar para o cliente', feito:false, avisado:false});
-  retornos.sort(function(a,b){ return new Date(a.data)-new Date(b.data); });
-  salvarRetornos();
-  document.getElementById('retNome').value=''; document.getElementById('retFone').value=''; document.getElementById('retData').value=''; document.getElementById('retMotivo').value='';
-  renderRetornos(); render();
-  alert('Lembrete agendado! Vou avisar 5 min antes de '+nome);
-}
-function concluirRetorno(id){ var r=retornos.find(function(x){return x.id===id}); if(r){ r.feito=true; salvarRetornos(); renderRetornos(); } }
-function excluirRetorno(id){ if(confirm('Excluir esse lembrete?')){ retornos=retornos.filter(function(x){return x.id!==id}); salvarRetornos(); renderRetornos(); render(); } }
-function ligarRetorno(id){
-  var r=retornos.find(function(x){return x.id===id}); if(!r) return;
-  if(r.fone){ window.open('https://wa.me/55'+r.fone.replace(/\D/g,'')+'?text='+encodeURIComponent('Olá '+r.nome+'! Aqui é o Lucas Fortes - Consórcio Porto Seguro. Conforme combinamos, estou retornando agora.'),'_blank'); }
-  concluirRetorno(id);
-}
-function adiarRetorno(id){
-  var r=retornos.find(function(x){return x.id===id}); if(!r) return;
-  var d=new Date(r.data); d.setMinutes(d.getMinutes()+10); r.data=d.toISOString().slice(0,16); r.avisado=false; r.feito=false;
-  salvarRetornos(); renderRetornos(); alert('Adiado 10 min: '+formatarDataHora(r.data));
-}
+function formatarDataHora(iso){ if(!iso) return ''; var d=new Date(iso); return d.toLocaleDateString('pt-BR')+' às '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}); }
+function tempoPara(data){ var diff=Math.floor((new Date(data)-new Date())/60000); if(diff<0) return 'PASSOU DA HORA - LIGUE AGORA'; if(diff===0) return 'AGORA!'; if(diff<60) return 'Falta '+diff+' min'; if(diff<1440) return 'Falta '+Math.floor(diff/60)+'h '+(diff%60)+'min'; return formatarDataHora(data); }
+function setAbaRetorno(aba){ abaRetorno=aba; document.getElementById('tabPend').classList.toggle('active', aba==='pend'); document.getElementById('tabHist').classList.toggle('active', aba==='hist'); renderRetornos(); }
+function addRetornoRapido(){ var nome=document.getElementById('retNome').value.trim(); var fone=document.getElementById('retFone').value.trim(); var data=document.getElementById('retData').value; var motivo=document.getElementById('retMotivo').value.trim(); if(!nome || !data){ alert('Preencha nome e data/hora do retorno'); return; } retornos.push({id:Date.now(), nome:nome, fone:fone, data:data, motivo:motivo||'Retornar para o cliente', feito:false, avisado:false, criadoEm:new Date().toISOString()}); retornos.sort(function(a,b){ return new Date(a.data)-new Date(b.data); }); salvarRetornos(); document.getElementById('retNome').value=''; document.getElementById('retFone').value=''; document.getElementById('retData').value=''; document.getElementById('retMotivo').value=''; setAbaRetorno('pend'); render(); alert('Lembrete agendado! Vou avisar 5 min antes de '+nome); }
+function concluirRetorno(id){ var r=retornos.find(function(x){return x.id===id}); if(!r) return; if(!confirm('Marcar retorno de '+r.nome+' como FEITO e mandar para o Histórico?')) return; r.feito=true; r.concluidoEm=new Date().toISOString(); salvarRetornos(); renderRetornos(); render(); }
+function desfazerRetorno(id){ var r=retornos.find(function(x){return x.id===id}); if(!r) return; r.feito=false; r.avisado=false; r.concluidoEm=null; salvarRetornos(); renderRetornos(); render(); }
+function reativarRetorno(id){ var r=retornos.find(function(x){return x.id===id}); if(!r) return; var novaData=prompt('Reagendar '+r.nome+' para quando? (ex: 2026-11-26T15:00)', r.data); if(!novaData) return; r.data=novaData; r.feito=false; r.avisado=false; r.concluidoEm=null; salvarRetornos(); setAbaRetorno('pend'); render(); }
+function excluirRetorno(id){ if(confirm('Excluir esse lembrete para sempre? Ele vai sumir do Histórico também.')){ retornos=retornos.filter(function(x){return x.id!==id}); salvarRetornos(); renderRetornos(); render(); } }
+function ligarRetorno(id){ var r=retornos.find(function(x){return x.id===id}); if(!r) return; if(r.fone){ window.open('https://wa.me/55'+r.fone.replace(/\D/g,'')+'?text='+encodeURIComponent('Olá '+r.nome+'! Aqui é o Lucas Fortes - Consórcio Porto Seguro. Conforme combinamos, estou retornando agora.'),'_blank'); } else { alert('Sem telefone cadastrado para '+r.nome); } }
+function adiarRetorno(id){ var r=retornos.find(function(x){return x.id===id}); if(!r) return; var d=new Date(r.data); d.setMinutes(d.getMinutes()+10); r.data=d.toISOString().slice(0,16); r.avisado=false; r.feito=false; salvarRetornos(); renderRetornos(); render(); alert('Adiado 10 min: '+formatarDataHora(r.data)); }
 function renderRetornos(){
   var pendentes=retornos.filter(function(r){return !r.feito});
+  var feitos=retornos.filter(function(r){return r.feito});
   document.getElementById('badgeRetornos').textContent=pendentes.length;
-  document.getElementById('semRetornos').style.display=pendentes.length?'none':'block';
+  document.getElementById('badgeHist').textContent=feitos.length+' feitos';
+  document.getElementById('cntPend').textContent=pendentes.length;
+  document.getElementById('cntHist').textContent=feitos.length;
   var hojeStr=new Date().toDateString();
   document.getElementById('totalRetHoje').textContent=retornos.filter(function(r){return !r.feito && new Date(r.data).toDateString()===hojeStr}).length;
+  var isPend = abaRetorno==='pend';
+  document.getElementById('listaRetornos').style.display=isPend?'block':'none';
+  document.getElementById('semRetornos').style.display=(isPend && !pendentes.length)?'block':'none';
+  document.getElementById('listaHistorico').style.display=isPend?'none':'block';
+  document.getElementById('semHistorico').style.display=(!isPend && !feitos.length)?'block':'none';
   var html='';
-  for(var i=0;i<pendentes.length;i++){
-    var r=pendentes[i];
-    var diff=Math.floor((new Date(r.data)-new Date())/60000);
-    var classe=diff<=5?'urgente':'';
-    html+='<div class="lembrete '+classe+'"><div style="font-size:28px">🔔</div><div style="flex:1"><b>'+r.nome+'</b><br><small>'+r.fone+' • '+r.motivo+'<br>'+formatarDataHora(r.data)+' • '+tempoPara(r.data)+'</small></div><div style="display:flex;flex-direction:column;gap:6px"><button onclick="ligarRetorno('+r.id+')" style="background:#25D366;color:#fff">📞 Ligar</button><button onclick="adiarRetorno('+r.id+')" style="background:#FEF3C7">⏰ +10 min</button><button onclick="concluirRetorno('+r.id+')" style="background:#E5E7EB">✅ Feito</button><button onclick="excluirRetorno('+r.id+')" style="background:#FEE2E2;color:#B91C1C">🗑️</button></div></div>';
-  }
+  for(var i=0;i<pendentes.length;i++){ var r=pendentes[i]; var diff=Math.floor((new Date(r.data)-new Date())/60000); var classe=diff<=5?'urgente':''; html+='<div class="lembrete '+classe+'"><div style="font-size:28px">🔔</div><div style="flex:1"><b>'+r.nome+'</b><br><small>'+r.fone+' • '+r.motivo+'<br>'+formatarDataHora(r.data)+' • '+tempoPara(r.data)+'</small></div><div style="display:flex;flex-direction:column;gap:6px"><button onclick="ligarRetorno('+r.id+')" style="background:#25D366;color:#fff">📞 Ligar (não conclui)</button><button onclick="adiarRetorno('+r.id+')" style="background:#FEF3C7">⏰ +10 min</button><button onclick="concluirRetorno('+r.id+')" style="background:#22C55E;color:#fff">✅ Feito</button><button onclick="excluirRetorno('+r.id+')" style="background:#FEE2E2;color:#B91C1C">🗑️ Excluir</button></div></div>'; }
   document.getElementById('listaRetornos').innerHTML=html;
+  var htmlH='';
+  var feitosOrd = feitos.slice().sort(function(a,b){ return new Date(b.concluidoEm||b.data)-new Date(a.concluidoEm||a.data); });
+  for(var j=0;j<feitosOrd.length;j++){ var rh=feitosOrd[j]; htmlH+='<div class="lembrete feito"><div style="font-size:28px">✅</div><div style="flex:1"><b>'+rh.nome+'</b><br><small>'+rh.fone+' • '+rh.motivo+'<br>Agendado para: '+formatarDataHora(rh.data)+'<br>Concluído em: '+(rh.concluidoEm?formatarDataHora(rh.concluidoEm):'-')+'</small></div><div style="display:flex;flex-direction:column;gap:6px"><button onclick="ligarRetorno('+rh.id+')" style="background:#25D366;color:#fff">📞 Ligar de novo</button><button onclick="desfazerRetorno('+rh.id+')" style="background:#FEF3C7">↩️ Desfazer</button><button onclick="reativarRetorno('+rh.id+')" style="background:#0B2A5B;color:#fff">🔔 Reagendar</button><button onclick="excluirRetorno('+rh.id+')" style="background:#FEE2E2;color:#B91C1C">🗑️ Excluir</button></div></div>'; }
+  document.getElementById('listaHistorico').innerHTML=htmlH;
 }
-function verificarAlarmes(){
-  var agora=new Date();
-  for(var i=0;i<retornos.length;i++){
-    var r=retornos[i];
-    if(r.feito || r.avisado) continue;
-    var diff=Math.floor((new Date(r.data)-agora)/60000);
-    if(diff<=5 && diff>=-10){
-      r.avisado=true; salvarRetornos();
-      alertaAtualId=r.id;
-      document.getElementById('alertaTexto').textContent=r.nome+' - '+r.motivo+' - Retorno às '+formatarDataHora(r.data)+' ('+r.fone+')';
-      document.getElementById('alertaRetorno').classList.add('show');
-      tocarAlarme();
-      if('Notification' in window && Notification.permission==='granted'){ new Notification('Retornar para '+r.nome, {body:'Falta 5 min - '+r.motivo}); }
-      renderRetornos();
-    }
-  }
-}
+function verificarAlarmes(){ var agora=new Date(); for(var i=0;i<retornos.length;i++){ var r=retornos[i]; if(r.feito || r.avisado) continue; var diff=Math.floor((new Date(r.data)-agora)/60000); if(diff<=5 && diff>=-10){ r.avisado=true; salvarRetornos(); alertaAtualId=r.id; document.getElementById('alertaTexto').textContent=r.nome+' - '+r.motivo+' - Retorno às '+formatarDataHora(r.data)+' ('+r.fone+')'; document.getElementById('alertaRetorno').classList.add('show'); tocarAlarme(); if('Notification' in window && Notification.permission==='granted'){ new Notification('Retornar para '+r.nome, {body:'Falta 5 min - '+r.motivo}); } renderRetornos(); } } }
 function fecharAlerta(){ document.getElementById('alertaRetorno').classList.remove('show'); }
 function ligarAlerta(){ if(alertaAtualId) ligarRetorno(alertaAtualId); fecharAlerta(); }
 function adiarAlerta(){ if(alertaAtualId) adiarRetorno(alertaAtualId); fecharAlerta(); }
-setInterval(verificarAlarmes, 30000);
-verificarAlarmes();
-renderRetornos();
-
-/* ============ WHATSAPP ============ */
-function abrirConversaWA(){
-  var n=document.getElementById('waNumero').value.replace(/\D/g,'');
-  if(!n){ alert('Digite o número com DDD'); return; }
-  window.open('https://wa.me/55'+n,'_blank');
-  document.getElementById('waNumero').value='';
-}
-
-/* ============ CRONÔMETRO ============ */
+setInterval(verificarAlarmes, 30000); verificarAlarmes(); renderRetornos();
+function abrirConversaWA(){ var n=document.getElementById('waNumero').value.replace(/\D/g,''); if(!n){ alert('Digite o número com DDD'); return; } window.open('https://wa.me/55'+n,'_blank'); document.getElementById('waNumero').value=''; }
 var modos={c2s:{min:60,titulo:'🎯 1 HORA - FOCO NO C2S',desc:'Foco total em C2S. Só cliente, follow-up e venda.'},cafe:{min:10,titulo:'☕ 10 MINUTOS - CAFÉ',desc:'Descansa, toma café, levanta, respira.'},lista:{min:60,titulo:'📋 1 HORA - FAZER UMA LISTA',desc:'Monte sua lista de amanhã: quem ligar, quem cobrar, quem fechar.'}};
 var modoAtual='c2s', totalSeg=60*60, restante=totalSeg, timerFoco=null, rodando=false;
-var ciclos=parseInt(localStorage.getItem('ciclos_lucas')||'0');
-var minutosFoco=parseInt(localStorage.getItem('minutos_lucas')||'0');
-document.getElementById('ciclos').textContent=ciclos;
-document.getElementById('tempoFoco').textContent=minutosFoco+' min';
+var ciclos=parseInt(localStorage.getItem('ciclos_lucas')||'0'); var minutosFoco=parseInt(localStorage.getItem('minutos_lucas')||'0');
+document.getElementById('ciclos').textContent=ciclos; document.getElementById('tempoFoco').textContent=minutosFoco+' min';
 function formatar(s){ var m=Math.floor(s/60), seg=s%60; return String(m).padStart(2,'0')+':'+String(seg).padStart(2,'0'); }
 function atualizarFoco(){ document.getElementById('display').textContent=formatar(restante); document.getElementById('barraFoco').style.width=(restante/totalSeg*100)+'%'; }
 function setModo(m){ pausarFoco(); modoAtual=m; totalSeg=modos[m].min*60; restante=totalSeg; document.getElementById('tituloModo').textContent=modos[m].titulo; document.getElementById('descModo').textContent=modos[m].desc; document.getElementById('fimMsg').style.display='none'; document.getElementById('status').textContent='Pronto para começar? 👊'; document.getElementById('btnPrincipal').textContent='▶️ COMEÇAR FOCO'; document.querySelectorAll('.modes button').forEach(function(b){b.classList.remove('active')}); document.getElementById(m==='c2s'?'btn1':m==='cafe'?'btn2':'btn3').classList.add('active'); atualizarFoco(); }
-function toggleFoco(){
-  if(rodando){ pausarFoco(); return; }
-  rodando=true; document.getElementById('btnPrincipal').textContent='⏸️ PAUSAR'; document.getElementById('status').textContent='🔥 FOCADO...';
-  timerFoco=setInterval(function(){
-    restante--;
-    if(restante<=0){
-      clearInterval(timerFoco); rodando=false; restante=0;
-      document.getElementById('fimMsg').style.display='block'; document.getElementById('status').textContent='✅ Concluído!';
-      document.getElementById('btnPrincipal').textContent='▶️ COMEÇAR DE NOVO';
-      ciclos++; minutosFoco+=modos[modoAtual].min;
-      localStorage.setItem('ciclos_lucas',ciclos); localStorage.setItem('minutos_lucas',minutosFoco);
-      document.getElementById('ciclos').textContent=ciclos; document.getElementById('tempoFoco').textContent=minutosFoco+' min';
-      tocarAlarme(); alert('⏰ Tempo acabou! '+modos[modoAtual].titulo);
-    }
-    atualizarFoco();
-  },1000);
-}
+function toggleFoco(){ if(rodando){ pausarFoco(); return; } rodando=true; document.getElementById('btnPrincipal').textContent='⏸️ PAUSAR'; document.getElementById('status').textContent='🔥 FOCADO...'; timerFoco=setInterval(function(){ restante--; if(restante<=0){ clearInterval(timerFoco); rodando=false; restante=0; document.getElementById('fimMsg').style.display='block'; document.getElementById('status').textContent='✅ Concluído!'; document.getElementById('btnPrincipal').textContent='▶️ COMEÇAR DE NOVO'; ciclos++; minutosFoco+=modos[modoAtual].min; localStorage.setItem('ciclos_lucas',ciclos); localStorage.setItem('minutos_lucas',minutosFoco); document.getElementById('ciclos').textContent=ciclos; document.getElementById('tempoFoco').textContent=minutosFoco+' min'; tocarAlarme(); alert('⏰ Tempo acabou! '+modos[modoAtual].titulo); } atualizarFoco(); },1000); }
 function pausarFoco(){ clearInterval(timerFoco); rodando=false; document.getElementById('btnPrincipal').textContent='▶️ CONTINUAR'; document.getElementById('status').textContent='⏸️ Pausado.'; }
 function resetarFoco(){ pausarFoco(); restante=totalSeg; document.getElementById('fimMsg').style.display='none'; atualizarFoco(); }
 atualizarFoco();
 var tarefasDia=JSON.parse(localStorage.getItem('tarefas_dia_lucas')||'[false,false,false,false]');
 function marcarTarefa(id){ var idx=parseInt(id.replace('t',''))-1; tarefasDia[idx]=!tarefasDia[idx]; localStorage.setItem('tarefas_dia_lucas',JSON.stringify(tarefasDia)); atualizarTarefasDia(); }
-function atualizarTarefasDia(){
-  for(var i=0;i<4;i++){ var el=document.getElementById('t'+(i+1)); if(el){ el.querySelector('input').checked=tarefasDia[i]; el.classList.toggle('feita',tarefasDia[i]); } }
-  var feitos=tarefasDia.filter(Boolean).length;
-  document.getElementById('progressoDia').textContent=feitos+' de 4 concluídos'+(feitos===4?' 🎉 Dia concluído!':'');
-  document.getElementById('barraDia').style.width=(feitos/4*100)+'%';
-}
+function atualizarTarefasDia(){ for(var i=0;i<4;i++){ var el=document.getElementById('t'+(i+1)); if(el){ el.querySelector('input').checked=tarefasDia[i]; el.classList.toggle('feita',tarefasDia[i]); } } var feitos=tarefasDia.filter(Boolean).length; document.getElementById('progressoDia').textContent=feitos+' de 4 concluídos'+(feitos===4?' 🎉 Dia concluído!':''); document.getElementById('barraDia').style.width=(feitos/4*100)+'%'; }
 function rolarPipeline(){ document.getElementById('board').scrollIntoView({behavior:'smooth'}); }
 atualizarTarefasDia();
-
-/* ============ PIPELINE ============ */
 var ETAPAS=["Novo Lead","NF - Negócio Fechado","Pós-venda"];
 var leads=JSON.parse(localStorage.getItem('pipe_nf_lucas')||'[]');
 var meta=parseInt(localStorage.getItem('meta_nf_lucas')||'3');
@@ -316,155 +245,8 @@ function hoje(){ return new Date().toISOString().slice(0,10); }
 function dias(d){ if(!d) return 99; return Math.floor((new Date(hoje())-new Date(d))/(1000*60*60*24)); }
 function setMeta(){ meta=parseInt(document.getElementById('metaInput').value||'3'); localStorage.setItem('meta_nf_lucas',meta); render(); }
 function novaFicha(){ return {quantoQuer:'',quantoTem:'',quantoPode:'',cpf:'',decide:'',clientePorto:'',aluguel:'',quantoAluguel:'',investimento:'',retornoData:'',retornoMotivo:''}; }
-function progressoFicha(f){
-  var campos=['quantoQuer','quantoTem','quantoPode','cpf','decide','clientePorto','aluguel','investimento'];
-  var total=campos.length, preenchidos=0;
-  for(var i=0;i<campos.length;i++){ if(f[campos[i]] && String(f[campos[i]]).trim()!=='') preenchidos++; }
-  if(f.aluguel==='Sim'){ total++; if(f.quantoAluguel) preenchidos++; }
-  return Math.round(preenchidos/total*100);
-}
+function progressoFicha(f){ var campos=['quantoQuer','quantoTem','quantoPode','cpf','decide','clientePorto','aluguel','investimento']; var total=campos.length, preenchidos=0; for(var i=0;i<campos.length;i++){ if(f[campos[i]] && String(f[campos[i]]).trim()!=='') preenchidos++; } if(f.aluguel==='Sim'){ total++; if(f.quantoAluguel) preenchidos++; } return Math.round(preenchidos/total*100); }
 function ehNF(f){ return progressoFicha(f)===100; }
-function addLead(){
-  var nome=document.getElementById('nome').value.trim();
-  var fone=document.getElementById('fone').value.trim();
-  if(!nome || !fone){ alert('Preencha nome e telefone'); return; }
-  var novo={id:Date.now(), nome:nome, fone:fone, etapa:'Novo Lead', temp:'Morno', ficha:novaFicha(), data:hoje(), falouHoje:false, obs:''};
-  leads.unshift(novo);
-  salvar();
-  document.getElementById('nome').value=''; document.getElementById('fone').value='';
-  render();
-  alert('Cliente '+nome+' adicionado em Novo Lead!');
-}
+function addLead(){ var nome=document.getElementById('nome').value.trim(); var fone=document.getElementById('fone').value.trim(); if(!nome || !fone){ alert('Preencha nome e telefone'); return; } var novo={id:Date.now(), nome:nome, fone:fone, etapa:'Novo Lead', temp:'Morno', ficha:novaFicha(), data:hoje(), falouHoje:false, obs:''}; leads.unshift(novo); salvar(); document.getElementById('nome').value=''; document.getElementById('fone').value=''; render(); alert('Cliente '+nome+' adicionado em Novo Lead!'); }
 function filtrar(f){ filtro=f; render(); }
-function abrirFicha(id){
-  editId=id;
-  var l=leads.find(function(x){return x.id===id});
-  var f=l.ficha || novaFicha();
-  document.getElementById('modalTitulo').textContent='📋 Ficha - '+l.nome;
-  document.getElementById('modalCampos').innerHTML=
-    '<div style="background:#FEF2F2;border:2px solid #FECACA;border-radius:12px;padding:12px;margin-bottom:12px">'+
-    '<b style="color:#B91C1C">🔔 CLIENTE SOLICITOU RETORNO?</b>'+
-    '<p style="font-size:12px;color:#666;margin:4px 0 8px">Se pediu para ligar depois, preencha aqui. Aviso 5 min antes!</p>'+
-    '<label style="font-size:12px;font-weight:700">📅 Cliente solicitou retorno em:</label><input id="f_retornoData" type="datetime-local" value="'+(f.retornoData||'')+'">'+
-    '<label style="font-size:12px;font-weight:700">💬 Motivo do retorno:</label><input id="f_retornoMotivo" placeholder="Ex: Falar sobre lance" value="'+(f.retornoMotivo||'')+'">'+
-    '<div style="display:flex;gap:6px"><button type="button" onclick="setRetornoRapido(15)" style="background:#FEF3C7;flex:1">+15 min</button><button type="button" onclick="setRetornoRapido(30)" style="background:#FEF3C7;flex:1">+30 min</button><button type="button" onclick="setRetornoRapido(60)" style="background:#FEF3C7;flex:1">+1 hora</button><button type="button" onclick="setRetornoAmanha()" style="background:#FEF3C7;flex:1">Amanhã 9h</button></div></div>'+
-    '<label style="font-size:12px;font-weight:700">Nome:</label><input id="f_nome" value="'+l.nome+'">'+
-    '<label style="font-size:12px;font-weight:700">Quanto quer:</label><input id="f_quantoQuer" type="number" value="'+f.quantoQuer+'">'+
-    '<label style="font-size:12px;font-weight:700">Quanto tem:</label><input id="f_quantoTem" type="number" value="'+f.quantoTem+'">'+
-    '<label style="font-size:12px;font-weight:700">Quanto pode:</label><input id="f_quantoPode" type="number" value="'+f.quantoPode+'">'+
-    '<label style="font-size:12px;font-weight:700">CPF:</label><input id="f_cpf" value="'+f.cpf+'">'+
-    '<label style="font-size:12px;font-weight:700">Decide sozinho:</label><select id="f_decide"><option value="">Selecione</option><option '+(f.decide==='Sim'?'selected':'')+'>Sim</option><option '+(f.decide==='Não'?'selected':'')+'>Não</option></select>'+
-    '<label style="font-size:12px;font-weight:700">Cliente Porto:</label><select id="f_clientePorto"><option value="">Selecione</option><option '+(f.clientePorto==='Sim'?'selected':'')+'>Sim</option><option '+(f.clientePorto==='Não'?'selected':'')+'>Não</option></select>'+
-    '<label style="font-size:12px;font-weight:700">Aluguel:</label><select id="f_aluguel" onchange="document.getElementById(\'divAluguel\').style.display=this.value===\'Sim\'?\'block\':\'none\'"><option value="">Selecione</option><option '+(f.aluguel==='Sim'?'selected':'')+'>Sim</option><option '+(f.aluguel==='Não'?'selected':'')+'>Não</option></select>'+
-    '<div id="divAluguel" style="display:'+(f.aluguel==='Sim'?'block':'none')+'"><label style="font-size:12px;font-weight:700">Quanto paga de aluguel:</label><input id="f_quantoAluguel" type="number" value="'+f.quantoAluguel+'"></div>'+
-    '<label style="font-size:12px;font-weight:700">Investimento:</label><input id="f_investimento" placeholder="Ex: Casa própria" value="'+f.investimento+'">'+
-    '<label style="font-size:12px;font-weight:700">Observação:</label><textarea id="f_obs">'+(l.obs||'')+'</textarea>'+
-    '<div>Progresso: <b>'+progressoFicha(f)+'%</b></div>';
-  document.getElementById('modal').classList.add('open');
-}
-function setRetornoRapido(min){ var d=new Date(); d.setMinutes(d.getMinutes()+min); document.getElementById('f_retornoData').value=d.toISOString().slice(0,16); }
-function setRetornoAmanha(){ var d=new Date(); d.setDate(d.getDate()+1); d.setHours(9,0,0,0); document.getElementById('f_retornoData').value=d.toISOString().slice(0,16); }
-function fecharModal(){ document.getElementById('modal').classList.remove('open'); editId=null; }
-function salvarFicha(){
-  var l=leads.find(function(x){return x.id===editId}); if(!l) return;
-  l.nome=document.getElementById('f_nome').value.trim() || l.nome;
-  var retornoData=document.getElementById('f_retornoData').value;
-  var retornoMotivo=document.getElementById('f_retornoMotivo').value;
-  l.ficha={quantoQuer:document.getElementById('f_quantoQuer').value,quantoTem:document.getElementById('f_quantoTem').value,quantoPode:document.getElementById('f_quantoPode').value,cpf:document.getElementById('f_cpf').value,decide:document.getElementById('f_decide').value,clientePorto:document.getElementById('f_clientePorto').value,aluguel:document.getElementById('f_aluguel').value,quantoAluguel:document.getElementById('f_quantoAluguel')?document.getElementById('f_quantoAluguel').value:'',investimento:document.getElementById('f_investimento').value,retornoData:retornoData,retornoMotivo:retornoMotivo};
-  l.obs=document.getElementById('f_obs').value;
-  if(retornoData){
-    var jaExiste=retornos.find(function(r){return r.leadId===l.id && r.data===retornoData && !r.feito});
-    if(!jaExiste){
-      retornos.push({id:Date.now(), leadId:l.id, nome:l.nome, fone:l.fone, data:retornoData, motivo:retornoMotivo||'Retornar para o cliente', feito:false, avisado:false});
-      retornos.sort(function(a,b){return new Date(a.data)-new Date(b.data)});
-      salvarRetornos(); renderRetornos();
-      alert('🔔 Lembrete criado! Vou avisar 5 min antes de '+l.nome+' em '+formatarDataHora(retornoData));
-    }
-  }
-  if(ehNF(l.ficha)){ l.etapa='NF - Negócio Fechado'; l.temp='NF'; alert('🏆 '+l.nome+' virou NF - NEGÓCIO FECHADO!'); }
-  else if(!retornoData){ alert('Ficha salva: '+progressoFicha(l.ficha)+'% completa. Falta '+(100-progressoFicha(l.ficha))+'% para virar NF.'); }
-  salvar(); fecharModal(); render();
-}
-function mover(id){ var l=leads.find(function(x){return x.id===id}); var i=ETAPAS.indexOf(l.etapa); if(i<ETAPAS.length-1) l.etapa=ETAPAS[i+1]; salvar(); render(); }
-function voltar(id){ var l=leads.find(function(x){return x.id===id}); var i=ETAPAS.indexOf(l.etapa); if(i>0) l.etapa=ETAPAS[i-1]; salvar(); render(); }
-function falar(id){
-  var l=leads.find(function(x){return x.id===id});
-  document.getElementById('waNumero').value=l.fone;
-  var txt=encodeURIComponent('Olá '+l.nome+'! Aqui é o Lucas Fortes - Consórcio Porto Seguro. Tenho uma condição especial pra você hoje, posso te mostrar?');
-  window.open('https://wa.me/55'+l.fone.replace(/\D/g,'')+'?text='+txt,'_blank');
-  l.falouHoje=true; l.data=hoje(); salvar(); render();
-}
-function excluir(id){ if(confirm('Excluir lead?')){ leads=leads.filter(function(x){return x.id!==id}); salvar(); render(); } }
-function mudarMes(n){ mesAtual.setMonth(mesAtual.getMonth()+n); renderCalendario(); }
-function irHoje(){ mesAtual=new Date(); mesAtual.setDate(1); dataFiltro=hoje(); render(); }
-function limparData(){ dataFiltro=''; render(); }
-function selecionarDia(data){ dataFiltro=data; render(); }
-function renderCalendario(){
-  var meses=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-  document.getElementById('tituloMes').textContent=meses[mesAtual.getMonth()]+' '+mesAtual.getFullYear();
-  var ano=mesAtual.getFullYear(), mes=mesAtual.getMonth();
-  var primeiro=new Date(ano,mes,1);
-  var inicio=new Date(ano,mes,1-primeiro.getDay());
-  var html='';
-  for(var i=0;i<42;i++){
-    var d=new Date(inicio); d.setDate(inicio.getDate()+i);
-    var iso=d.toISOString().slice(0,10);
-    var doMes=d.getMonth()===mes;
-    var ehHoje=iso===hoje();
-    var doDia=leads.filter(function(l){return l.data===iso});
-    var nfs=doDia.filter(function(l){return ehNF(l.ficha||{})}).length;
-    var rets=retornos.filter(function(r){return !r.feito && r.data.slice(0,10)===iso}).length;
-    html+='<div class="cal-cell '+(ehHoje?'hoje':'')+' '+(!doMes?'outro':'')+' '+(dataFiltro===iso?'selecionado':'')+'" onclick="selecionarDia(\''+iso+'\')"><div class="num">'+d.getDate()+'</div>'+(doDia.length?'<span class="qtd">'+doDia.length+' cliente(s)</span>':'')+(nfs?'<br><span class="qtd nf">🏆 '+nfs+' NF</span>':'')+(rets?'<br><span class="qtd ret">🔔 '+rets+' retorno</span>':'')+'</div>';
-  }
-  document.getElementById('calGrid').innerHTML=html;
-  document.getElementById('filtroDataTxt').textContent=dataFiltro?'📅 '+dataFiltro.split('-').reverse().join('/')+' — '+leads.filter(function(l){return l.data===dataFiltro}).length+' cliente(s)':'';
-  if(dataFiltro){
-    var doDia2=leads.filter(function(l){return l.data===dataFiltro});
-    document.getElementById('listaDia').innerHTML=doDia2.length?'<b>Clientes em '+dataFiltro.split('-').reverse().join('/')+':</b><br>'+doDia2.map(function(l){return '• '+l.nome+' - '+l.etapa}).join('<br>'):'<span style="color:#666">Nenhum cliente nesse dia.</span>';
-  } else { document.getElementById('listaDia').innerHTML=''; }
-}
-function render(){
-  var busca=(document.getElementById('busca').value||'').toLowerCase();
-  var lista=leads.filter(function(l){
-    if(dataFiltro && l.data!==dataFiltro) return false;
-    if(busca && l.nome.toLowerCase().indexOf(busca)===-1) return false;
-    if(filtro==='nao' && l.falouHoje) return false;
-    if(filtro==='3dias' && dias(l.data)<3) return false;
-    if(filtro==='retorno' && !l.ficha.retornoData) return false;
-    if(filtro==='negociacao' && l.etapa!=='NF - Negócio Fechado') return false;
-    if(filtro==='NF' && !ehNF(l.ficha||{})) return false;
-    return true;
-  });
-  var nfs=leads.filter(function(l){return ehNF(l.ficha||{})}).length;
-  document.getElementById('totalNF').textContent=nfs;
-  document.getElementById('totalNF2').textContent=nfs;
-  document.getElementById('vendasHoje').textContent=nfs;
-  document.getElementById('metaTxt').textContent=meta;
-  document.getElementById('barra').style.width=Math.min(100,nfs/meta*100)+'%';
-  var soma=0; for(var i=0;i<leads.length;i++){ soma+=parseInt(leads[i].ficha.quantoQuer||0); }
-  document.getElementById('valorPipe').textContent='R$ '+soma.toLocaleString('pt-BR');
-  document.getElementById('txtNao').textContent=leads.filter(function(l){return !l.falouHoje}).length+' esperando contato';
-  document.getElementById('txt3dias').textContent=leads.filter(function(l){return dias(l.data)>=3}).length+' há 3+ dias sem falar';
-  document.getElementById('txtOntem').textContent=leads.filter(function(l){return l.etapa==='NF - Negócio Fechado'}).length+' em NF';
-  var quentes=leads.filter(function(l){return l.temp==='Quente'}).length;
-  var frios=leads.filter(function(l){return l.temp==='Frio'}).length;
-  document.getElementById('txtEtiquetas').textContent=quentes+' Quentes • '+frios+' Frios • '+nfs+' NF';
-  var boardHtml='';
-  for(var e=0;e<ETAPAS.length;e++){
-    var et=ETAPAS[e];
-    var itens=lista.filter(function(l){return l.etapa===et});
-    var itensHtml='';
-    for(var j=0;j<itens.length;j++){
-      var l2=itens[j]; var f=l2.ficha||novaFicha(); var prog=progressoFicha(f); var isNF=ehNF(f); var temRetorno=!!f.retornoData;
-      itensHtml+='<div class="lead '+(isNF?'nf':'')+' '+(temRetorno?'retorno':'')+'"><b>'+(l2.falouHoje?'✅ ':'❌ ')+l2.nome+' '+(isNF?'🏆 NF':'')+'</b><br><small>📱 '+l2.fone+'<br>'+(f.quantoQuer?'💰 Quer: R$ '+parseInt(f.quantoQuer).toLocaleString('pt-BR')+' • ':'')+(f.quantoPode?'Pode: R$ '+parseInt(f.quantoPode).toLocaleString('pt-BR')+'/mês':'')+'<br>🏷️ '+l2.temp+' '+(f.investimento?'• 🎯 '+f.investimento:'')+' • '+(dias(l2.data)===0?'Hoje':dias(l2.data)+' dia(s) sem falar')+'</small>'+(temRetorno?'<div style="background:#FEE2E2;padding:8px;border-radius:8px;margin-top:6px;font-size:13px"><b>🔔 RETORNO: '+formatarDataHora(f.retornoData)+'</b><br>'+(f.retornoMotivo||'')+'<br><b style="color:#B91C1C">'+tempoPara(f.retornoData)+'</b></div>':'')+'<div> Ficha: <b>'+prog+'%</b></div><div style="height:8px;background:#E5E7EB;border-radius:20px;overflow:hidden"><div style="width:'+prog+'%;height:100%;background:'+(isNF?'#22C55E':'#FFC700')+'"></div></div>'+(l2.obs?'<div style="font-size:13px;background:#F8FAFC;padding:6px;border-radius:8px;margin-top:6px">'+l2.obs+'</div>':'')+'<div class="actions"><button class="wa" onclick="falar('+l2.id+')">💬 WhatsApp</button><button onclick="abrirFicha('+l2.id+')" style="background:#FFC700">📋 Ficha</button><button class="del" onclick="excluir('+l2.id+')">🗑️</button></div><div class="actions"><button class="next" onclick="mover('+l2.id+')">➡️ Próxima</button><button onclick="voltar('+l2.id+')" style="background:#E5E7EB">⬅️ Voltar</button></div></div>';
-    }
-    if(!itensHtml) itensHtml='<p style="text-align:center">Nenhum aqui</p>';
-    boardHtml+='<div class="col"><h3>'+(et==='Novo Lead'?'🆕 Novo Lead':et==='NF - Negócio Fechado'?'🏆 NF - Negócio Fechado':'💚 Pós-venda')+'</h3><p>'+itens.length+' clientes</p>'+itensHtml+'</div>';
-  }
-  document.getElementById('board').innerHTML=boardHtml;
-  renderCalendario(); renderRetornos();
-}
-render();
-</script>
-</body>
-</html>
+function abrirFicha(id){ editId=id; var l=leads.find(function(x){return x.id===id}); var f=l.ficha || novaFicha(); document.getElementById('modalTitulo').textContent='📋 Ficha - '+l.nome; document.getElementById('modalCampos').innerHTML='<div style="background:#FEF2F2;border:2px solid #FECACA;border-radius:12px;padding:12px;margin-bottom:12px"><b style="color:#B91C1C">🔔 CLIENTE SOLICITOU RETORNO?</b><p style="font-size:12px;color:#666;margin:4px 0 8px">Se pediu para ligar depois, preencha aqui. Aviso 5 min antes!</p><label style="font-size:12px;font-weight:700">📅 Cliente solicitou retorno em:</label><input id="f_retornoData" type="datetime-local" value="'+(f.retornoData||'')+'"><label style="font-size:12px;font-weight:700">💬 Motivo do retorno:</label><input id="f_retornoMotivo" placeholder="Ex: Falar sobre lance" value="'+(f.retornoMotivo||'')+'"><div style="display:flex;gap:6px"><button type="button" onclick="setRetornoRapido(15)" style="background:#FEF3C7;flex:1">+15 min</button><button type="button" onclick="setRetornoRapido(30)" style="background:#FEF3C7;flex:1">+30 min</button><button type="button" onclick="setRetornoRapido(60)" style="background:#FEF3C7;flex:1">+1 hora</button><button type="button" onclick="setRetornoAmanha()" style="background:#FEF3C7;flex:1">Amanhã 9h</button></div></div><label style="font-size:12px;font-weight:700">Nome:</label><input id="f_nome" value="'+l.nome+'"><label style="font-size:12px;font-weight:700">Quanto quer:</label><input id="f_quantoQuer" type="number" value="'+f.quantoQuer+'"><label style="font-size:12px;font-weight:700">Quanto tem:</label><input id="f_quantoTem" type="number" value="'+f.quantoTem+'"><label style="font-size:12px;font-weight:700">Quanto pode:</label><input id="f_quantoPode" type="number" value="'+f.quantoPode+'"><label style="font-size:12px;font-weight:700">CPF:</label><input id="f_cpf" value="'+f.cpf+'"><label style="font-size:12px;font-weight:700">Decide sozinho:</label><select id="f_decide"><option value="">Selecione</option><option '+(f.decide==='Sim'?'selected':'')+'>Sim</option><option '+(f.decide==='Não'?'selected':'')+'>Não</option></select><label style="font-size:12px;font-weight:700">Cliente Porto:</label><select id="f_clientePorto"><option value="">Selecione</option><option '+(f.clientePorto==='Sim'?'selected':'')+'>Sim</option><option '+(f
