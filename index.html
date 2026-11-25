@@ -4,198 +4,169 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pipeline NF - Lucas Fortes</title>
+<title>Foco - Lucas Fortes</title>
 <style>
 *{box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
-body{margin:0;background:#0B2A5B;color:#fff;padding:14px}
-h1{font-size:22px;margin:0}.sub{opacity:.8;font-size:13px;margin:4px 0 12px}
-.card{background:#fff;color:#111;border-radius:16px;padding:14px}
-input,select,textarea{width:100%;padding:11px;border:1px solid #ddd;border-radius:10px;font-size:15px;margin-bottom:8px}
-button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer}
-.btn-yellow{background:#FFC700;width:100%;font-size:16px}
-.top{display:flex;gap:8px;flex-wrap:wrap}.meta{flex:1;min-width:150px;text-align:center}
-.meta b{font-size:26px;display:block}.meta span{font-size:12px;opacity:.7}
-.bar{height:10px;background:#E5E7EB;border-radius:20px;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:#22C55E;width:0%}
-.board{display:flex;gap:10px;overflow-x:auto;padding:12px 0 20px;align-items:flex-start}
-.col{min-width:300px;background:#F1F5F9;border-radius:14px;padding:10px;color:#111}
-.col h3{font-size:14px;margin:4px 0 2px}.col p{font-size:12px;color:#666;margin:0 0 10px}
-.lead{background:#fff;border-radius:12px;padding:12px;margin-bottom:10px;border-left:5px solid #FFC700;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.lead.nf{border-left-color:#22C55E;background:#F0FDF4}
-.lead b{font-size:15px}.lead small{color:#666;font-size:12px}
-.tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:20px;font-weight:700;margin:6px 0}
-.Quente{background:#FEE2E2}.Morno{background:#FEF3C7}.Frio{background:#DBEAFE}.NF{background:#22C55E;color:#fff}
-.actions{display:flex;gap:6px;margin-top:8px}.actions button{flex:1;font-size:13px}
-.wa{background:#25D366;color:#fff}.next{background:#0B2A5B;color:#fff}.del{background:#FEE2E2;color:#B91C1C;flex:0}
-.ficha{background:#F8FAFC;border-radius:10px;padding:10px;margin-top:8px;display:none}
-.ficha.open{display:block}
-.ficha label{font-size:12px;font-weight:700;color:#334155}
-.ficha input,.ficha select{padding:9px;font-size:14px}
-.progress{font-size:12px;font-weight:700;margin:6px 0}.progress span{color:#0B2A5B}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:flex-end;justify-content:center;z-index:99}
-.modal.open{display:flex}.modal-box{background:#fff;color:#111;width:100%;max-width:520px;max-height:90vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px}
-.row2{display:flex;gap:8px}.row2>*{flex:1}
+body{margin:0;background:#0B2A5B;color:#fff;padding:16px;text-align:center}
+h1{font-size:24px;margin:6px 0 2px}.sub{opacity:.8;font-size:14px;margin:0 0 16px}
+.top{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.stat{background:#123A7A;border-radius:12px;padding:10px 16px}
+.stat b{font-size:20px;display:block}.stat span{font-size:12px;opacity:.8}
+.timer-card{background:#fff;color:#111;border-radius:20px;padding:20px;margin:16px auto;max-width:420px}
+.timer-card h2{margin:0;font-size:20px}
+.timer-card p{color:#666;font-size:14px;margin:6px 0 12px}
+.time{font-size:72px;font-weight:900;letter-spacing:-2px;line-height:1;margin:10px 0}
+.bar{height:10px;background:#E5E7EB;border-radius:20px;overflow:hidden}
+.bar i{display:block;height:100%;background:#FFC700;width:100%}
+button{border:0;border-radius:12px;padding:13px 16px;font-weight:800;cursor:pointer;font-size:15px}
+.btn-start{background:#22C55E;color:#fff;width:100%}
+.btn-pause{background:#FEF3C7;width:48%}.btn-reset{background:#E5E7EB;width:48%}
+.btns{display:flex;gap:8px;margin-top:12px}
+.modes{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.modes button{background:#fff;color:#111;padding:12px 14px}
+.modes button.active{background:#FFC700}
+.list{background:#fff;color:#111;border-radius:16px;padding:14px;max-width:420px;margin:0 auto;text-align:left}
+.list h3{margin:0 0 10px}
+.list label{display:block;background:#F8FAFC;padding:10px;border-radius:10px;margin-bottom:8px;font-size:15px}
+.list input{margin-right:8px}
+.list input[type="text"]{width:calc(100% - 80px);padding:10px;border:1px solid #ddd;border-radius:10px;margin:0}
+.done{color:#22C55E;font-weight:800;text-align:center;margin-top:10px;display:none}
 </style>
 </head>
 <body>
 
-<h1>🚀 Pipeline NF - Alta Performance</h1>
-<p class="sub">Lucas Fortes • Consórcio Porto Seguro • Ficha completa = NF - Negócio Fechado</p>
+<h1>⏱️ Foco do Dia</h1>
+<p class="sub">Lucas Fortes • Consórcio Porto Seguro • Sem distração, só execução</p>
 
 <div class="top">
-  <div class="card meta"><span>🎯 META HOJE</span><b><span id="vendasHoje">0</span> / <span id="metaTxt">3</span></b><div class="bar"><i id="barra"></i></div><div style="display:flex;gap:6px;margin-top:8px"><input id="metaInput" type="number" value="3" style="margin:0"><button onclick="setMeta()" style="background:#0B2A5B;color:#fff">Salvar</button></div></div>
-  <div class="card meta"><span>🏆 NF - NEGÓCIO FECHADO</span><b id="totalNF">0</b><span>fichas 100% completas</span></div>
-  <div class="card meta"><span>💰 VALOR EM PIPELINE</span><b id="valorPipe">R$ 0</b><span>soma do Quanto Quer</span></div>
-  <div class="card meta"><span>📞 FALTA FALAR</span><b id="faltaFalar">0</b><span>leads sem contato hoje</span></div>
+  <div class="stat"><b id="ciclos">0</b><span>Ciclos hoje</span></div>
+  <div class="stat"><b id="tempoFoco">0 min</b><span>Tempo focado</span></div>
+  <div class="stat"><b id="sequencia">🔥 0</b><span>Sequência</span></div>
 </div>
 
-<div class="card" style="margin-top:12px">
-  <h3 style="margin:0 0 10px">➕ Novo Lead - Comece só com Nome e WhatsApp</h3>
-  <div class="row2"><input id="nome" placeholder="Nome *"><input id="fone" placeholder="WhatsApp *"></div>
-  <button class="btn-yellow" onclick="addLead()">Adicionar ao Pipeline →</button>
-</div>
-
-<div style="display:flex;gap:8px;margin-top:12px;overflow:auto">
-  <button onclick="filtrar('')" style="background:#fff">Todos</button>
-  <button onclick="filtrar('NF')" style="background:#22C55E;color:#fff">🏆 Só NF</button>
-  <button onclick="filtrar('incompleto')" style="background:#FEF3C7">⚠️ Ficha incompleta</button>
-  <button onclick="filtrar('3dias')" style="background:#FEE2E2">📅 3+ dias sem falar</button>
-  <input id="busca" placeholder="🔍 Buscar..." oninput="render()" style="background:#fff;margin:0;min-width:150px">
-</div>
-
-<div class="board" id="board"></div>
-
-<!-- MODAL FICHA COMPLETA -->
-<div class="modal" id="modal" onclick="if(event.target===this) fecharModal()">
-  <div class="modal-box">
-    <h3 id="modalTitulo" style="margin:0">Ficha de Atendimento</h3>
-    <p style="font-size:13px;color:#666">Preencha durante o atendimento. Ao completar 100%, vira NF automaticamente.</p>
-    <div id="modalCampos"></div>
-    <button class="btn-yellow" onclick="salvarFicha()">💾 Salvar Ficha</button>
-    <button onclick="fecharModal()" style="width:100%;margin-top:8px;background:#E5E7EB">Fechar</button>
+<div class="timer-card">
+  <h2 id="tituloModo">🎯 1 HORA - FOCO NO C2S</h2>
+  <p id="descModo">Foco total em C2S. Celular no silencioso. Só cliente, follow-up e venda.</p>
+  <div class="time" id="display">60:00</div>
+  <div class="bar"><i id="barra"></i></div>
+  <p id="status" style="font-size:13px;font-weight:700">Pronto para começar? 👊</p>
+  <button class="btn-start" id="btnPrincipal" onclick="toggle()">▶️ COMEÇAR FOCO</button>
+  <div class="btns">
+    <button class="btn-pause" onclick="pausar()">⏸️ Pausar</button>
+    <button class="btn-reset" onclick="resetar()">🔄 Resetar</button>
   </div>
+  <div class="done" id="fimMsg">✅ TEMPO CONCLUÍDO! Vai pro próximo bloco 👊</div>
 </div>
+
+<div class="modes">
+  <button id="btn1" class="active" onclick="setModo('c2s')">🎯 1h - Foco no C2S</button>
+  <button id="btn2" onclick="setModo('cafe')">☕ 10 min - Café</button>
+  <button id="btn3" onclick="setModo('lista')">📋 1h - Fazer uma lista</button>
+</div>
+
+<div class="list">
+  <h3>📋 Minha lista - O que fazer nesse bloco</h3>
+  <label><input type="checkbox"> Ligar / mandar WhatsApp para 10 leads quentes</label>
+  <label><input type="checkbox"> Follow-up de quem está há 3 dias sem falar</label>
+  <label><input type="checkbox"> Enviar simulação / proposta de lance</label>
+  <label><input type="checkbox"> Atualizar fichas - deixar 2 clientes NF</label>
+  <label><input type="checkbox"> Pedir 3 indicações</label>
+  <div style="display:flex;gap:8px;margin-top:8px">
+    <input type="text" id="novaTarefa" placeholder="Adicionar tarefa...">
+    <button onclick="addTarefa()" style="background:#0B2A5B;color:#fff">+ Add</button>
+  </div>
+  <div id="tarefasExtras"></div>
+</div>
+
+<p style="font-size:13px;opacity:.7;margin-top:14px">Sugestão de rotina: 1h C2S → 10 min Café → 1h Lista → Repete 🔁</p>
 
 <script>
-const ETAPAS = ["Novo Lead","1º Contato","Qualificação","Proposta / Lance","Negociação","NF - Negócio Fechado","Pós-venda"];
-let leads = JSON.parse(localStorage.getItem('pipe_nf_lucas')||'[]');
-let meta = parseInt(localStorage.getItem('meta_nf_lucas')||'3');
-let filtro = ''; let editId = null;
-document.getElementById('metaInput').value = meta;
+let modos = {
+  c2s: { min: 60, titulo: '🎯 1 HORA - FOCO NO C2S', desc: 'Foco total em C2S. Celular no silencioso. Só cliente, follow-up e venda.' },
+  cafe: { min: 10, titulo: '☕ 10 MINUTOS - CAFÉ', desc: 'Descansa, toma café, levanta, respira. Sem mexer em cliente agora.' },
+  lista: { min: 60, titulo: '📋 1 HORA - FAZER UMA LISTA', desc: 'Monte sua lista de amanhã: quem ligar, quem cobrar, quem fechar.' }
+};
+let modoAtual = 'c2s';
+let totalSeg = 60*60;
+let restante = totalSeg;
+let timer = null;
+let rodando = false;
+let ciclos = parseInt(localStorage.getItem('ciclos_lucas')||'0');
+let minutosFoco = parseInt(localStorage.getItem('minutos_lucas')||'0');
+document.getElementById('ciclos').textContent = ciclos;
+document.getElementById('tempoFoco').textContent = minutosFoco + ' min';
 
-function salvar(){ localStorage.setItem('pipe_nf_lucas', JSON.stringify(leads)); }
-function hoje(){ return new Date().toISOString().slice(0,10); }
-function dias(d){ if(!d) return 99; return Math.floor((new Date(hoje())-new Date(d))/(1000*60*60*24)); }
-function setMeta(){ meta = parseInt(document.getElementById('metaInput').value||'3'); localStorage.setItem('meta_nf_lucas', meta); render(); }
-
-// CAMPOS DA FICHA - O QUE VOCÊ PEDIU
-function novaFicha(){ return { quantoQuer:'', quantoTem:'', quantoPode:'', cpf:'', decide:'', clientePorto:'', aluguel:'', quantoAluguel:'', investimento:'' }; }
-function progressoFicha(f){
-  const campos = ['quantoQuer','quantoTem','quantoPode','cpf','decide','clientePorto','aluguel','investimento'];
-  // Se aluguel = Não, não exige quantoAluguel. Se = Sim, exige.
-  let total = campos.length; let preenchidos = campos.filter(k=>f[k] && String(f[k]).trim()!=='').length;
-  if(f.aluguel==='Sim'){ total++; if(f.quantoAluguel) preenchidos++; }
-  return Math.round(preenchidos/total*100);
+function formatar(s){
+  let m = Math.floor(s/60), seg = s%60;
+  return String(m).padStart(2,'0') + ':' + String(seg).padStart(2,'0');
 }
-function ehNF(f){ return progressoFicha(f)===100; }
-
-function addLead(){
-  const nome=document.getElementById('nome').value.trim(), fone=document.getElementById('fone').value.trim();
-  if(!nome||!fone){ alert('Preencha nome e WhatsApp'); return; }
-  leads.unshift({id:Date.now(), nome, fone, etapa:'Novo Lead', temp:'Morno', ficha:novaFicha(), data:hoje(), falouHoje:false, obs:''});
-  salvar(); document.getElementById('nome').value=''; document.getElementById('fone').value=''; render();
+function atualizar(){
+  document.getElementById('display').textContent = formatar(restante);
+  document.getElementById('barra').style.width = (restante/totalSeg*100) + '%';
+  document.title = formatar(restante) + ' - ' + document.getElementById('tituloModo').textContent;
 }
-function filtrar(f){ filtro=f; render(); }
-
-function abrirFicha(id){
-  editId=id; const l=leads.find(x=>x.id===id); const f=l.ficha||novaFicha();
-  document.getElementById('modalTitulo').textContent='📋 Ficha - '+l.nome;
-  document.getElementById('modalCampos').innerHTML=`
-    <label>Nome:</label><input id="f_nome" value="${l.nome}">
-    <label>Quanto quer: (crédito desejado)</label><input id="f_quantoQuer" type="number" placeholder="Ex: 150000" value="${f.quantoQuer}">
-    <label>Quanto tem: (entrada / lance disponível)</label><input id="f_quantoTem" type="number" placeholder="Ex: 30000" value="${f.quantoTem}">
-    <label>Quanto pode: (parcela mensal)</label><input id="f_quantoPode" type="number" placeholder="Ex: 1200" value="${f.quantoPode}">
-    <label>CPF:</label><input id="f_cpf" placeholder="000.000.000-00" value="${f.cpf}">
-    <label>Decide sozinho:</label><select id="f_decide"><option value="">Selecione</option><option ${f.decide==='Sim'?'selected':''}>Sim</option><option ${f.decide==='Não'?'selected':''}>Não</option></select>
-    <label>Cliente Porto:</label><select id="f_clientePorto"><option value="">Selecione</option><option ${f.clientePorto==='Sim'?'selected':''}>Sim</option><option ${f.clientePorto==='Não'?'selected':''}>Não</option></select>
-    <label>Aluguel:</label><select id="f_aluguel" onchange="document.getElementById('divAluguel').style.display=this.value==='Sim'?'block':'none'"><option value="">Selecione</option><option ${f.aluguel==='Sim'?'selected':''}>Sim</option><option ${f.aluguel==='Não'?'selected':''}>Não</option></select>
-    <div id="divAluguel" style="display:${f.aluguel==='Sim'?'block':'none'}"><label>Quanto paga de aluguel:</label><input id="f_quantoAluguel" type="number" placeholder="Ex: 1800" value="${f.quantoAluguel}"></div>
-    <label>Investimento: (para que é? casa, carro, investir...)</label><input id="f_investimento" placeholder="Ex: Casa própria / Investimento" value="${f.investimento}">
-    <label>Observação:</label><textarea id="f_obs" placeholder="Ex: Quer contemplar até dezembro, tem FGTS...">${l.obs||''}</textarea>
-    <div class="progress">Progresso da ficha: <span>${progressoFicha(f)}%</span> ${ehNF(f)?'• 🏆 NF - NEGÓCIO FECHADO':''}</div>
-  `;
-  document.getElementById('modal').classList.add('open');
+function setModo(m){
+  pausar(); modoAtual = m;
+  totalSeg = modos[m].min*60; restante = totalSeg;
+  document.getElementById('tituloModo').textContent = modos[m].titulo;
+  document.getElementById('descModo').textContent = modos[m].desc;
+  document.getElementById('fimMsg').style.display = 'none';
+  document.getElementById('status').textContent = 'Pronto para começar? 👊';
+  document.getElementById('btnPrincipal').textContent = '▶️ COMEÇAR FOCO';
+  document.querySelectorAll('.modes button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(m==='c2s'?'btn1':m==='cafe'?'btn2':'btn3').classList.add('active');
+  atualizar();
 }
-function fecharModal(){ document.getElementById('modal').classList.remove('open'); editId=null; }
-function salvarFicha(){
-  const l=leads.find(x=>x.id===editId); if(!l) return;
-  l.nome=document.getElementById('f_nome').value.trim()||l.nome;
-  l.ficha={
-    quantoQuer:document.getElementById('f_quantoQuer').value,
-    quantoTem:document.getElementById('f_quantoTem').value,
-    quantoPode:document.getElementById('f_quantoPode').value,
-    cpf:document.getElementById('f_cpf').value,
-    decide:document.getElementById('f_decide').value,
-    clientePorto:document.getElementById('f_clientePorto').value,
-    aluguel:document.getElementById('f_aluguel').value,
-    quantoAluguel:document.getElementById('f_quantoAluguel')?.value||'',
-    investimento:document.getElementById('f_investimento').value
-  };
-  l.obs=document.getElementById('f_obs').value;
-  // REGRA: FICHA 100% = NF AUTOMÁTICO
-  if(ehNF(l.ficha)){
-    l.etapa='NF - Negócio Fechado'; l.temp='NF';
-    alert('🏆 '+l.nome+' virou NF - NEGÓCIO FECHADO! Ficha 100% completa.');
-  } else {
-    alert('Ficha salva: '+progressoFicha(l.ficha)+'% completa. Falta '+ (100-progressoFicha(l.ficha)) +'% para virar NF.');
-  }
-  salvar(); fecharModal(); render();
+function toggle(){
+  if(rodando){ pausar(); return; }
+  rodando = true;
+  document.getElementById('btnPrincipal').textContent = '⏸️ PAUSAR';
+  document.getElementById('status').textContent = '🔥 FOCADO... Não mexe no celular!';
+  timer = setInterval(()=>{
+    restante--;
+    if(restante <= 0){
+      clearInterval(timer); rodando = false; restante = 0;
+      document.getElementById('fimMsg').style.display = 'block';
+      document.getElementById('status').textContent = '✅ Concluído! Bora pro próximo bloco!';
+      document.getElementById('btnPrincipal').textContent = '▶️ COMEÇAR DE NOVO';
+      ciclos++; minutosFoco += modos[modoAtual].min;
+      localStorage.setItem('ciclos_lucas', ciclos);
+      localStorage.setItem('minutos_lucas', minutosFoco);
+      document.getElementById('ciclos').textContent = ciclos;
+      document.getElementById('tempoFoco').textContent = minutosFoco + ' min';
+      document.getElementById('sequencia').textContent = '🔥 ' + ciclos;
+      // Alarme simples
+      try{ new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play(); }catch(e){}
+      if(navigator.vibrate) navigator.vibrate([500,200,500]);
+      alert('⏰ Tempo acabou! ' + modos[modoAtual].titulo);
+    }
+    atualizar();
+  }, 1000);
 }
-function mover(id){ const l=leads.find(x=>x.id===id); const i=ETAPAS.indexOf(l.etapa); if(i<ETAPAS.length-1) l.etapa=ETAPAS[i+1]; salvar(); render(); }
-function voltar(id){ const l=leads.find(x=>x.id===id); const i=ETAPAS.indexOf(l.etapa); if(i>0) l.etapa=ETAPAS[i-1]; salvar(); render(); }
-function falar(id){
-  const l=leads.find(x=>x.id===id);
-  const txt=encodeURIComponent(`Olá ${l.nome}! ✨ Aqui é o Lucas Fortes - Consórcio Porto Seguro. ${l.ficha?.investimento?`Sobre seu objetivo de ${l.ficha.investimento}, `:''}tenho uma condição especial pra você hoje, posso te mostrar?`);
-  window.open(`https://wa.me/55${l.fone.replace(/\D/g,'')}?text=${txt}`,'_blank');
-  l.falouHoje=true; l.data=hoje(); salvar(); render();
+function pausar(){
+  clearInterval(timer); rodando = false;
+  document.getElementById('btnPrincipal').textContent = '▶️ CONTINUAR';
+  document.getElementById('status').textContent = '⏸️ Pausado. Respira e volta!';
 }
-function excluir(id){ if(confirm('Excluir lead?')){ leads=leads.filter(x=>x.id!==id); salvar(); render(); } }
-
-function render(){
-  const busca=(document.getElementById('busca').value||'').toLowerCase();
-  let lista=leads.filter(l=>{
-    if(busca && !l.nome.toLowerCase().includes(busca)) return false;
-    if(filtro==='NF' && !ehNF(l.ficha||{})) return false;
-    if(filtro==='incompleto' && ehNF(l.ficha||{})) return false;
-    if(filtro==='3dias' && dias(l.data)<3) return false;
-    return true;
-  });
-  const nfs=leads.filter(l=>ehNF(l.ficha||{})).length;
-  document.getElementById('totalNF').textContent=nfs;
-  document.getElementById('vendasHoje').textContent=nfs;
-  document.getElementById('metaTxt').textContent=meta;
-  document.getElementById('barra').style.width=Math.min(100, nfs/meta*100)+'%';
-  document.getElementById('valorPipe').textContent='R$ '+leads.reduce((s,l)=>s+(parseInt(l.ficha?.quantoQuer||0)),0).toLocaleString('pt-BR');
-  document.getElementById('faltaFalar').textContent=leads.filter(l=>!l.falouHoje).length;
-
-  document.getElementById('board').innerHTML=ETAPAS.map(et=>{
-    const itens=lista.filter(l=>l.etapa===et);
-    return `<div class="col"><h3>${et}</h3><p>${itens.length} clientes</p>
-    ${itens.map(l=>{
-      const f=l.ficha||novaFicha(); const prog=progressoFicha(f); const isNF=ehNF(f);
-      return `<div class="lead ${isNF?'nf':''}">
-      <b>${l.falouHoje?'✅ ':'❌ '}${l.nome} ${isNF?'🏆 NF':''}</b><br>
-      <small>📱 ${l.fone}<br>${f.quantoQuer?'💰 Quer: R$ '+parseInt(f.quantoQuer).toLocaleString('pt-BR')+' • ':''}${f.quantoPode?'Pode: R$ '+parseInt(f.quantoPode).toLocaleString('pt-BR')+'/mês':''}<br>${f.investimento?'🎯 '+f.investimento+' • ':''}${dias(l.data)===0?'Hoje':dias(l.data)+' dia(s) sem falar'}</small>
-      <div class="progress">Ficha: <span>${prog}% ${isNF?'• NF - NEGÓCIO FECHADO':prog===0?'• Ficha vazia':'• Falta '+(100-prog)+'%'}</span></div>
-      <div style="height:8px;background:#E5E7EB;border-radius:20px;overflow:hidden"><div style="width:${prog}%;height:100%;background:${isNF?'#22C55E':'#FFC700'}"></div></div>
-      ${l.obs?`<div style="font-size:13px;background:#F8FAFC;padding:6px;border-radius:8px;margin-top:6px">${l.obs}</div>`:''}
-      <div class="actions"><button class="wa" onclick="falar(${l.id})">💬 WhatsApp</button><button onclick="abrirFicha(${l.id})" style="background:#FFC700">📋 Ficha</button><button class="del" onclick="excluir(${l.id})">🗑️</button></div>
-      <div class="actions"><button class="next" onclick="mover(${l.id})">➡️ Próxima</button><button onclick="voltar(${l.id})" style="background:#E5E7EB">⬅️ Voltar</button></div>
-      </div>`
-    }).join('') || '<p style="text-align:center">Nenhum aqui</p>'}
-    </div>`
-  }).join('');
+function resetar(){
+  pausar(); restante = totalSeg; document.getElementById('fimMsg').style.display='none'; atualizar();
 }
-render();
+function addTarefa(){
+  const v = document.getElementById('novaTarefa').value.trim();
+  if(!v) return;
+  const d = document.createElement('label');
+  d.innerHTML = `<input type="checkbox"> ${v}`;
+  document.getElementById('tarefasExtras').appendChild(d);
+  document.getElementById('novaTarefa').value = '';
+}
+atualizar();
 </script>
 </body>
 </html>
+*Como usar:*
+1. Clica em *🎯 1h - Foco no C2S* → Começar, e só faz C2S por 1 hora
+2. Quando apitar, clica em *☕ 10 min - Café*, descansa de verdade
+3. Depois clica em *📋 1h - Fazer uma lista*, monta a lista do próximo bloco
+4. Repete, ele já conta seus ciclos e minutos focados no dia
+
+Quer que eu junte tudo em um site só? Pipeline + Ficha NF + Cronômetro de foco, tudo em uma página só pra você abrir de manhã e usar o dia inteiro?
