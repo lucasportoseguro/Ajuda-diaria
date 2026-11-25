@@ -3,66 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pipeline + Retornos + WhatsApp - Lucas Fortes</title>
+<title>Pipeline - Lucas Fortes - CORRIGIDO</title>
 <style>
 *{box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
 body{margin:0;background:#0B2A5B;color:#fff;padding:14px}
 h1{font-size:22px;margin:0}.sub{opacity:.8;font-size:13px;margin:4px 0 12px}
-.card{background:#fff;color:#111;border-radius:16px;padding:14px}
+.card{background:#fff;color:#111;border-radius:16px;padding:14px;margin-bottom:12px}
 input,select,textarea{width:100%;padding:11px;border:1px solid #ddd;border-radius:10px;font-size:15px;margin-bottom:8px}
 button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer}
 .btn-yellow{background:#FFC700;width:100%;font-size:16px}
-.top{display:flex;gap:8px;flex-wrap:wrap}.meta{flex:1;min-width:150px;text-align:center}
-.meta b{font-size:26px;display:block}.meta span{font-size:12px;opacity:.7}
+.top{display:flex;gap:8px;flex-wrap:wrap}.meta{flex:1;min-width:140px;text-align:center}
+.meta b{font-size:24px;display:block}.meta span{font-size:12px;opacity:.7}
 .bar{height:10px;background:#E5E7EB;border-radius:20px;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:#22C55E;width:0%}
-.board{display:flex;gap:10px;overflow-x:auto;padding:12px 0 20px;align-items:flex-start}
-.col{min-width:300px;background:#F1F5F9;border-radius:14px;padding:10px;color:#111;flex:1}
-.col h3{font-size:15px;margin:4px 0 2px}.col p{font-size:12px;color:#666;margin:0 0 10px}
-.lead{background:#fff;border-radius:12px;padding:12px;margin-bottom:10px;border-left:5px solid #FFC700;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.board{display:flex;gap:10px;overflow-x:auto;padding:12px 0;align-items:flex-start}
+.col{min-width:290px;background:#F1F5F9;border-radius:14px;padding:10px;color:#111;flex:1}
+.lead{background:#fff;border-radius:12px;padding:12px;margin-bottom:10px;border-left:5px solid #FFC700}
 .lead.nf{border-left-color:#22C55E;background:#F0FDF4}
 .lead.retorno{border-left-color:#EF4444;background:#FEF2F2}
-.lead b{font-size:15px}.lead small{color:#666;font-size:12px}
 .actions{display:flex;gap:6px;margin-top:8px}.actions button{flex:1;font-size:13px}
 .wa{background:#25D366;color:#fff}.next{background:#0B2A5B;color:#fff}.del{background:#FEE2E2;color:#B91C1C;flex:0}
-.progress{font-size:12px;font-weight:700;margin:6px 0}.progress span{color:#0B2A5B}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:flex-end;justify-content:center;z-index:99}
-.modal.open{display:flex}.modal-box{background:#fff;color:#111;width:100%;max-width:520px;max-height:90vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px}
+.modal.open{display:flex}.modal-box{background:#fff;color:#111;width:100%;max-width:520px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px}
 .row2{display:flex;gap:8px}.row2>*{flex:1}
-.foco{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px}
-.foco-main{flex:2;min-width:280px;text-align:center}
-.foco-main .time{font-size:64px;font-weight:900;letter-spacing:-2px;line-height:1;margin:8px 0}
+.foco{display:flex;gap:12px;flex-wrap:wrap}.foco-main{flex:2;min-width:280px;text-align:center}
+.foco-main .time{font-size:60px;font-weight:900;line-height:1;margin:8px 0}
 .foco-side{flex:1;min-width:220px}
-.modes{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;justify-content:center}
-.modes button{background:#F1F5F9;padding:11px 12px;font-size:13px}.modes button.active{background:#FFC700}
+.modes{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;justify-content:center}.modes button{background:#F1F5F9}.modes button.active{background:#FFC700}
 .foco-btns{display:flex;gap:8px;margin-top:10px}.foco-btns button{flex:1}
-.tarefa-dia{display:flex;align-items:center;gap:8px;background:#F8FAFC;padding:10px;border-radius:10px;margin-bottom:8px;font-size:14px;cursor:pointer}
-.tarefa-dia input{width:18px;height:18px;margin:0}.tarefa-dia.feita{opacity:.5;text-decoration:line-through}.tarefa-dia b{color:#0B2A5B}
+.tarefa-dia{display:flex;align-items:center;gap:8px;background:#F8FAFC;padding:10px;border-radius:10px;margin-bottom:8px;font-size:14px}
+.tarefa-dia input{width:18px;height:18px;margin:0}.tarefa-dia.feita{opacity:.5;text-decoration:line-through}
 .mini-btn{background:#0B2A5B;color:#fff;font-size:12px;padding:6px 10px;margin-left:auto;white-space:nowrap}
-.split{display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap}.split .card{flex:1;min-width:300px}
-.cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.cal-head b{font-size:15px}
+.split{display:flex;gap:12px;flex-wrap:wrap}.split .card{flex:1;min-width:300px}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
-.cal-dia{font-size:10px;font-weight:700;text-align:center;color:#666;padding:2px}
-.cal-cell{background:#F8FAFC;border-radius:8px;padding:6px;min-height:44px;cursor:pointer;text-align:left}
+.cal-dia{font-size:10px;font-weight:700;text-align:center;color:#666}
+.cal-cell{background:#F8FAFC;border-radius:8px;padding:6px;min-height:44px;cursor:pointer}
 .cal-cell.hoje{background:#FFC700}.cal-cell.selecionado{outline:3px solid #0B2A5B}.cal-cell.outro{opacity:.35}
-.cal-cell .num{font-weight:800;font-size:13px}.cal-cell .qtd{font-size:10px;background:#0B2A5B;color:#fff;border-radius:20px;padding:1px 5px;display:inline-block;margin-top:2px}
+.cal-cell .num{font-weight:800;font-size:13px}.cal-cell .qtd{font-size:10px;background:#0B2A5B;color:#fff;border-radius:20px;padding:1px 5px;display:inline-block}
 .cal-cell .qtd.nf{background:#22C55E}.cal-cell .qtd.ret{background:#EF4444}
-.wa-frame{width:100%;height:420px;border:1px solid #ddd;border-radius:12px;background:#E5DDD5}
-/* LEMBRETES */
 .lembrete{background:#FEF2F2;border:2px solid #FECACA;border-radius:12px;padding:10px;margin-bottom:8px;display:flex;gap:10px;align-items:center}
-.lembrete.urgente{background:#EF4444;color:#fff;border-color:#EF4444;animation:piscar 1s infinite}
-.lembrete.proximo{background:#FEF3C7;border-color:#FCD34D}
-@keyframes piscar{0%,100%{opacity:1}50%{opacity:.7}}
-.lembrete b{font-size:14px}.lembrete small{font-size:12px;opacity:.8}
-.alerta{position:fixed;top:14px;right:14px;left:14px;z-index:999;background:#EF4444;color:#fff;border-radius:16px;padding:16px;display:none;box-shadow:0 10px 30px rgba(0,0,0,.4)}
-.alerta.show{display:block;animation:piscar 1s infinite}
+.lembrete.urgente{background:#EF4444;color:#fff}
+.alerta{position:fixed;top:14px;right:14px;left:14px;z-index:999;background:#EF4444;color:#fff;border-radius:16px;padding:16px;display:none}
+.alerta.show{display:block}
 </style>
 </head>
 <body>
 
-<!-- ALERTA DE RETORNO - 5 MIN ANTES -->
 <div class="alerta" id="alertaRetorno">
-  <b style="font-size:18px">⏰ RETORNAR AGORA - FALTA 5 MINUTOS!</b><br>
-  <span id="alertaTexto"></span><br>
+  <b>⏰ RETORNAR AGORA - FALTA 5 MINUTOS!</b><br><span id="alertaTexto"></span><br>
   <div style="display:flex;gap:8px;margin-top:10px">
     <button onclick="ligarAlerta()" style="background:#fff;color:#111;flex:1">📞 LIGAR AGORA</button>
     <button onclick="adiarAlerta()" style="background:#FFC700;flex:1">⏰ Adiar 10 min</button>
@@ -70,73 +57,80 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
   </div>
 </div>
 
-<h1>🚀 Pipeline + Foco + Retornos</h1>
-<p class="sub">Lucas Fortes • Consórcio Porto Seguro • Nunca mais esqueça de retornar para um cliente</p>
+<h1>🚀 Pipeline + Foco + Retornos - CORRIGIDO</h1>
+<p class="sub">Lucas Fortes • Consórcio Porto Seguro • Versão sem erro</p>
 
-<!-- CRONÔMETRO + MEU DIA -->
+<!-- FOCO + MEU DIA -->
 <div class="foco">
   <div class="card foco-main">
     <h3 id="tituloModo" style="margin:0">🎯 1 HORA - FOCO NO C2S</h3>
-    <p id="descModo" style="color:#666;font-size:13px;margin:6px 0">Foco total em C2S. Celular no silencioso. Só cliente, follow-up e venda.</p>
+    <p id="descModo" style="color:#666;font-size:13px">Foco total em C2S. Só cliente, follow-up e venda.</p>
     <div class="time" id="display">60:00</div>
     <div class="bar"><i id="barraFoco" style="background:#FFC700"></i></div>
     <p id="status" style="font-size:13px;font-weight:700">Pronto para começar? 👊</p>
     <div class="modes"><button id="btn1" class="active" onclick="setModo('c2s')">🎯 1h - Foco no C2S</button><button id="btn2" onclick="setModo('cafe')">☕ 10 min - Café</button><button id="btn3" onclick="setModo('lista')">📋 1h - Fazer uma lista</button></div>
     <div class="foco-btns"><button id="btnPrincipal" onclick="toggleFoco()" style="background:#22C55E;color:#fff;flex:2">▶️ COMEÇAR FOCO</button><button onclick="pausarFoco()" style="background:#FEF3C7">⏸️ Pausar</button><button onclick="resetarFoco()" style="background:#E5E7EB">🔄 Resetar</button></div>
-    <div id="fimMsg" style="display:none;color:#22C55E;font-weight:800;margin-top:10px">✅ TEMPO CONCLUÍDO! Vai pro próximo bloco 👊</div>
+    <div id="fimMsg" style="display:none;color:#22C55E;font-weight:800;margin-top:10px">✅ TEMPO CONCLUÍDO!</div>
   </div>
   <div class="card foco-side">
-    <h3 style="margin:0 0 4px">📊 Seu dia</h3>
-    <div style="display:flex;gap:8px;text-align:center;margin-bottom:12px">
-      <div style="flex:1;background:#F1F5F9;border-radius:10px;padding:10px"><b id="ciclos" style="font-size:22px">0</b><br><span style="font-size:12px">Ciclos</span></div>
-      <div style="flex:1;background:#F1F5F9;border-radius:10px;padding:10px"><b id="tempoFoco" style="font-size:22px">0 min</b><br><span style="font-size:12px">Focado</span></div>
-      <div style="flex:1;background:#F1F5F9;border-radius:10px;padding:10px"><b id="totalNF" style="font-size:22px">0</b><br><span style="font-size:12px">NF hoje</span></div>
+    <h3 style="margin:0">📊 Seu dia</h3>
+    <div style="display:flex;gap:8px;text-align:center;margin:10px 0">
+      <div style="flex:1;background:#F1F5F9;border-radius:10px;padding:10px"><b id="ciclos">0</b><br><span style="font-size:12px">Ciclos</span></div>
+      <div style="flex:1;background:#F1F5F9;border-radius:10px;padding:10px"><b id="tempoFoco">0 min</b><br><span style="font-size:12px">Focado</span></div>
+      <div style="flex:1;background:#F1F5F9;border-radius:10px;padding:10px"><b id="totalNF">0</b><br><span style="font-size:12px">NF</span></div>
     </div>
-    <h4 style="margin:0 0 10px;font-size:14px">✅ Meu dia - Faça na ordem</h4>
-    <label class="tarefa-dia" id="t1"><input type="checkbox" onchange="marcarTarefa('t1')"><span><b>1. Falar para não interagidos</b><br><small id="txtNao">0 esperando</small></span><button class="mini-btn" onclick="filtrar('nao');rolarPipeline()">Ver →</button></label>
-    <label class="tarefa-dia" id="t2"><input type="checkbox" onchange="marcarTarefa('t2')"><span><b>2. Fazer o filtro 3 dias</b><br><small id="txt3dias">0 há 3+ dias</small></span><button class="mini-btn" onclick="filtrar('3dias');rolarPipeline()">Ver →</button></label>
-    <label class="tarefa-dia" id="t3"><input type="checkbox" onchange="marcarTarefa('t3')"><span><b>3. Verificar negociações do dia anterior</b><br><small id="txtOntem">0 em NF</small></span><button class="mini-btn" onclick="filtrar('negociacao');rolarPipeline()">Ver →</button></label>
-    <label class="tarefa-dia" id="t4"><input type="checkbox" onchange="marcarTarefa('t4')"><span><b>4. Verificar etiquetas</b><br><small id="txtEtiquetas">Quentes, Frios, NF</small></span><button class="mini-btn" onclick="filtrar('');rolarPipeline()">Ver →</button></label>
-    <div id="progressoDia" style="font-size:13px;font-weight:700;margin-top:10px;text-align:center">0 de 4 concluídos</div>
+    <label class="tarefa-dia" id="t1"><input type="checkbox" onchange="marcarTarefa('t1')"><span><b>1. Falar para não interagidos</b><br><small id="txtNao">0</small></span><button class="mini-btn" onclick="filtrar('nao');rolarPipeline()">Ver →</button></label>
+    <label class="tarefa-dia" id="t2"><input type="checkbox" onchange="marcarTarefa('t2')"><span><b>2. Fazer o filtro 3 dias</b><br><small id="txt3dias">0</small></span><button class="mini-btn" onclick="filtrar('3dias');rolarPipeline()">Ver →</button></label>
+    <label class="tarefa-dia" id="t3"><input type="checkbox" onchange="marcarTarefa('t3')"><span><b>3. Verificar negociações do dia anterior</b><br><small id="txtOntem">0</small></span><button class="mini-btn" onclick="filtrar('negociacao');rolarPipeline()">Ver →</button></label>
+    <label class="tarefa-dia" id="t4"><input type="checkbox" onchange="marcarTarefa('t4')"><span><b>4. Verificar etiquetas</b><br><small id="txtEtiquetas">-</small></span><button class="mini-btn" onclick="filtrar('');rolarPipeline()">Ver →</button></label>
+    <div id="progressoDia" style="font-size:13px;font-weight:700;text-align:center">0 de 4 concluídos</div>
     <div class="bar"><i id="barraDia" style="background:#0B2A5B"></i></div>
   </div>
 </div>
 
-<!-- LEMBRETES DE RETORNO -->
-<div class="card" style="margin-bottom:12px;border:2px solid #FECACA">
-  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-    <h3 style="margin:0">🔔 Lembretes de Retorno <span id="badgeRetornos" style="background:#EF4444;color:#fff;padding:2px 8px;border-radius:20px;font-size:12px">0</span></h3>
-    <div style="display:flex;gap:6px">
-      <button onclick="testarAlarme()" style="background:#FEF3C7;font-size:13px">🔊 Testar alarme</button>
-      <button onclick="ativarSom()" style="background:#E5E7EB;font-size:13px">🔔 Ativar som / notificações</button>
-    </div>
-  </div>
-  <p style="font-size:13px;color:#666;margin:6px 0">Quando o cliente pedir retorno, preencha na Ficha. 5 minutos antes, o site apita, vibra e mostra o alerta vermelho aqui em cima. Deixe essa aba aberta.</p>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
-    <input id="retNome" placeholder="Nome do cliente" style="flex:2;min-width:140px;margin:0">
-    <input id="retFone" placeholder="Telefone" style="flex:2;min-width:140px;margin:0">
-    <input id="retData" type="datetime-local" style="flex:2;min-width:180px;margin:0">
-    <input id="retMotivo" placeholder="Motivo ex: Falar sobre lance" style="flex:2;min-width:160px;margin:0">
+<!-- RETORNOS -->
+<div class="card" style="border:2px solid #FECACA">
+  <h3 style="margin:0">🔔 Lembretes de Retorno <span id="badgeRetornos" style="background:#EF4444;color:#fff;padding:2px 8px;border-radius:20px;font-size:12px">0</span></h3>
+  <p style="font-size:13px;color:#666">Preencha aqui ou na Ficha. Aviso 5 min antes, com som e alerta vermelho. Deixe a aba aberta.</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <input id="retNome" placeholder="Nome" style="flex:1;min-width:120px;margin:0">
+    <input id="retFone" placeholder="Telefone" style="flex:1;min-width:120px;margin:0">
+    <input id="retData" type="datetime-local" style="flex:1;min-width:180px;margin:0">
+    <input id="retMotivo" placeholder="Motivo" style="flex:1;min-width:140px;margin:0">
     <button onclick="addRetornoRapido()" style="background:#EF4444;color:#fff">+ Lembrar</button>
   </div>
-  <div id="listaRetornos"></div>
-  <div id="semRetornos" style="text-align:center;color:#666;font-size:13px;padding:10px">Nenhum retorno agendado. 🎉 Quando um cliente pedir retorno, agenda aqui ou na Ficha.</div>
+  <div style="display:flex;gap:6px;margin-top:8px">
+    <button onclick="ativarSom()" style="background:#FEF3C7;font-size:13px">🔔 Ativar som / notificações</button>
+    <button onclick="testarAlarme()" style="background:#E5E7EB;font-size:13px">🔊 Testar alarme</button>
+  </div>
+  <div id="listaRetornos" style="margin-top:10px"></div>
+  <div id="semRetornos" style="text-align:center;color:#666;font-size:13px">Nenhum retorno agendado 🎉</div>
 </div>
 
-<!-- CALENDÁRIO + WHATSAPP -->
+<!-- CALENDÁRIO + WHATSAPP - SEM IFRAME -->
 <div class="split">
   <div class="card">
-    <div class="cal-head"><button onclick="mudarMes(-1)" style="background:#F1F5F9">⬅️</button><div style="text-align:center"><b id="tituloMes">Novembro 2026</b><br><span style="font-size:11px;color:#666">Clique em um dia para filtrar</span></div><button onclick="mudarMes(1)" style="background:#F1F5F9">➡️</button></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <button onclick="mudarMes(-1)" style="background:#F1F5F9">⬅️</button>
+      <b id="tituloMes">Mês</b>
+      <button onclick="mudarMes(1)" style="background:#F1F5F9">➡️</button>
+    </div>
     <div class="cal-grid"><div class="cal-dia">DOM</div><div class="cal-dia">SEG</div><div class="cal-dia">TER</div><div class="cal-dia">QUA</div><div class="cal-dia">QUI</div><div class="cal-dia">SEX</div><div class="cal-dia">SÁB</div></div>
     <div class="cal-grid" id="calGrid" style="margin-top:6px"></div>
-    <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap"><button onclick="irHoje()" style="background:#FFC700;font-size:13px">📅 Hoje</button><button onclick="limparData()" style="background:#E5E7EB;font-size:13px">Limpar data</button><span id="filtroDataTxt" style="font-size:12px;align-self:center;font-weight:700"></span></div>
+    <div style="display:flex;gap:6px;margin-top:10px"><button onclick="irHoje()" style="background:#FFC700;font-size:13px">📅 Hoje</button><button onclick="limparData()" style="background:#E5E7EB;font-size:13px">Limpar data</button><span id="filtroDataTxt" style="font-size:12px;font-weight:700;align-self:center"></span></div>
     <div id="listaDia" style="margin-top:10px;font-size:13px"></div>
   </div>
+
   <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div><b style="font-size:17px">💬 WhatsApp Web</b><br><span style="font-size:12px;color:#666">Sem trocar de página</span></div><button onclick="window.open('https://web.whatsapp.com','_blank')" style="background:#0B2A5B;color:#fff;font-size:13px">↗️ Abrir em aba</button></div>
-    <div style="display:flex;gap:6px;margin-bottom:10px"><input id="waNumero" placeholder="DDD + número ex: 12999999999" style="margin:0"><button onclick="abrirConversaWA()" style="background:#25D366;color:#fff;white-space:nowrap">💬 Conversar</button></div>
-    <iframe id="waFrame" class="wa-frame" src="https://web.whatsapp.com"></iframe>
-    <p style="font-size:12px;color:#666;margin:10px 0 0">Se aparecer branco, é bloqueio do WhatsApp. Clique em Abrir em aba. No pipeline, o botão 💬 já abre a conversa certa.</p>
+    <b style="font-size:17px">💬 WhatsApp</b><br><span style="font-size:12px;color:#666">O WhatsApp bloqueia abrir dentro de outros sites, por isso abrimos em aba ao lado. É o jeito que funciona.</span>
+    <div style="background:#25D366;color:#fff;border-radius:12px;padding:14px;margin-top:12px;text-align:center">
+      <div style="font-size:32px">💬</div>
+      <b>Deixe o WhatsApp Web aberto em outra aba</b><br>
+      <span style="font-size:13px">1. Clique abaixo e faça login com QR Code<br>2. Volte para cá, o pipeline fica nesta aba</span><br>
+      <button onclick="window.open('https://web.whatsapp.com','_blank')" style="background:#fff;color:#111;margin-top:10px;padding:12px 18px">Abrir WhatsApp Web ↗️</button>
+    </div>
+    <div style="display:flex;gap:6px;margin-top:10px"><input id="waNumero" placeholder="DDD + número" style="margin:0"><button onclick="abrirConversaWA()" style="background:#25D366;color:#fff;white-space:nowrap">💬 Conversar</button></div>
+    <p style="font-size:12px;color:#666">No pipeline, o botão 💬 de cada cliente já abre a conversa certa direto.</p>
   </div>
 </div>
 
@@ -144,31 +138,31 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
 <div class="top">
   <div class="card meta"><span>🎯 META HOJE</span><b><span id="vendasHoje">0</span> / <span id="metaTxt">3</span></b><div class="bar"><i id="barra"></i></div><div style="display:flex;gap:6px;margin-top:8px"><input id="metaInput" type="number" value="3" style="margin:0"><button onclick="setMeta()" style="background:#0B2A5B;color:#fff">Salvar</button></div></div>
   <div class="card meta"><span>🏆 NF</span><b id="totalNF2">0</b><span>fichas 100%</span></div>
-  <div class="card meta"><span>💰 VALOR EM PIPELINE</span><b id="valorPipe">R$ 0</b><span>soma do Quanto Quer</span></div>
-  <div class="card meta"><span>🔔 RETORNOS HOJE</span><b id="totalRetHoje">0</b><span>para retornar hoje</span></div>
+  <div class="card meta"><span>💰 VALOR</span><b id="valorPipe">R$ 0</b><span>soma Quanto Quer</span></div>
+  <div class="card meta"><span>🔔 RETORNOS HOJE</span><b id="totalRetHoje">0</b><span>para hoje</span></div>
 </div>
 
-<div class="card" style="margin-top:12px">
+<div class="card">
   <h3 style="margin:0 0 10px">➕ Novo Lead</h3>
   <div class="row2"><input id="nome" placeholder="Nome do cliente *"><input id="fone" placeholder="Telefone / WhatsApp *"></div>
   <button class="btn-yellow" onclick="addLead()">Adicionar ao Pipeline → Vai para Novo Lead</button>
 </div>
 
-<div style="display:flex;gap:8px;margin-top:12px;overflow:auto">
+<div style="display:flex;gap:8px;overflow:auto">
   <button onclick="filtrar('')" style="background:#fff">Todos</button>
   <button onclick="filtrar('nao')" style="background:#FEE2E2">❌ Não interagidos</button>
   <button onclick="filtrar('3dias')" style="background:#FEF3C7">📅 Filtro 3 dias</button>
   <button onclick="filtrar('retorno')" style="background:#EF4444;color:#fff">🔔 Com retorno</button>
   <button onclick="filtrar('NF')" style="background:#22C55E;color:#fff">🏆 Só NF</button>
-  <input id="busca" placeholder="🔍 Buscar..." oninput="render()" style="background:#fff;margin:0;min-width:150px">
+  <input id="busca" placeholder="🔍 Buscar..." oninput="render()" style="background:#fff;margin:0;min-width:140px">
 </div>
 
 <div class="board" id="board"></div>
 
 <div class="modal" id="modal" onclick="if(event.target===this) fecharModal()">
   <div class="modal-box">
-    <h3 id="modalTitulo" style="margin:0">Ficha de Atendimento</h3>
-    <p style="font-size:13px;color:#666">Preencha durante o atendimento. Ao completar 100%, vira NF automaticamente.</p>
+    <h3 id="modalTitulo">Ficha de Atendimento</h3>
+    <p style="font-size:13px;color:#666">Preencha durante o atendimento. 100% = NF automático.</p>
     <div id="modalCampos"></div>
     <button class="btn-yellow" onclick="salvarFicha()">💾 Salvar Ficha</button>
     <button onclick="fecharModal()" style="width:100%;margin-top:8px;background:#E5E7EB">Fechar</button>
@@ -176,92 +170,84 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
 </div>
 
 <script>
-// ===== LEMBRETES DE RETORNO COM ALARME 5 MIN ANTES =====
-let retornos = JSON.parse(localStorage.getItem('retornos_lucas')||'[]');
-let alertaAtualId = null;
-let somAtivado = false;
+/* ============ RETORNOS ============ */
+var retornos = JSON.parse(localStorage.getItem('retornos_lucas') || '[]');
+var alertaAtualId = null;
 function salvarRetornos(){ localStorage.setItem('retornos_lucas', JSON.stringify(retornos)); }
 function ativarSom(){
-  somAtivado = true;
-  if('Notification' in window) Notification.requestPermission();
+  if('Notification' in window){ Notification.requestPermission(); }
   try{ new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play(); }catch(e){}
-  alert('🔔 Som e notificações ativados! Deixe essa aba aberta que o alarme vai tocar 5 min antes.');
-}
-function testarAlarme(){
-  tocarAlarme();
-  alert('🔊 Se você ouviu o apito, o alarme está funcionando!');
+  alert('Som ativado! Deixe a aba aberta.');
 }
 function tocarAlarme(){
-  for(let i=0;i<3;i++){ setTimeout(()=>{ try{ new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play(); }catch(e){} if(navigator.vibrate) navigator.vibrate([500,200,500,200,500]); }, i*800); }
+  for(var i=0;i<3;i++){ (function(k){ setTimeout(function(){ try{ new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play(); }catch(e){} if(navigator.vibrate) navigator.vibrate([500,200,500]); }, k*800); })(i); }
+}
+function testarAlarme(){ tocarAlarme(); alert('Se ouviu o apito, o alarme funciona!'); }
+function formatarDataHora(iso){ var d=new Date(iso); return d.toLocaleDateString('pt-BR')+' às '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}); }
+function tempoPara(data){
+  var diff=Math.floor((new Date(data)-new Date())/60000);
+  if(diff<0) return 'PASSOU DA HORA - LIGUE AGORA';
+  if(diff===0) return 'AGORA!';
+  if(diff<60) return 'Falta '+diff+' min';
+  if(diff<1440) return 'Falta '+Math.floor(diff/60)+'h '+(diff%60)+'min';
+  return formatarDataHora(data);
 }
 function addRetornoRapido(){
-  const nome=document.getElementById('retNome').value.trim(), fone=document.getElementById('retFone').value.trim(), data=document.getElementById('retData').value, motivo=document.getElementById('retMotivo').value.trim();
-  if(!nome||!data){ alert('Preencha nome e data/hora do retorno'); return; }
-  retornos.push({id:Date.now(), nome, fone, data, motivo:motivo||'Retornar para o cliente', feito:false, avisado:false});
-  retornos.sort((a,b)=> new Date(a.data)-new Date(b.data));
+  var nome=document.getElementById('retNome').value.trim();
+  var fone=document.getElementById('retFone').value.trim();
+  var data=document.getElementById('retData').value;
+  var motivo=document.getElementById('retMotivo').value.trim();
+  if(!nome || !data){ alert('Preencha nome e data/hora do retorno'); return; }
+  retornos.push({id:Date.now(), nome:nome, fone:fone, data:data, motivo:motivo||'Retornar para o cliente', feito:false, avisado:false});
+  retornos.sort(function(a,b){ return new Date(a.data)-new Date(b.data); });
   salvarRetornos();
-  ['retNome','retFone','retData','retMotivo'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('retNome').value=''; document.getElementById('retFone').value=''; document.getElementById('retData').value=''; document.getElementById('retMotivo').value='';
   renderRetornos(); render();
-  alert('🔔 Lembrete agendado! Vou te avisar 5 minutos antes de '+nome);
+  alert('Lembrete agendado! Vou avisar 5 min antes de '+nome);
 }
-function concluirRetorno(id){
-  const r=retornos.find(x=>x.id===id); if(r){ r.feito=true; salvarRetornos(); renderRetornos(); }
-}
-function excluirRetorno(id){ if(confirm('Excluir esse lembrete?')){ retornos=retornos.filter(x=>x.id!==id); salvarRetornos(); renderRetornos(); render(); } }
+function concluirRetorno(id){ var r=retornos.find(function(x){return x.id===id}); if(r){ r.feito=true; salvarRetornos(); renderRetornos(); } }
+function excluirRetorno(id){ if(confirm('Excluir esse lembrete?')){ retornos=retornos.filter(function(x){return x.id!==id}); salvarRetornos(); renderRetornos(); render(); } }
 function ligarRetorno(id){
-  const r=retornos.find(x=>x.id===id); if(!r) return;
-  if(r.fone){ window.open('https://wa.me/55'+r.fone.replace(/\D/g,'')+'?text='+encodeURIComponent('Olá '+r.nome+'! Aqui é o Lucas Fortes - Consórcio Porto Seguro. Conforme combinamos, estou retornando agora. Podemos conversar?'),'_blank'); }
+  var r=retornos.find(function(x){return x.id===id}); if(!r) return;
+  if(r.fone){ window.open('https://wa.me/55'+r.fone.replace(/\D/g,'')+'?text='+encodeURIComponent('Olá '+r.nome+'! Aqui é o Lucas Fortes - Consórcio Porto Seguro. Conforme combinamos, estou retornando agora.'),'_blank'); }
   concluirRetorno(id);
 }
 function adiarRetorno(id){
-  const r=retornos.find(x=>x.id===id); if(!r) return;
-  const d=new Date(r.data); d.setMinutes(d.getMinutes()+10); r.data=d.toISOString().slice(0,16); r.avisado=false; r.feito=false;
-  salvarRetornos(); renderRetornos(); alert('Adiado 10 minutos: '+formatarDataHora(r.data));
-}
-function formatarDataHora(iso){
-  const d=new Date(iso); return d.toLocaleDateString('pt-BR')+' às '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-}
-function tempoPara(data){
-  const diff=Math.floor((new Date(data)-new Date())/60000);
-  if(diff<0) return '⚠️ PASSOU DA HORA - LIGUE AGORA';
-  if(diff===0) return '🔴 AGORA!';
-  if(diff<60) return '⏰ Falta '+diff+' min';
-  if(diff<1440) return '⏰ Falta '+Math.floor(diff/60)+'h '+ (diff%60)+'min';
-  return '📅 '+formatarDataHora(data);
+  var r=retornos.find(function(x){return x.id===id}); if(!r) return;
+  var d=new Date(r.data); d.setMinutes(d.getMinutes()+10); r.data=d.toISOString().slice(0,16); r.avisado=false; r.feito=false;
+  salvarRetornos(); renderRetornos(); alert('Adiado 10 min: '+formatarDataHora(r.data));
 }
 function renderRetornos(){
-  const pendentes=retornos.filter(r=>!r.feito);
+  var pendentes=retornos.filter(function(r){return !r.feito});
   document.getElementById('badgeRetornos').textContent=pendentes.length;
   document.getElementById('semRetornos').style.display=pendentes.length?'none':'block';
-  document.getElementById('totalRetHoje').textContent=retornos.filter(r=>!r.feito && new Date(r.data).toDateString()===new Date().toDateString()).length;
-  document.getElementById('listaRetornos').innerHTML=pendentes.map(r=>{
-    const diff=Math.floor((new Date(r.data)-new Date())/60000);
-    const classe=diff<=5?'urgente':diff<=30?'proximo':'';
-    return `<div class="lembrete ${classe}">
-      <div style="font-size:28px">🔔</div>
-      <div style="flex:1"><b>${r.nome}</b><br><small>📱 ${r.fone||'Sem telefone'} • ${r.motivo}<br>📅 ${formatarDataHora(r.data)} • <b>${tempoPara(r.data)}</b></small></div>
-      <div style="display:flex;flex-direction:column;gap:6px"><button onclick="ligarRetorno(${r.id})" style="background:#25D366;color:#fff">📞 Ligar</button><button onclick="adiarRetorno(${r.id})" style="background:#FEF3C7">⏰ +10 min</button><button onclick="concluirRetorno(${r.id})" style="background:#E5E7EB">✅ Feito</button><button onclick="excluirRetorno(${r.id})" style="background:#FEE2E2;color:#B91C1C">🗑️</button></div>
-    </div>`
-  }).join('');
+  var hojeStr=new Date().toDateString();
+  document.getElementById('totalRetHoje').textContent=retornos.filter(function(r){return !r.feito && new Date(r.data).toDateString()===hojeStr}).length;
+  var html='';
+  for(var i=0;i<pendentes.length;i++){
+    var r=pendentes[i];
+    var diff=Math.floor((new Date(r.data)-new Date())/60000);
+    var classe=diff<=5?'urgente':'';
+    html+='<div class="lembrete '+classe+'"><div style="font-size:28px">🔔</div><div style="flex:1"><b>'+r.nome+'</b><br><small>'+r.fone+' • '+r.motivo+'<br>'+formatarDataHora(r.data)+' • '+tempoPara(r.data)+'</small></div><div style="display:flex;flex-direction:column;gap:6px"><button onclick="ligarRetorno('+r.id+')" style="background:#25D366;color:#fff">📞 Ligar</button><button onclick="adiarRetorno('+r.id+')" style="background:#FEF3C7">⏰ +10 min</button><button onclick="concluirRetorno('+r.id+')" style="background:#E5E7EB">✅ Feito</button><button onclick="excluirRetorno('+r.id+')" style="background:#FEE2E2;color:#B91C1C">🗑️</button></div></div>';
+  }
+  document.getElementById('listaRetornos').innerHTML=html;
 }
-// VERIFICA A CADA 30 SEGUNDOS SE FALTA 5 MIN
 function verificarAlarmes(){
-  const agora=new Date();
-  retornos.forEach(r=>{
-    if(r.feito || r.avisado) return;
-    const diff=Math.floor((new Date(r.data)-agora)/60000);
+  var agora=new Date();
+  for(var i=0;i<retornos.length;i++){
+    var r=retornos[i];
+    if(r.feito || r.avisado) continue;
+    var diff=Math.floor((new Date(r.data)-agora)/60000);
     if(diff<=5 && diff>=-10){
       r.avisado=true; salvarRetornos();
       alertaAtualId=r.id;
       document.getElementById('alertaTexto').textContent=r.nome+' - '+r.motivo+' - Retorno às '+formatarDataHora(r.data)+' ('+r.fone+')';
       document.getElementById('alertaRetorno').classList.add('show');
       tocarAlarme();
-      if('Notification' in window && Notification.permission==='granted'){
-        new Notification('⏰ Retornar para '+r.nome, {body:'Falta 5 min - '+r.motivo});
-      }
+      if('Notification' in window && Notification.permission==='granted'){ new Notification('Retornar para '+r.nome, {body:'Falta 5 min - '+r.motivo}); }
       renderRetornos();
     }
-  });
+  }
 }
 function fecharAlerta(){ document.getElementById('alertaRetorno').classList.remove('show'); }
 function ligarAlerta(){ if(alertaAtualId) ligarRetorno(alertaAtualId); fecharAlerta(); }
@@ -270,157 +256,212 @@ setInterval(verificarAlarmes, 30000);
 verificarAlarmes();
 renderRetornos();
 
-// ===== WHATSAPP =====
-function abrirConversaWA(){ const n=document.getElementById('waNumero').value.replace(/\D/g,''); if(!n){alert('Digite o número com DDD');return;} window.open('https://wa.me/55'+n,'_blank'); document.getElementById('waNumero').value=''; }
+/* ============ WHATSAPP ============ */
+function abrirConversaWA(){
+  var n=document.getElementById('waNumero').value.replace(/\D/g,'');
+  if(!n){ alert('Digite o número com DDD'); return; }
+  window.open('https://wa.me/55'+n,'_blank');
+  document.getElementById('waNumero').value='';
+}
 
-// ===== CRONÔMETRO =====
-let modos={c2s:{min:60,titulo:'🎯 1 HORA - FOCO NO C2S',desc:'Foco total em C2S. Celular no silencioso. Só cliente, follow-up e venda.'},cafe:{min:10,titulo:'☕ 10 MINUTOS - CAFÉ',desc:'Descansa, toma café, levanta, respira. Sem mexer em cliente agora.'},lista:{min:60,titulo:'📋 1 HORA - FAZER UMA LISTA',desc:'Monte sua lista de amanhã: quem ligar, quem cobrar, quem fechar.'}};
-let modoAtual='c2s',totalSeg=60*60,restante=totalSeg,timerFoco=null,rodando=false;
-let ciclos=parseInt(localStorage.getItem('ciclos_lucas')||'0'); let minutosFoco=parseInt(localStorage.getItem('minutos_lucas')||'0');
-document.getElementById('ciclos').textContent=ciclos; document.getElementById('tempoFoco').textContent=minutosFoco+' min';
-function formatar(s){let m=Math.floor(s/60),seg=s%60;return String(m).padStart(2,'0')+':'+String(seg).padStart(2,'0');}
-function atualizarFoco(){document.getElementById('display').textContent=formatar(restante);document.getElementById('barraFoco').style.width=(restante/totalSeg*100)+'%';document.title=formatar(restante)+' - '+document.getElementById('tituloModo').textContent;}
-function setModo(m){pausarFoco();modoAtual=m;totalSeg=modos[m].min*60;restante=totalSeg;document.getElementById('tituloModo').textContent=modos[m].titulo;document.getElementById('descModo').textContent=modos[m].desc;document.getElementById('fimMsg').style.display='none';document.getElementById('status').textContent='Pronto para começar? 👊';document.getElementById('btnPrincipal').textContent='▶️ COMEÇAR FOCO';document.querySelectorAll('.modes button').forEach(b=>b.classList.remove('active'));document.getElementById(m==='c2s'?'btn1':m==='cafe'?'btn2':'btn3').classList.add('active');atualizarFoco();}
-function toggleFoco(){if(rodando){pausarFoco();return;}rodando=true;document.getElementById('btnPrincipal').textContent='⏸️ PAUSAR';document.getElementById('status').textContent='🔥 FOCADO... Não mexe no celular!';timerFoco=setInterval(()=>{restante--;if(restante<=0){clearInterval(timerFoco);rodando=false;restante=0;document.getElementById('fimMsg').style.display='block';document.getElementById('status').textContent='✅ Concluído! Bora pro próximo bloco!';document.getElementById('btnPrincipal').textContent='▶️ COMEÇAR DE NOVO';ciclos++;minutosFoco+=modos[modoAtual].min;localStorage.setItem('ciclos_lucas',ciclos);localStorage.setItem('minutos_lucas',minutosFoco);document.getElementById('ciclos').textContent=ciclos;document.getElementById('tempoFoco').textContent=minutosFoco+' min';tocarAlarme();alert('⏰ Tempo acabou! '+modos[modoAtual].titulo);}atualizarFoco();},1000);}
-function pausarFoco(){clearInterval(timerFoco);rodando=false;document.getElementById('btnPrincipal').textContent='▶️ CONTINUAR';document.getElementById('status').textContent='⏸️ Pausado. Respira e volta!';}
-function resetarFoco(){pausarFoco();restante=totalSeg;document.getElementById('fimMsg').style.display='none';atualizarFoco();}
+/* ============ CRONÔMETRO ============ */
+var modos={c2s:{min:60,titulo:'🎯 1 HORA - FOCO NO C2S',desc:'Foco total em C2S. Só cliente, follow-up e venda.'},cafe:{min:10,titulo:'☕ 10 MINUTOS - CAFÉ',desc:'Descansa, toma café, levanta, respira.'},lista:{min:60,titulo:'📋 1 HORA - FAZER UMA LISTA',desc:'Monte sua lista de amanhã: quem ligar, quem cobrar, quem fechar.'}};
+var modoAtual='c2s', totalSeg=60*60, restante=totalSeg, timerFoco=null, rodando=false;
+var ciclos=parseInt(localStorage.getItem('ciclos_lucas')||'0');
+var minutosFoco=parseInt(localStorage.getItem('minutos_lucas')||'0');
+document.getElementById('ciclos').textContent=ciclos;
+document.getElementById('tempoFoco').textContent=minutosFoco+' min';
+function formatar(s){ var m=Math.floor(s/60), seg=s%60; return String(m).padStart(2,'0')+':'+String(seg).padStart(2,'0'); }
+function atualizarFoco(){ document.getElementById('display').textContent=formatar(restante); document.getElementById('barraFoco').style.width=(restante/totalSeg*100)+'%'; }
+function setModo(m){ pausarFoco(); modoAtual=m; totalSeg=modos[m].min*60; restante=totalSeg; document.getElementById('tituloModo').textContent=modos[m].titulo; document.getElementById('descModo').textContent=modos[m].desc; document.getElementById('fimMsg').style.display='none'; document.getElementById('status').textContent='Pronto para começar? 👊'; document.getElementById('btnPrincipal').textContent='▶️ COMEÇAR FOCO'; document.querySelectorAll('.modes button').forEach(function(b){b.classList.remove('active')}); document.getElementById(m==='c2s'?'btn1':m==='cafe'?'btn2':'btn3').classList.add('active'); atualizarFoco(); }
+function toggleFoco(){
+  if(rodando){ pausarFoco(); return; }
+  rodando=true; document.getElementById('btnPrincipal').textContent='⏸️ PAUSAR'; document.getElementById('status').textContent='🔥 FOCADO...';
+  timerFoco=setInterval(function(){
+    restante--;
+    if(restante<=0){
+      clearInterval(timerFoco); rodando=false; restante=0;
+      document.getElementById('fimMsg').style.display='block'; document.getElementById('status').textContent='✅ Concluído!';
+      document.getElementById('btnPrincipal').textContent='▶️ COMEÇAR DE NOVO';
+      ciclos++; minutosFoco+=modos[modoAtual].min;
+      localStorage.setItem('ciclos_lucas',ciclos); localStorage.setItem('minutos_lucas',minutosFoco);
+      document.getElementById('ciclos').textContent=ciclos; document.getElementById('tempoFoco').textContent=minutosFoco+' min';
+      tocarAlarme(); alert('⏰ Tempo acabou! '+modos[modoAtual].titulo);
+    }
+    atualizarFoco();
+  },1000);
+}
+function pausarFoco(){ clearInterval(timerFoco); rodando=false; document.getElementById('btnPrincipal').textContent='▶️ CONTINUAR'; document.getElementById('status').textContent='⏸️ Pausado.'; }
+function resetarFoco(){ pausarFoco(); restante=totalSeg; document.getElementById('fimMsg').style.display='none'; atualizarFoco(); }
 atualizarFoco();
-let tarefasDia=JSON.parse(localStorage.getItem('tarefas_dia_lucas')||'[false,false,false,false]');
-function marcarTarefa(id){const idx=parseInt(id.replace('t',''))-1;tarefasDia[idx]=!tarefasDia[idx];localStorage.setItem('tarefas_dia_lucas',JSON.stringify(tarefasDia));atualizarTarefasDia();}
-function atualizarTarefasDia(){tarefasDia.forEach((v,i)=>{const el=document.getElementById('t'+(i+1));if(el){el.querySelector('input').checked=v;el.classList.toggle('feita',v);}});const feitos=tarefasDia.filter(Boolean).length;document.getElementById('progressoDia').textContent=feitos+' de 4 concluídos'+(feitos===4?' 🎉 Dia concluído!':'');document.getElementById('barraDia').style.width=(feitos/4*100)+'%';}
-function rolarPipeline(){document.getElementById('board').scrollIntoView({behavior:'smooth'});}
+var tarefasDia=JSON.parse(localStorage.getItem('tarefas_dia_lucas')||'[false,false,false,false]');
+function marcarTarefa(id){ var idx=parseInt(id.replace('t',''))-1; tarefasDia[idx]=!tarefasDia[idx]; localStorage.setItem('tarefas_dia_lucas',JSON.stringify(tarefasDia)); atualizarTarefasDia(); }
+function atualizarTarefasDia(){
+  for(var i=0;i<4;i++){ var el=document.getElementById('t'+(i+1)); if(el){ el.querySelector('input').checked=tarefasDia[i]; el.classList.toggle('feita',tarefasDia[i]); } }
+  var feitos=tarefasDia.filter(Boolean).length;
+  document.getElementById('progressoDia').textContent=feitos+' de 4 concluídos'+(feitos===4?' 🎉 Dia concluído!':'');
+  document.getElementById('barraDia').style.width=(feitos/4*100)+'%';
+}
+function rolarPipeline(){ document.getElementById('board').scrollIntoView({behavior:'smooth'}); }
 atualizarTarefasDia();
 
-// ===== PIPELINE - 3 ETAPAS =====
-const ETAPAS=["Novo Lead","NF - Negócio Fechado","Pós-venda"];
-let leads=JSON.parse(localStorage.getItem('pipe_nf_lucas')||'[]');
-let meta=parseInt(localStorage.getItem('meta_nf_lucas')||'3');
-let filtro=''; let editId=null; let dataFiltro=''; let mesAtual=new Date(); mesAtual.setDate(1);
+/* ============ PIPELINE ============ */
+var ETAPAS=["Novo Lead","NF - Negócio Fechado","Pós-venda"];
+var leads=JSON.parse(localStorage.getItem('pipe_nf_lucas')||'[]');
+var meta=parseInt(localStorage.getItem('meta_nf_lucas')||'3');
+var filtro=''; var editId=null; var dataFiltro=''; var mesAtual=new Date(); mesAtual.setDate(1);
 document.getElementById('metaInput').value=meta;
-function salvar(){localStorage.setItem('pipe_nf_lucas',JSON.stringify(leads));}
-function hoje(){return new Date().toISOString().slice(0,10);}
-function dias(d){if(!d)return 99;return Math.floor((new Date(hoje())-new Date(d))/(1000*60*60*24));}
-function setMeta(){meta=parseInt(document.getElementById('metaInput').value||'3');localStorage.setItem('meta_nf_lucas',meta);render();}
-function novaFicha(){return {quantoQuer:'',quantoTem:'',quantoPode:'',cpf:'',decide:'',clientePorto:'',aluguel:'',quantoAluguel:'',investimento:'',retornoData:'',retornoMotivo:''};}
-function progressoFicha(f){const campos=['quantoQuer','quantoTem','quantoPode','cpf','decide','clientePorto','aluguel','investimento'];let total=campos.length,preenchidos=campos.filter(k=>f[k]&&String(f[k]).trim()!=='').length;if(f.aluguel==='Sim'){total++;if(f.quantoAluguel)preenchidos++;}return Math.round(preenchidos/total*100);}
-function ehNF(f){return progressoFicha(f)===100;}
-function addLead(){const nome=document.getElementById('nome').value.trim(),fone=document.getElementById('fone').value.trim();if(!nome||!fone){alert('Preencha nome e telefone');return;}leads.unshift({id:Date.now(),nome,fone,etapa:'Novo Lead',temp:'Morno',ficha:novaFicha(),data:hoje(),[STRIPPED]
-function filtrar(f){filtro=f;render();}
+function salvar(){ localStorage.setItem('pipe_nf_lucas', JSON.stringify(leads)); }
+function hoje(){ return new Date().toISOString().slice(0,10); }
+function dias(d){ if(!d) return 99; return Math.floor((new Date(hoje())-new Date(d))/(1000*60*60*24)); }
+function setMeta(){ meta=parseInt(document.getElementById('metaInput').value||'3'); localStorage.setItem('meta_nf_lucas',meta); render(); }
+function novaFicha(){ return {quantoQuer:'',quantoTem:'',quantoPode:'',cpf:'',decide:'',clientePorto:'',aluguel:'',quantoAluguel:'',investimento:'',retornoData:'',retornoMotivo:''}; }
+function progressoFicha(f){
+  var campos=['quantoQuer','quantoTem','quantoPode','cpf','decide','clientePorto','aluguel','investimento'];
+  var total=campos.length, preenchidos=0;
+  for(var i=0;i<campos.length;i++){ if(f[campos[i]] && String(f[campos[i]]).trim()!=='') preenchidos++; }
+  if(f.aluguel==='Sim'){ total++; if(f.quantoAluguel) preenchidos++; }
+  return Math.round(preenchidos/total*100);
+}
+function ehNF(f){ return progressoFicha(f)===100; }
+function addLead(){
+  var nome=document.getElementById('nome').value.trim();
+  var fone=document.getElementById('fone').value.trim();
+  if(!nome || !fone){ alert('Preencha nome e telefone'); return; }
+  var novo={id:Date.now(), nome:nome, fone:fone, etapa:'Novo Lead', temp:'Morno', ficha:novaFicha(), data:hoje(), falouHoje:false, obs:''};
+  leads.unshift(novo);
+  salvar();
+  document.getElementById('nome').value=''; document.getElementById('fone').value='';
+  render();
+  alert('Cliente '+nome+' adicionado em Novo Lead!');
+}
+function filtrar(f){ filtro=f; render(); }
 function abrirFicha(id){
-  editId=id;const l=leads.find(x=>x.id===id);const f=l.ficha||novaFicha();
+  editId=id;
+  var l=leads.find(function(x){return x.id===id});
+  var f=l.ficha || novaFicha();
   document.getElementById('modalTitulo').textContent='📋 Ficha - '+l.nome;
-  document.getElementById('modalCampos').innerHTML=`
-    <div style="background:#FEF2F2;border:2px solid #FECACA;border-radius:12px;padding:12px;margin-bottom:12px">
-      <b style="color:#B91C1C">🔔 CLIENTE SOLICITOU RETORNO?</b>
-      <p style="font-size:12px;color:#666;margin:4px 0 8px">Se o cliente pediu para você ligar depois, preencha aqui. Vou te avisar 5 minutos antes!</p>
-      <label style="font-size:12px;font-weight:700">📅 Cliente solicitou retorno em: (data e horário)</label>
-      <input id="f_retornoData" type="datetime-local" value="${f.retornoData||''}">
-      <label style="font-size:12px;font-weight:700">💬 Motivo do retorno:</label>
-      <input id="f_retornoMotivo" placeholder="Ex: Falar sobre lance, falar com esposa, decidir..." value="${f.retornoMotivo||''}">
-      <div style="display:flex;gap:6px">
-        <button type="button" onclick="setRetornoRapido(15)" style="background:#FEF3C7;flex:1;font-size:12px">+15 min</button>
-        <button type="button" onclick="setRetornoRapido(30)" style="background:#FEF3C7;flex:1;font-size:12px">+30 min</button>
-        <button type="button" onclick="setRetornoRapido(60)" style="background:#FEF3C7;flex:1;font-size:12px">+1 hora</button>
-        <button type="button" onclick="setRetornoAmanha()" style="background:#FEF3C7;flex:1;font-size:12px">Amanhã 9h</button>
-      </div>
-    </div>
-    <label style="font-size:12px;font-weight:700">Nome:</label><input id="f_nome" value="${l.nome}">
-    <label style="font-size:12px;font-weight:700">Quanto quer:</label><input id="f_quantoQuer" type="number" placeholder="Ex: 150000" value="${f.quantoQuer}">
-    <label style="font-size:12px;font-weight:700">Quanto tem:</label><input id="f_quantoTem" type="number" placeholder="Ex: 30000" value="${f.quantoTem}">
-    <label style="font-size:12px;font-weight:700">Quanto pode:</label><input id="f_quantoPode" type="number" placeholder="Ex: 1200" value="${f.quantoPode}">
-    <label style="font-size:12px;font-weight:700">CPF:</label><input id="f_cpf" placeholder="000.000.000-00" value="${f.cpf}">
-    <label style="font-size:12px;font-weight:700">Decide sozinho:</label><select id="f_decide"><option value="">Selecione</option><option ${f.decide==='Sim'?'selected':''}>Sim</option><option ${f.decide==='Não'?'selected':''}>Não</option></select>
-    <label style="font-size:12px;font-weight:700">Cliente Porto:</label><select id="f_clientePorto"><option value="">Selecione</option><option ${f.clientePorto==='Sim'?'selected':''}>Sim</option><option ${f.clientePorto==='Não'?'selected':''}>Não</option></select>
-    <label style="font-size:12px;font-weight:700">Aluguel:</label><select id="f_aluguel" onchange="document.getElementById('divAluguel').style.display=this.value==='Sim'?'block':'none'"><option value="">Selecione</option><option ${f.aluguel==='Sim'?'selected':''}>Sim</option><option ${f.aluguel==='Não'?'selected':''}>Não</option></select>
-    <div id="divAluguel" style="display:${f.aluguel==='Sim'?'block':'none'}"><label style="font-size:12px;font-weight:700">Quanto paga de aluguel:</label><input id="f_quantoAluguel" type="number" placeholder="Ex: 1800" value="${f.quantoAluguel}"></div>
-    <label style="font-size:12px;font-weight:700">Investimento:</label><input id="f_investimento" placeholder="Ex: Casa própria / Investimento" value="${f.investimento}">
-    <label style="font-size:12px;font-weight:700">Observação:</label><textarea id="f_obs">${l.obs||''}</textarea>
-    <div class="progress">Progresso: <span>${progressoFicha(f)}%</span> ${ehNF(f)?'• 🏆 NF':''}</div>`;
+  document.getElementById('modalCampos').innerHTML=
+    '<div style="background:#FEF2F2;border:2px solid #FECACA;border-radius:12px;padding:12px;margin-bottom:12px">'+
+    '<b style="color:#B91C1C">🔔 CLIENTE SOLICITOU RETORNO?</b>'+
+    '<p style="font-size:12px;color:#666;margin:4px 0 8px">Se pediu para ligar depois, preencha aqui. Aviso 5 min antes!</p>'+
+    '<label style="font-size:12px;font-weight:700">📅 Cliente solicitou retorno em:</label><input id="f_retornoData" type="datetime-local" value="'+(f.retornoData||'')+'">'+
+    '<label style="font-size:12px;font-weight:700">💬 Motivo do retorno:</label><input id="f_retornoMotivo" placeholder="Ex: Falar sobre lance" value="'+(f.retornoMotivo||'')+'">'+
+    '<div style="display:flex;gap:6px"><button type="button" onclick="setRetornoRapido(15)" style="background:#FEF3C7;flex:1">+15 min</button><button type="button" onclick="setRetornoRapido(30)" style="background:#FEF3C7;flex:1">+30 min</button><button type="button" onclick="setRetornoRapido(60)" style="background:#FEF3C7;flex:1">+1 hora</button><button type="button" onclick="setRetornoAmanha()" style="background:#FEF3C7;flex:1">Amanhã 9h</button></div></div>'+
+    '<label style="font-size:12px;font-weight:700">Nome:</label><input id="f_nome" value="'+l.nome+'">'+
+    '<label style="font-size:12px;font-weight:700">Quanto quer:</label><input id="f_quantoQuer" type="number" value="'+f.quantoQuer+'">'+
+    '<label style="font-size:12px;font-weight:700">Quanto tem:</label><input id="f_quantoTem" type="number" value="'+f.quantoTem+'">'+
+    '<label style="font-size:12px;font-weight:700">Quanto pode:</label><input id="f_quantoPode" type="number" value="'+f.quantoPode+'">'+
+    '<label style="font-size:12px;font-weight:700">CPF:</label><input id="f_cpf" value="'+f.cpf+'">'+
+    '<label style="font-size:12px;font-weight:700">Decide sozinho:</label><select id="f_decide"><option value="">Selecione</option><option '+(f.decide==='Sim'?'selected':'')+'>Sim</option><option '+(f.decide==='Não'?'selected':'')+'>Não</option></select>'+
+    '<label style="font-size:12px;font-weight:700">Cliente Porto:</label><select id="f_clientePorto"><option value="">Selecione</option><option '+(f.clientePorto==='Sim'?'selected':'')+'>Sim</option><option '+(f.clientePorto==='Não'?'selected':'')+'>Não</option></select>'+
+    '<label style="font-size:12px;font-weight:700">Aluguel:</label><select id="f_aluguel" onchange="document.getElementById(\'divAluguel\').style.display=this.value===\'Sim\'?\'block\':\'none\'"><option value="">Selecione</option><option '+(f.aluguel==='Sim'?'selected':'')+'>Sim</option><option '+(f.aluguel==='Não'?'selected':'')+'>Não</option></select>'+
+    '<div id="divAluguel" style="display:'+(f.aluguel==='Sim'?'block':'none')+'"><label style="font-size:12px;font-weight:700">Quanto paga de aluguel:</label><input id="f_quantoAluguel" type="number" value="'+f.quantoAluguel+'"></div>'+
+    '<label style="font-size:12px;font-weight:700">Investimento:</label><input id="f_investimento" placeholder="Ex: Casa própria" value="'+f.investimento+'">'+
+    '<label style="font-size:12px;font-weight:700">Observação:</label><textarea id="f_obs">'+(l.obs||'')+'</textarea>'+
+    '<div>Progresso: <b>'+progressoFicha(f)+'%</b></div>';
   document.getElementById('modal').classList.add('open');
 }
-function setRetornoRapido(min){
-  const d=new Date(); d.setMinutes(d.getMinutes()+min);
-  document.getElementById('f_retornoData').value=d.toISOString().slice(0,16);
-}
-function setRetornoAmanha(){
-  const d=new Date(); d.setDate(d.getDate()+1); d.setHours(9,0,0,0);
-  document.getElementById('f_retornoData').value=d.toISOString().slice(0,16);
-}
-function fecharModal(){document.getElementById('modal').classList.remove('open');editId=null;}
+function setRetornoRapido(min){ var d=new Date(); d.setMinutes(d.getMinutes()+min); document.getElementById('f_retornoData').value=d.toISOString().slice(0,16); }
+function setRetornoAmanha(){ var d=new Date(); d.setDate(d.getDate()+1); d.setHours(9,0,0,0); document.getElementById('f_retornoData').value=d.toISOString().slice(0,16); }
+function fecharModal(){ document.getElementById('modal').classList.remove('open'); editId=null; }
 function salvarFicha(){
-  const l=leads.find(x=>x.id===editId); if(!l) return;
-  l.nome=document.getElementById('f_nome').value.trim()||l.nome;
-  const retornoData=document.getElementById('f_retornoData').value;
-  const retornoMotivo=document.getElementById('f_retornoMotivo').value;
-  l.ficha={quantoQuer:document.getElementById('f_quantoQuer').value,quantoTem:document.getElementById('f_quantoTem').value,quantoPode:document.getElementById('f_quantoPode').value,cpf:document.getElementById('f_cpf').value,decide:document.getElementById('f_decide').value,clientePorto:document.getElementById('f_clientePorto').value,aluguel:document.getElementById('f_aluguel').value,quantoAluguel:document.getElementById('f_quantoAluguel')?.value||'',investimento:document.getElementById('f_investimento').value,retornoData,retornoMotivo};
+  var l=leads.find(function(x){return x.id===editId}); if(!l) return;
+  l.nome=document.getElementById('f_nome').value.trim() || l.nome;
+  var retornoData=document.getElementById('f_retornoData').value;
+  var retornoMotivo=document.getElementById('f_retornoMotivo').value;
+  l.ficha={quantoQuer:document.getElementById('f_quantoQuer').value,quantoTem:document.getElementById('f_quantoTem').value,quantoPode:document.getElementById('f_quantoPode').value,cpf:document.getElementById('f_cpf').value,decide:document.getElementById('f_decide').value,clientePorto:document.getElementById('f_clientePorto').value,aluguel:document.getElementById('f_aluguel').value,quantoAluguel:document.getElementById('f_quantoAluguel')?document.getElementById('f_quantoAluguel').value:'',investimento:document.getElementById('f_investimento').value,retornoData:retornoData,retornoMotivo:retornoMotivo};
   l.obs=document.getElementById('f_obs').value;
-  // SE TEM RETORNO, CRIA O LEMBRETE AUTOMÁTICO
   if(retornoData){
-    const jaExiste=retornos.find(r=>r.leadId===l.id && r.data===retornoData && !r.feito);
+    var jaExiste=retornos.find(function(r){return r.leadId===l.id && r.data===retornoData && !r.feito});
     if(!jaExiste){
       retornos.push({id:Date.now(), leadId:l.id, nome:l.nome, fone:l.fone, data:retornoData, motivo:retornoMotivo||'Retornar para o cliente', feito:false, avisado:false});
-      retornos.sort((a,b)=> new Date(a.data)-new Date(b.data)); salvarRetornos(); renderRetornos();
-      alert('🔔 Lembrete criado! Vou te avisar 5 minutos antes de retornar para '+l.nome+' em '+formatarDataHora(retornoData));
+      retornos.sort(function(a,b){return new Date(a.data)-new Date(b.data)});
+      salvarRetornos(); renderRetornos();
+      alert('🔔 Lembrete criado! Vou avisar 5 min antes de '+l.nome+' em '+formatarDataHora(retornoData));
     }
   }
-  if(ehNF(l.ficha)){l.etapa='NF - Negócio Fechado';l.temp='NF';alert('🏆 '+l.nome+' virou NF - NEGÓCIO FECHADO!');}
-  else if(retornoData){ /* já avisou do lembrete */ }
-  else {alert('Ficha salva: '+progressoFicha(l.ficha)+'% completa. Falta '+(100-progressoFicha(l.ficha))+'% para virar NF.');}
+  if(ehNF(l.ficha)){ l.etapa='NF - Negócio Fechado'; l.temp='NF'; alert('🏆 '+l.nome+' virou NF - NEGÓCIO FECHADO!'); }
+  else if(!retornoData){ alert('Ficha salva: '+progressoFicha(l.ficha)+'% completa. Falta '+(100-progressoFicha(l.ficha))+'% para virar NF.'); }
   salvar(); fecharModal(); render();
 }
-function mover(id){const l=leads.find(x=>x.id===id);const i=ETAPAS.indexOf(l.etapa);if(i<ETAPAS.length-1)l.etapa=ETAPAS[i+1];salvar();render();}
-function voltar(id){const l=leads.find(x=>x.id===id);const i=ETAPAS.indexOf(l.etapa);if(i>0)l.etapa=ETAPAS[i-1];salvar();render();}
+function mover(id){ var l=leads.find(function(x){return x.id===id}); var i=ETAPAS.indexOf(l.etapa); if(i<ETAPAS.length-1) l.etapa=ETAPAS[i+1]; salvar(); render(); }
+function voltar(id){ var l=leads.find(function(x){return x.id===id}); var i=ETAPAS.indexOf(l.etapa); if(i>0) l.etapa=ETAPAS[i-1]; salvar(); render(); }
 function falar(id){
-  const l=leads.find(x=>x.id===id);
+  var l=leads.find(function(x){return x.id===id});
   document.getElementById('waNumero').value=l.fone;
-  const txt=encodeURIComponent(`Olá ${l.nome}! ✨ Aqui é o Lucas Fortes - Consórcio Porto Seguro. ${l.ficha?.investimento?`Sobre seu objetivo de ${l.ficha.investimento}, `:''}tenho uma condição especial pra você hoje, posso te mostrar?`);
-  window.open(`https://wa.me/55${l.fone.replace(/\D/g,'')}?text=${txt}`,'_blank');
+  var txt=encodeURIComponent('Olá '+l.nome+'! Aqui é o Lucas Fortes - Consórcio Porto Seguro. Tenho uma condição especial pra você hoje, posso te mostrar?');
+  window.open('https://wa.me/55'+l.fone.replace(/\D/g,'')+'?text='+txt,'_blank');
   l.falouHoje=true; l.data=hoje(); salvar(); render();
 }
-function excluir(id){if(confirm('Excluir lead?')){leads=leads.filter(x=>x.id!==id);salvar();render();}}
-function mudarMes(n){mesAtual.setMonth(mesAtual.getMonth()+n);renderCalendario();}
-function irHoje(){mesAtual=new Date();mesAtual.setDate(1);dataFiltro=hoje();render();}
-function limparData(){dataFiltro='';render();}
-function selecionarDia(data){dataFiltro=data;render();}
+function excluir(id){ if(confirm('Excluir lead?')){ leads=leads.filter(function(x){return x.id!==id}); salvar(); render(); } }
+function mudarMes(n){ mesAtual.setMonth(mesAtual.getMonth()+n); renderCalendario(); }
+function irHoje(){ mesAtual=new Date(); mesAtual.setDate(1); dataFiltro=hoje(); render(); }
+function limparData(){ dataFiltro=''; render(); }
+function selecionarDia(data){ dataFiltro=data; render(); }
 function renderCalendario(){
-  const meses=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  var meses=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
   document.getElementById('tituloMes').textContent=meses[mesAtual.getMonth()]+' '+mesAtual.getFullYear();
-  const ano=mesAtual.getFullYear(), mes=mesAtual.getMonth();
-  const primeiro=new Date(ano,mes,1); const inicio=new Date(ano,mes,1-primeiro.getDay());
-  let html='';
-  for(let i=0;i<42;i++){const d=new Date(inicio); d.setDate(inicio.getDate()+i); const iso=d.toISOString().slice(0,10); const doMes=d.getMonth()===mes; const ehHoje=iso===hoje(); const doDia=leads.filter(l=>l.data===iso); const nfs=doDia.filter(l=>ehNF(l.ficha||{})).length; const rets=retornos.filter(r=>!r.feito && r.data.slice(0,10)===iso).length;
-    html+=`<div class="cal-cell ${ehHoje?'hoje':''} ${!doMes?'outro':''} ${dataFiltro===iso?'selecionado':''}" onclick="selecionarDia('${iso}')"><div class="num">${d.getDate()}</div>${doDia.length?`<span class="qtd">${doDia.length} cliente(s)</span>`:''}${nfs?`<br><span class="qtd nf">🏆 ${nfs} NF</span>`:''}${rets?`<br><span class="qtd ret">🔔 ${rets} retorno</span>`:''}</div>`;}
+  var ano=mesAtual.getFullYear(), mes=mesAtual.getMonth();
+  var primeiro=new Date(ano,mes,1);
+  var inicio=new Date(ano,mes,1-primeiro.getDay());
+  var html='';
+  for(var i=0;i<42;i++){
+    var d=new Date(inicio); d.setDate(inicio.getDate()+i);
+    var iso=d.toISOString().slice(0,10);
+    var doMes=d.getMonth()===mes;
+    var ehHoje=iso===hoje();
+    var doDia=leads.filter(function(l){return l.data===iso});
+    var nfs=doDia.filter(function(l){return ehNF(l.ficha||{})}).length;
+    var rets=retornos.filter(function(r){return !r.feito && r.data.slice(0,10)===iso}).length;
+    html+='<div class="cal-cell '+(ehHoje?'hoje':'')+' '+(!doMes?'outro':'')+' '+(dataFiltro===iso?'selecionado':'')+'" onclick="selecionarDia(\''+iso+'\')"><div class="num">'+d.getDate()+'</div>'+(doDia.length?'<span class="qtd">'+doDia.length+' cliente(s)</span>':'')+(nfs?'<br><span class="qtd nf">🏆 '+nfs+' NF</span>':'')+(rets?'<br><span class="qtd ret">🔔 '+rets+' retorno</span>':'')+'</div>';
+  }
   document.getElementById('calGrid').innerHTML=html;
-  document.getElementById('filtroDataTxt').textContent=dataFiltro?`📅 ${dataFiltro.split('-').reverse().join('/')} — ${leads.filter(l=>l.data===dataFiltro).length} cliente(s)`:'' ;
-  if(dataFiltro){const doDia=leads.filter(l=>l.data===dataFiltro); document.getElementById('listaDia').innerHTML=doDia.length?`<b>Clientes em ${dataFiltro.split('-').reverse().join('/')}:</b><br>`+doDia.map(l=>`• ${l.nome} - ${l.etapa} ${ehNF(l.ficha||{})?'🏆 NF':''} - ${l.fone}`).join('<br>'):'<span style="color:#666">Nenhum cliente nesse dia.</span>';} else {document.getElementById('listaDia').innerHTML='';}
+  document.getElementById('filtroDataTxt').textContent=dataFiltro?'📅 '+dataFiltro.split('-').reverse().join('/')+' — '+leads.filter(function(l){return l.data===dataFiltro}).length+' cliente(s)':'';
+  if(dataFiltro){
+    var doDia2=leads.filter(function(l){return l.data===dataFiltro});
+    document.getElementById('listaDia').innerHTML=doDia2.length?'<b>Clientes em '+dataFiltro.split('-').reverse().join('/')+':</b><br>'+doDia2.map(function(l){return '• '+l.nome+' - '+l.etapa}).join('<br>'):'<span style="color:#666">Nenhum cliente nesse dia.</span>';
+  } else { document.getElementById('listaDia').innerHTML=''; }
 }
 function render(){
-  const busca=(document.getElementById('busca').value||'').toLowerCase();
-  let lista=leads.filter(l=>{
+  var busca=(document.getElementById('busca').value||'').toLowerCase();
+  var lista=leads.filter(function(l){
     if(dataFiltro && l.data!==dataFiltro) return false;
-    if(busca && !l.nome.toLowerCase().includes(busca)) return false;
+    if(busca && l.nome.toLowerCase().indexOf(busca)===-1) return false;
     if(filtro==='nao' && l.falouHoje) return false;
     if(filtro==='3dias' && dias(l.data)<3) return false;
-    if(filtro==='retorno' && !l.ficha?.retornoData) return false;
+    if(filtro==='retorno' && !l.ficha.retornoData) return false;
     if(filtro==='negociacao' && l.etapa!=='NF - Negócio Fechado') return false;
     if(filtro==='NF' && !ehNF(l.ficha||{})) return false;
     return true;
   });
-  const nfs=leads.filter(l=>ehNF(l.ficha||{})).length;
-  document.getElementById('totalNF').textContent=nfs; document.getElementById('totalNF2').textContent=nfs;
-  document.getElementById('vendasHoje').textContent=nfs; document.getElementById('metaTxt').textContent=meta;
+  var nfs=leads.filter(function(l){return ehNF(l.ficha||{})}).length;
+  document.getElementById('totalNF').textContent=nfs;
+  document.getElementById('totalNF2').textContent=nfs;
+  document.getElementById('vendasHoje').textContent=nfs;
+  document.getElementById('metaTxt').textContent=meta;
   document.getElementById('barra').style.width=Math.min(100,nfs/meta*100)+'%';
-  document.getElementById('valorPipe').textContent='R$ '+leads.reduce((s,l)=>s+(parseInt(l.ficha?.quantoQuer||0)),0).toLocaleString('pt-BR');
-  document.getElementById('txtNao').textContent=leads.filter(l=>!l.falouHoje).length+' esperando contato';
-  document.getElementById('txt3dias').textContent=leads.filter(l=>dias(l.data)>=3).length+' há 3+ dias sem falar';
-  document.getElementById('txtOntem').textContent=leads.filter(l=>l.etapa==='NF - Negócio Fechado').length+' em NF';
-  const quentes=leads.filter(l=>l.temp==='Quente').length, frios=leads.filter(l=>l.temp==='Frio').length;
+  var soma=0; for(var i=0;i<leads.length;i++){ soma+=parseInt(leads[i].ficha.quantoQuer||0); }
+  document.getElementById('valorPipe').textContent='R$ '+soma.toLocaleString('pt-BR');
+  document.getElementById('txtNao').textContent=leads.filter(function(l){return !l.falouHoje}).length+' esperando contato';
+  document.getElementById('txt3dias').textContent=leads.filter(function(l){return dias(l.data)>=3}).length+' há 3+ dias sem falar';
+  document.getElementById('txtOntem').textContent=leads.filter(function(l){return l.etapa==='NF - Negócio Fechado'}).length+' em NF';
+  var quentes=leads.filter(function(l){return l.temp==='Quente'}).length;
+  var frios=leads.filter(function(l){return l.temp==='Frio'}).length;
   document.getElementById('txtEtiquetas').textContent=quentes+' Quentes • '+frios+' Frios • '+nfs+' NF';
-  document.getElementById('board').innerHTML=ETAPAS.map(et=>{
-    const itens=lista.filter(l=>l.etapa===et);
-    return `<div class="col"><h3>${et==='Novo Lead'?'🆕 Novo Lead':et==='NF - Negócio Fechado'?'🏆 NF - Negócio Fechado':'💚 Pós-venda'}</h3><p>${itens.length} clientes</p>
-    ${itens.map(l=>{const f=l.ficha||novaFicha();const prog=progressoFicha(f);const isNF=ehNF(f);const temRetorno=!!f.retornoData;return `<div class="lead ${isNF?'nf':''} ${temRetorno?'retorno':''}"><b>${l.falouHoje?'✅ ':'❌ '}${l.nome} ${isNF?'🏆 NF':''}</b><br><small>📱 ${l.fone}<br>${f.quantoQuer?'💰 Quer: R$ '+parseInt(f.quantoQuer).toLocaleString('pt-BR')+' • ':''}${f.quantoPode?'Pode: R$ '+parseInt(f.quantoPode).toLocaleString('pt-BR')+'/mês':''}<br>🏷️ ${l.temp} ${f.investimento?'• 🎯 '+f.investimento:''} • ${dias(l.data)===0?'Hoje':dias(l.data)+' dia(s) sem falar'}</small>${temRetorno?`<div style="background:#FEE2E2;padding:8px;border-radius:8px;margin-top:6px;font-size:13px"><b>🔔 RETORNO: ${formatarDataHora(f.retornoData)}</b><br>${f.retornoMotivo||''}<br><span style="color:#B91C1C;font-weight:700">${tempoPara(f.retornoData)}</span></div>`:''}<div class="progress">Ficha: <span>${prog}% ${isNF?'• NF':prog===0?'• Ficha vazia':'• Falta '+(100-prog)+'%'}</span></div><div style="height:8px;background:#E5E7EB;border-radius:20px;overflow:hidden"><div style="width:${prog}%;height:100%;background:${isNF?'#22C55E':'#FFC700'}"></div></div>${l.obs?`<div style="font-size:13px;background:#F8FAFC;padding:6px;border-radius:8px;margin-top:6px">${l.obs}</div>`:''}<div class="actions"><button class="wa" onclick="falar(${l.id})">💬 WhatsApp</button><button onclick="abrirFicha(${l.id})" style="background:#FFC700">📋 Ficha</button><button class="del" onclick="excluir(${l.id})">🗑️</button></div><div class="actions"><button class="next" onclick="mover(${l.id})">➡️ Próxima</button><button onclick="voltar(${l.id})" style="background:#E5E7EB">⬅️ Voltar</button></div></div>`}).join('')||'<p style="text-align:center">Nenhum aqui</p>'}</div>`
-  }).join('');
+  var boardHtml='';
+  for(var e=0;e<ETAPAS.length;e++){
+    var et=ETAPAS[e];
+    var itens=lista.filter(function(l){return l.etapa===et});
+    var itensHtml='';
+    for(var j=0;j<itens.length;j++){
+      var l2=itens[j]; var f=l2.ficha||novaFicha(); var prog=progressoFicha(f); var isNF=ehNF(f); var temRetorno=!!f.retornoData;
+      itensHtml+='<div class="lead '+(isNF?'nf':'')+' '+(temRetorno?'retorno':'')+'"><b>'+(l2.falouHoje?'✅ ':'❌ ')+l2.nome+' '+(isNF?'🏆 NF':'')+'</b><br><small>📱 '+l2.fone+'<br>'+(f.quantoQuer?'💰 Quer: R$ '+parseInt(f.quantoQuer).toLocaleString('pt-BR')+' • ':'')+(f.quantoPode?'Pode: R$ '+parseInt(f.quantoPode).toLocaleString('pt-BR')+'/mês':'')+'<br>🏷️ '+l2.temp+' '+(f.investimento?'• 🎯 '+f.investimento:'')+' • '+(dias(l2.data)===0?'Hoje':dias(l2.data)+' dia(s) sem falar')+'</small>'+(temRetorno?'<div style="background:#FEE2E2;padding:8px;border-radius:8px;margin-top:6px;font-size:13px"><b>🔔 RETORNO: '+formatarDataHora(f.retornoData)+'</b><br>'+(f.retornoMotivo||'')+'<br><b style="color:#B91C1C">'+tempoPara(f.retornoData)+'</b></div>':'')+'<div> Ficha: <b>'+prog+'%</b></div><div style="height:8px;background:#E5E7EB;border-radius:20px;overflow:hidden"><div style="width:'+prog+'%;height:100%;background:'+(isNF?'#22C55E':'#FFC700')+'"></div></div>'+(l2.obs?'<div style="font-size:13px;background:#F8FAFC;padding:6px;border-radius:8px;margin-top:6px">'+l2.obs+'</div>':'')+'<div class="actions"><button class="wa" onclick="falar('+l2.id+')">💬 WhatsApp</button><button onclick="abrirFicha('+l2.id+')" style="background:#FFC700">📋 Ficha</button><button class="del" onclick="excluir('+l2.id+')">🗑️</button></div><div class="actions"><button class="next" onclick="mover('+l2.id+')">➡️ Próxima</button><button onclick="voltar('+l2.id+')" style="background:#E5E7EB">⬅️ Voltar</button></div></div>';
+    }
+    if(!itensHtml) itensHtml='<p style="text-align:center">Nenhum aqui</p>';
+    boardHtml+='<div class="col"><h3>'+(et==='Novo Lead'?'🆕 Novo Lead':et==='NF - Negócio Fechado'?'🏆 NF - Negócio Fechado':'💚 Pós-venda')+'</h3><p>'+itens.length+' clientes</p>'+itensHtml+'</div>';
+  }
+  document.getElementById('board').innerHTML=boardHtml;
   renderCalendario(); renderRetornos();
 }
 render();
