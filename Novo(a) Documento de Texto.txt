@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pipeline - Lucas Fortes | Alta Performance</title>
+<style>
+*{box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
+body{margin:0;background:#0B2A5B;color:#fff;padding:14px}
+h1{font-size:22px;margin:0}.sub{opacity:.8;font-size:13px;margin:4px 0 12px}
+.top{display:flex;gap:8px;flex-wrap:wrap}
+.card{background:#fff;color:#111;border-radius:16px;padding:14px}
+input,select,textarea{width:100%;padding:11px;border:1px solid #ddd;border-radius:10px;font-size:15px;margin-bottom:8px}
+button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer}
+.btn-yellow{background:#FFC700;width:100%;font-size:16px}
+.meta{flex:1;min-width:150px;text-align:center}
+.meta b{font-size:26px;display:block}.meta span{font-size:12px;opacity:.7}
+.bar{height:10px;background:#E5E7EB;border-radius:20px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:#22C55E;width:0%}
+.board{display:flex;gap:10px;overflow-x:auto;padding:12px 0 20px;align-items:flex-start}
+.col{min-width:260px;background:#F1F5F9;border-radius:14px;padding:10px;color:#111}
+.col h3{font-size:14px;margin:4px 0 2px}.col p{font-size:12px;color:#666;margin:0 0 10px}
+.lead{background:#fff;border-radius:12px;padding:10px;margin-bottom:10px;border-left:5px solid #FFC700;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.lead b{font-size:15px}.lead small{color:#666;font-size:12px}
+.tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:20px;font-weight:700;margin:6px 0}
+.Quente{background:#FEE2E2}.Morno{background:#FEF3C7}.Frio{background:#DBEAFE}.Contemplado{background:#D1FAE5}
+.actions{display:flex;gap:6px;margin-top:8px}.actions button{flex:1;font-size:13px}
+.wa{background:#25D366;color:#fff}.next{background:#0B2A5B;color:#fff}.del{background:#FEE2E2;color:#B91C1C;flex:0;padding:10px}
+.checklist label{display:block;font-size:14px;margin:6px 0;background:#F8FAFC;padding:8px;border-radius:8px}
+.checklist input{width:auto;margin-right:8px}
+</style>
+</head>
+<body>
+
+<h1>🚀 Pipeline - Alta Performance</h1>
+<p class="sub">Lucas Fortes • Consórcio Porto Seguro • Organize seu dia para vender mais</p>
+
+<div class="top">
+  <div class="card meta">
+    <span>🎯 META DE VENDAS HOJE</span><b><span id="vendasHoje">0</span> / <span id="metaTxt">3</span></b>
+    <div class="bar"><i id="barra"></i></div>
+    <div style="margin-top:8px;display:flex;gap:6px"><input id="metaInput" type="number" value="3" style="margin:0"><button onclick="setMeta()" style="background:#0B2A5B;color:#fff">Salvar meta</button></div>
+  </div>
+  <div class="card meta"><span>💰 VALOR EM PIPELINE</span><b id="valorPipe">R$ 0</b><span> soma dos créditos dos leads</span></div>
+  <div class="card meta"><span>📞 FALTA FALAR HOJE</span><b id="faltaFalar">0</b><span> leads sem contato hoje</span></div>
+  <div class="card meta"><span>🔥 PRIORIDADE AGORA</span><b id="prioridade" style="font-size:16px">-</b><span>Quente + há 3 dias sem falar</span></div>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <h3 style="margin:0 0 10px">✅ ROTINA DO VENDEDOR DE ALTA PERFORMANCE</h3>
+  <div class="checklist" id="rotina">
+    <label><input type="checkbox" onchange="salvarRotina()"> 06:30 - Revisar pipeline e definir Top 3 do dia</label>
+    <label><input type="checkbox" onchange="salvarRotina()"> 08:00 - Follow-up: quem está há 3 dias sem falar</label>
+    <label><input type="checkbox" onchange="salvarRotina()"> 09:00 - Novos leads: 1º contato em até 5 min</label>
+    <label><input type="checkbox" onchange="salvarRotina()"> 11:00 - Enviar propostas / simulações de lance</label>
+    <label><input type="checkbox" onchange="salvarRotina()"> 14:00 - Negociação: objeções e fechamento</label>
+    <label><input type="checkbox" onchange="salvarRotina()"> 17:00 - Pós-venda: contemplados + indicações</label>
+    <label><input type="checkbox" onchange="salvarRotina()"> 19:00 - Planejar amanhã + atualizar pipeline</label>
+  </div>
+</div>
+
+<div class="card" style="margin-top:12px">
+  <h3 style="margin:0 0 10px">➕ Novo Lead</h3>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <input id="nome" placeholder="Nome *" style="flex:2;min-width:160px">
+    <input id="fone" placeholder="WhatsApp *" style="flex:2;min-width:160px">
+    <input id="valor" placeholder="Crédito desejado ex: 120000" type="number" style="flex:1;min-width:130px">
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <select id="etapa" style="flex:1"><option>Novo Lead</option><option>1º Contato</option><option>Qualificação</option><option>Proposta / Lance</option><option>Negociação</option><option>Venda / Contemplado</option><option>Pós-venda</option></select>
+    <select id="temp" style="flex:1"><option>Quente</option><option>Morno</option><option>Frio</option><option>Contemplado</option></select>
+    <input id="grupo" placeholder="Grupo ex: IO572" style="flex:1">
+    <input id="obj" placeholder="Objetivo: Casa, Carro, Investimento..." style="flex:2">
+  </div>
+  <textarea id="obs" placeholder="Observação: ex: Quer lance de 60%, tem FGTS, quer contemplar até dezembro"></textarea>
+  <button class="btn-yellow" onclick="addLead()">Adicionar ao Pipeline →</button>
+</div>
+
+<div style="display:flex;gap:8px;margin-top:12px;overflow:auto">
+  <button onclick="filtrar('')" style="background:#fff">Todos</button>
+  <button onclick="filtrar('Quente')" style="background:#FEE2E2">🔥 Quentes</button>
+  <button onclick="filtrar('3dias')" style="background:#FEF3C7">📅 3+ dias sem falar</button>
+  <button onclick="filtrar('hoje')" style="background:#D1FAE5">📞 Hoje</button>
+  <input id="busca" placeholder="🔍 Buscar nome..." oninput="render()" style="background:#fff;margin:0;min-width:160px">
+</div>
+
+<div class="board" id="board"></div>
+
+<script>
+const ETAPAS = ["Novo Lead","1º Contato","Qualificação","Proposta / Lance","Negociação","Venda / Contemplado","Pós-venda"];
+let leads = JSON.parse(localStorage.getItem('pipe_lucas')||'[]');
+let meta = parseInt(localStorage.getItem('meta_lucas')||'3');
+let filtro = '';
+let rotinaSalva = JSON.parse(localStorage.getItem('rotina_lucas')||'[]');
+document.getElementById('metaInput').value = meta;
+document.querySelectorAll('#rotina input').forEach((c,i)=>{ c.checked = !!rotinaSalva[i]; });
+
+function salvar(){ localStorage.setItem('pipe_lucas', JSON.stringify(leads)); }
+function salvarRotina(){
+  const v=[]; document.querySelectorAll('#rotina input').forEach(c=>v.push(c.checked));
+  localStorage.setItem('rotina_lucas', JSON.stringify(v));
+}
+function setMeta(){ meta = parseInt(document.getElementById('metaInput').value||'3'); localStorage.setItem('meta_lucas', meta); render(); }
+function hoje(){ return new Date().toISOString().slice(0,10); }
+function dias(d){ if(!d) return 99; return Math.floor((new Date(hoje())-new Date(d))/(1000*60*60*24)); }
+function addLead(){
+  const nome=document.getElementById('nome').value.trim(), fone=document.getElementById('fone').value.trim();
+  if(!nome||!fone){ alert('Preencha nome e WhatsApp'); return; }
+  leads.unshift({id:Date.now(), nome, fone, valor:parseInt(document.getElementById('valor').value||'0'), etapa:document.getElementById('etapa').value, temp:document.getElementById('temp').value, grupo:document.getElementById('grupo').value, obj:document.getElementById('obj').value, obs:document.getElementById('obs').value, data:hoje(), falouHoje:false});
+  salvar(); ['nome','fone','valor','grupo','obj','obs'].forEach(id=>document.getElementById(id).value=''); render();
+}
+function filtrar(f){ filtro=f; render(); }
+function mover(id){
+  const l=leads.find(x=>x.id===id); const i=ETAPAS.indexOf(l.etapa);
+  if(i<ETAPAS.length-1) l.etapa=ETAPAS[i+1]; salvar(); render();
+}
+function voltar(id){
+  const l=leads.find(x=>x.id===id); const i=ETAPAS.indexOf(l.etapa);
+  if(i>0) l.etapa=ETAPAS[i-1]; salvar(); render();
+}
+function falar(id){
+  const l=leads.find(x=>x.id===id);
+  const txt=encodeURIComponent(`Olá ${l.nome}! ✨ Aqui é o Lucas Fortes - Consórcio Porto Seguro. Vi que você tem interesse em ${l.obj||'consórcio'} ${l.grupo?`(grupo ${l.grupo})`:''}. Tenho uma condição especial pra você hoje, posso te mostrar?`);
+  window.open(`https://wa.me/55${l.fone.replace(/\D/g,'')}?text=${txt}`,'_blank');
+  l.falouHoje=true; l.data=hoje(); salvar(); render();
+}
+function excluir(id){ if(confirm('Excluir lead?')){ leads=leads.filter(x=>x.id!==id); salvar(); render(); } }
+function render(){
+  const busca=(document.getElementById('busca').value||'').toLowerCase();
+  let lista=leads.filter(l=>{
+    if(busca && !l.nome.toLowerCase().includes(busca)) return false;
+    if(filtro==='Quente' && l.temp!=='Quente') return false;
+    if(filtro==='3dias' && dias(l.data)<3) return false;
+    if(filtro==='hoje' && l.falouHoje) return false;
+    return true;
+  });
+  const vendas=leads.filter(l=>l.etapa==='Venda / Contemplado').length;
+  document.getElementById('vendasHoje').textContent=vendas;
+  document.getElementById('metaTxt').textContent=meta;
+  document.getElementById('barra').style.width=Math.min(100, vendas/meta*100)+'%';
+  document.getElementById('valorPipe').textContent='R$ '+leads.reduce((s,l)=>s+(l.valor||0),0).toLocaleString('pt-BR');
+  document.getElementById('faltaFalar').textContent=leads.filter(l=>!l.falouHoje).length;
+  const pri=leads.find(l=>l.temp==='Quente' && dias(l.data)>=3) || leads.find(l=>l.temp==='Quente') || leads[0];
+  document.getElementById('prioridade').textContent=pri?pri.nome:'Tudo em dia 🎉';
+
+  document.getElementById('board').innerHTML=ETAPAS.map(et=>{
+    const itens=lista.filter(l=>l.etapa===et);
+    return `<div class="col"><h3>${et}</h3><p>${itens.length} leads • ${et==='Novo Lead'?'Falar em até 5 min':et==='Negociação'?'Foco em fechar hoje':et==='Pós-venda'?'Pedir indicação':''}</p>
+    ${itens.map(l=>`<div class="lead">
+      <b>${l.falouHoje?'✅ ':'❌ '}${l.nome}</b><br><small>📱 ${l.fone} ${l.grupo?'• '+l.grupo:''}<br>💰 R$ ${(l.valor||0).toLocaleString('pt-BR')} • ${l.obj||''}<br>${dias(l.data)===0?'Hoje':dias(l.data)+' dia(s) sem falar'}</small>
+      <br><span class="tag ${l.temp}">${l.temp}</span>
+      ${l.obs?`<div style="font-size:13px;background:#F8FAFC;padding:6px;border-radius:8px">${l.obs}</div>`:''}
+      <div class="actions"><button class="wa" onclick="falar(${l.id})">💬 WhatsApp</button><button class="next" onclick="mover(${l.id})">➡️</button><button class="del" onclick="excluir(${l.id})">🗑️</button></div>
+      <button onclick="voltar(${l.id})" style="background:#F1F5F9;width:100%;margin-top:6px;font-size:12px">⬅️ Voltar etapa</button>
+    </div>`).join('') || '<p style="text-align:center;padding:10px">Nenhum aqui</p>'}
+    </div>`
+  }).join('');
+}
+render();
+</script>
+</body>
+</html>
