@@ -29,7 +29,6 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:flex-end;justify-content:center;z-index:99}
 .modal.open{display:flex}.modal-box{background:#fff;color:#111;width:100%;max-width:520px;max-height:90vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px}
 .row2{display:flex;gap:8px}.row2>*{flex:1}
-/* CRONOMETRO */
 .foco{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px}
 .foco-main{flex:2;min-width:280px;text-align:center}
 .foco-main .time{font-size:64px;font-weight:900;letter-spacing:-2px;line-height:1;margin:8px 0}
@@ -39,6 +38,11 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
 .modes button.active{background:#FFC700}
 .foco-btns{display:flex;gap:8px;margin-top:10px}
 .foco-btns button{flex:1}
+.tarefa-dia{display:flex;align-items:center;gap:8px;background:#F8FAFC;padding:10px;border-radius:10px;margin-bottom:8px;font-size:14px;cursor:pointer}
+.tarefa-dia input{width:18px;height:18px;margin:0}
+.tarefa-dia.feita{opacity:.5;text-decoration:line-through}
+.tarefa-dia b{color:#0B2A5B}
+.mini-btn{background:#0B2A5B;color:#fff;font-size:12px;padding:6px 10px;margin-left:auto;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -46,7 +50,7 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
 <h1>🚀 Pipeline + Foco - Lucas Fortes</h1>
 <p class="sub">Consórcio Porto Seguro • Foco + Pipeline + Ficha NF em uma página só</p>
 
-<!-- ===== CRONÔMETRO DE FOCO ===== -->
+<!-- ===== CRONÔMETRO + MEU DIA ===== -->
 <div class="foco">
   <div class="card foco-main">
     <h3 id="tituloModo" style="margin:0">🎯 1 HORA - FOCO NO C2S</h3>
@@ -66,20 +70,45 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
     </div>
     <div id="fimMsg" style="display:none;color:#22C55E;font-weight:800;margin-top:10px">✅ TEMPO CONCLUÍDO! Vai pro próximo bloco 👊</div>
   </div>
+
+  <!-- MEU DIA - ALTERADO COMO VOCÊ PEDIU -->
   <div class="card foco-side">
-    <h3 style="margin:0 0 10px">📊 Seu dia</h3>
-    <div style="display:flex;gap:8px;text-align:center">
+    <h3 style="margin:0 0 4px">📊 Seu dia</h3>
+    <p style="font-size:12px;color:#666;margin:0 0 10px">Faça na ordem. Ao clicar em Ver, ele já filtra o pipeline abaixo.</p>
+    <div style="display:flex;gap:8px;text-align:center;margin-bottom:12px">
       <div style="flex:1;background:#F1F5F9;border-radius:10px;padding:10px"><b id="ciclos" style="font-size:22px">0</b><br><span style="font-size:12px">Ciclos</span></div>
       <div style="flex:1;background:#F1F5F9;border-radius:10px;padding:10px"><b id="tempoFoco" style="font-size:22px">0 min</b><br><span style="font-size:12px">Focado</span></div>
       <div style="flex:1;background:#F1F5F9;border-radius:10px;padding:10px"><b id="totalNF" style="font-size:22px">0</b><br><span style="font-size:12px">NF hoje</span></div>
     </div>
-    <h4 style="margin:14px 0 8px;font-size:14px">📋 O que fazer nesse bloco</h4>
-    <label style="display:block;background:#F8FAFC;padding:8px;border-radius:8px;margin-bottom:6px;font-size:14px"><input type="checkbox"> 10 leads quentes</label>
-    <label style="display:block;background:#F8FAFC;padding:8px;border-radius:8px;margin-bottom:6px;font-size:14px"><input type="checkbox"> Follow-up 3 dias sem falar</label>
-    <label style="display:block;background:#F8FAFC;padding:8px;border-radius:8px;margin-bottom:6px;font-size:14px"><input type="checkbox"> Enviar proposta / lance</label>
-    <label style="display:block;background:#F8FAFC;padding:8px;border-radius:8px;margin-bottom:6px;font-size:14px"><input type="checkbox"> Deixar 2 fichas NF</label>
-    <div style="display:flex;gap:6px"><input id="novaTarefa" placeholder="Nova tarefa..."><button onclick="addTarefa()" style="background:#0B2A5B;color:#fff">+</button></div>
-    <div id="tarefasExtras"></div>
+
+    <h4 style="margin:0 0 10px;font-size:14px">✅ Meu dia - Faça na ordem</h4>
+
+    <label class="tarefa-dia" id="t1">
+      <input type="checkbox" onchange="marcarTarefa('t1')">
+      <span><b>1. Falar para não interagidos</b><br><small id="txtNao">0 esperando contato</small></span>
+      <button class="mini-btn" onclick="filtrar('nao'); rolarPipeline()">Ver →</button>
+    </label>
+
+    <label class="tarefa-dia" id="t2">
+      <input type="checkbox" onchange="marcarTarefa('t2')">
+      <span><b>2. Fazer o filtro 3 dias</b><br><small id="txt3dias">0 há 3+ dias sem falar</small></span>
+      <button class="mini-btn" onclick="filtrar('3dias'); rolarPipeline()">Ver →</button>
+    </label>
+
+    <label class="tarefa-dia" id="t3">
+      <input type="checkbox" onchange="marcarTarefa('t3')">
+      <span><b>3. Verificar negociações do dia anterior</b><br><small id="txtOntem">0 em Negociação</small></span>
+      <button class="mini-btn" onclick="filtrar('negociacao'); rolarPipeline()">Ver →</button>
+    </label>
+
+    <label class="tarefa-dia" id="t4">
+      <input type="checkbox" onchange="marcarTarefa('t4')">
+      <span><b>4. Verificar etiquetas</b><br><small id="txtEtiquetas">Quentes, Frios, NF</small></span>
+      <button class="mini-btn" onclick="filtrar(''); rolarPipeline()">Ver →</button>
+    </label>
+
+    <div id="progressoDia" style="font-size:13px;font-weight:700;margin-top:10px;text-align:center">0 de 4 concluídos</div>
+    <div class="bar"><i id="barraDia" style="background:#0B2A5B"></i></div>
     <p style="font-size:12px;color:#666;margin:10px 0 0">Rotina: 1h C2S → 10 min Café → 1h Lista → Repete 🔁</p>
   </div>
 </div>
@@ -95,20 +124,26 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
 <div class="card" style="margin-top:12px">
   <h3 style="margin:0 0 10px">➕ Novo Lead - Comece só com Nome e WhatsApp</h3>
   <div class="row2"><input id="nome" placeholder="Nome *"><input id="fone" placeholder="WhatsApp *"></div>
+  <div class="row2" style="margin-top:8px">
+    <select id="etiquetaNovo"><option value="Morno">🏷️ Morno</option><option value="Quente">🔥 Quente</option><option value="Frio">🧊 Frio</option><option value="Novo">✨ Novo</option></select>
+    <select id="etapaNovo"><option>Novo Lead</option><option>1º Contato</option><option>Qualificação</option><option>Proposta / Lance</option><option>Negociação</option><option>Pós-venda</option></select>
+  </div>
   <button class="btn-yellow" onclick="addLead()">Adicionar ao Pipeline →</button>
 </div>
 
-<div style="display:flex;gap:8px;margin-top:12px;overflow:auto">
+<div style="display:flex;gap:8px;margin-top:12px;overflow:auto" id="filtrosBar">
   <button onclick="filtrar('')" style="background:#fff">Todos</button>
+  <button onclick="filtrar('nao')" style="background:#FEE2E2">❌ Não interagidos</button>
+  <button onclick="filtrar('3dias')" style="background:#FEF3C7">📅 Filtro 3 dias</button>
+  <button onclick="filtrar('negociacao')" style="background:#EDE9FE">💬 Negociações</button>
   <button onclick="filtrar('NF')" style="background:#22C55E;color:#fff">🏆 Só NF</button>
-  <button onclick="filtrar('incompleto')" style="background:#FEF3C7">⚠️ Ficha incompleta</button>
-  <button onclick="filtrar('3dias')" style="background:#FEE2E2">📅 3+ dias sem falar</button>
+  <button onclick="filtrar('Quente')" style="background:#FEE2E2">🔥 Quentes</button>
+  <button onclick="filtrar('Frio')" style="background:#DBEAFE">🧊 Frios</button>
   <input id="busca" placeholder="🔍 Buscar..." oninput="render()" style="background:#fff;margin:0;min-width:150px">
 </div>
 
 <div class="board" id="board"></div>
 
-<!-- MODAL FICHA -->
 <div class="modal" id="modal" onclick="if(event.target===this) fecharModal()">
   <div class="modal-box">
     <h3 id="modalTitulo" style="margin:0">Ficha de Atendimento</h3>
@@ -121,60 +156,39 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
 
 <script>
 // ===== CRONÔMETRO =====
-let modos = {
-  c2s: { min: 60, titulo: '🎯 1 HORA - FOCO NO C2S', desc: 'Foco total em C2S. Celular no silencioso. Só cliente, follow-up e venda.' },
-  cafe: { min: 10, titulo: '☕ 10 MINUTOS - CAFÉ', desc: 'Descansa, toma café, levanta, respira. Sem mexer em cliente agora.' },
-  lista: { min: 60, titulo: '📋 1 HORA - FAZER UMA LISTA', desc: 'Monte sua lista de amanhã: quem ligar, quem cobrar, quem fechar.' }
-};
-let modoAtual='c2s', totalSeg=60*60, restante=totalSeg, timerFoco=null, rodando=false;
+let modos={c2s:{min:60,titulo:'🎯 1 HORA - FOCO NO C2S',desc:'Foco total em C2S. Celular no silencioso. Só cliente, follow-up e venda.'},cafe:{min:10,titulo:'☕ 10 MINUTOS - CAFÉ',desc:'Descansa, toma café, levanta, respira. Sem mexer em cliente agora.'},lista:{min:60,titulo:'📋 1 HORA - FAZER UMA LISTA',desc:'Monte sua lista de amanhã: quem ligar, quem cobrar, quem fechar.'}};
+let modoAtual='c2s',totalSeg=60*60,restante=totalSeg,timerFoco=null,rodando=false;
 let ciclos=parseInt(localStorage.getItem('ciclos_lucas')||'0');
 let minutosFoco=parseInt(localStorage.getItem('minutos_lucas')||'0');
 document.getElementById('ciclos').textContent=ciclos;
 document.getElementById('tempoFoco').textContent=minutosFoco+' min';
-function formatar(s){ let m=Math.floor(s/60), seg=s%60; return String(m).padStart(2,'0')+':'+String(seg).padStart(2,'0'); }
-function atualizarFoco(){
-  document.getElementById('display').textContent=formatar(restante);
-  document.getElementById('barraFoco').style.width=(restante/totalSeg*100)+'%';
-  document.title=formatar(restante)+' - '+document.getElementById('tituloModo').textContent;
-}
-function setModo(m){
-  pausarFoco(); modoAtual=m; totalSeg=modos[m].min*60; restante=totalSeg;
-  document.getElementById('tituloModo').textContent=modos[m].titulo;
-  document.getElementById('descModo').textContent=modos[m].desc;
-  document.getElementById('fimMsg').style.display='none';
-  document.getElementById('status').textContent='Pronto para começar? 👊';
-  document.getElementById('btnPrincipal').textContent='▶️ COMEÇAR FOCO';
-  document.querySelectorAll('.modes button').forEach(b=>b.classList.remove('active'));
-  document.getElementById(m==='c2s'?'btn1':m==='cafe'?'btn2':'btn3').classList.add('active');
-  atualizarFoco();
-}
-function toggleFoco(){
-  if(rodando){ pausarFoco(); return; }
-  rodando=true;
-  document.getElementById('btnPrincipal').textContent='⏸️ PAUSAR';
-  document.getElementById('status').textContent='🔥 FOCADO... Não mexe no celular!';
-  timerFoco=setInterval(()=>{
-    restante--;
-    if(restante<=0){
-      clearInterval(timerFoco); rodando=false; restante=0;
-      document.getElementById('fimMsg').style.display='block';
-      document.getElementById('status').textContent='✅ Concluído! Bora pro próximo bloco!';
-      document.getElementById('btnPrincipal').textContent='▶️ COMEÇAR DE NOVO';
-      ciclos++; minutosFoco+=modos[modoAtual].min;
-      localStorage.setItem('ciclos_lucas',ciclos); localStorage.setItem('minutos_lucas',minutosFoco);
-      document.getElementById('ciclos').textContent=ciclos;
-      document.getElementById('tempoFoco').textContent=minutosFoco+' min';
-      try{ new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play(); }catch(e){}
-      if(navigator.vibrate) navigator.vibrate([500,200,500]);
-      alert('⏰ Tempo acabou! '+modos[modoAtual].titulo);
-    }
-    atualizarFoco();
-  },1000);
-}
-function pausarFoco(){ clearInterval(timerFoco); rodando=false; document.getElementById('btnPrincipal').textContent='▶️ CONTINUAR'; document.getElementById('status').textContent='⏸️ Pausado. Respira e volta!'; }
-function resetarFoco(){ pausarFoco(); restante=totalSeg; document.getElementById('fimMsg').style.display='none'; atualizarFoco(); }
-function addTarefa(){ const v=document.getElementById('novaTarefa').value.trim(); if(!v) return; const d=document.createElement('label'); d.style.cssText='display:block;background:#F8FAFC;padding:8px;border-radius:8px;margin-top:6px;font-size:14px'; d.innerHTML=`<input type="checkbox"> ${v}`; document.getElementById('tarefasExtras').appendChild(d); document.getElementById('novaTarefa').value=''; }
+function formatar(s){let m=Math.floor(s/60),seg=s%60;return String(m).padStart(2,'0')+':'+String(seg).padStart(2,'0');}
+function atualizarFoco(){document.getElementById('display').textContent=formatar(restante);document.getElementById('barraFoco').style.width=(restante/totalSeg*100)+'%';document.title=formatar(restante)+' - '+document.getElementById('tituloModo').textContent;}
+function setModo(m){pausarFoco();modoAtual=m;totalSeg=modos[m].min*60;restante=totalSeg;document.getElementById('tituloModo').textContent=modos[m].titulo;document.getElementById('descModo').textContent=modos[m].desc;document.getElementById('fimMsg').style.display='none';document.getElementById('status').textContent='Pronto para começar? 👊';document.getElementById('btnPrincipal').textContent='▶️ COMEÇAR FOCO';document.querySelectorAll('.modes button').forEach(b=>b.classList.remove('active'));document.getElementById(m==='c2s'?'btn1':m==='cafe'?'btn2':'btn3').classList.add('active');atualizarFoco();}
+function toggleFoco(){if(rodando){pausarFoco();return;}rodando=true;document.getElementById('btnPrincipal').textContent='⏸️ PAUSAR';document.getElementById('status').textContent='🔥 FOCADO... Não mexe no celular!';timerFoco=setInterval(()=>{restante--;if(restante<=0){clearInterval(timerFoco);rodando=false;restante=0;document.getElementById('fimMsg').style.display='block';document.getElementById('status').textContent='✅ Concluído! Bora pro próximo bloco!';document.getElementById('btnPrincipal').textContent='▶️ COMEÇAR DE NOVO';ciclos++;minutosFoco+=modos[modoAtual].min;localStorage.setItem('ciclos_lucas',ciclos);localStorage.setItem('minutos_lucas',minutosFoco);document.getElementById('ciclos').textContent=ciclos;document.getElementById('tempoFoco').textContent=minutosFoco+' min';try{new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play();}catch(e){}if(navigator.vibrate)navigator.vibrate([500,200,500]);alert('⏰ Tempo acabou! '+modos[modoAtual].titulo);}atualizarFoco();},1000);}
+function pausarFoco(){clearInterval(timerFoco);rodando=false;document.getElementById('btnPrincipal').textContent='▶️ CONTINUAR';document.getElementById('status').textContent='⏸️ Pausado. Respira e volta!';}
+function resetarFoco(){pausarFoco();restante=totalSeg;document.getElementById('fimMsg').style.display='none';atualizarFoco();}
 atualizarFoco();
+
+// MEU DIA - CHECKLIST
+let tarefasDia=JSON.parse(localStorage.getItem('tarefas_dia_lucas')||'[false,false,false,false]');
+function marcarTarefa(id){
+  const idx=parseInt(id.replace('t',''))-1;
+  tarefasDia[idx]=!tarefasDia[idx];
+  localStorage.setItem('tarefas_dia_lucas',JSON.stringify(tarefasDia));
+  atualizarTarefasDia();
+}
+function atualizarTarefasDia(){
+  tarefasDia.forEach((v,i)=>{
+    const el=document.getElementById('t'+(i+1));
+    if(el){ el.querySelector('input').checked=v; el.classList.toggle('feita',v); }
+  });
+  const feitos=tarefasDia.filter(Boolean).length;
+  document.getElementById('progressoDia').textContent=feitos+' de 4 concluídos'+(feitos===4?' 🎉 Dia concluído!':'');
+  document.getElementById('barraDia').style.width=(feitos/4*100)+'%';
+}
+function rolarPipeline(){ document.getElementById('board').scrollIntoView({behavior:'smooth'}); }
+atualizarTarefasDia();
 
 // ===== PIPELINE + FICHA NF =====
 const ETAPAS=["Novo Lead","1º Contato","Qualificação","Proposta / Lance","Negociação","NF - Negócio Fechado","Pós-venda"];
@@ -182,70 +196,32 @@ let leads=JSON.parse(localStorage.getItem('pipe_nf_lucas')||'[]');
 let meta=parseInt(localStorage.getItem('meta_nf_lucas')||'3');
 let filtro=''; let editId=null;
 document.getElementById('metaInput').value=meta;
-function salvar(){ localStorage.setItem('pipe_nf_lucas', JSON.stringify(leads)); }
-function hoje(){ return new Date().toISOString().slice(0,10); }
-function dias(d){ if(!d) return 99; return Math.floor((new Date(hoje())-new Date(d))/(1000*60*60*24)); }
-function setMeta(){ meta=parseInt(document.getElementById('metaInput').value||'3'); localStorage.setItem('meta_nf_lucas',meta); render(); }
-function novaFicha(){ return {quantoQuer:'',quantoTem:'',quantoPode:'',cpf:'',decide:'',clientePorto:'',aluguel:'',quantoAluguel:'',investimento:''}; }
-function progressoFicha(f){
-  const campos=['quantoQuer','quantoTem','quantoPode','cpf','decide','clientePorto','aluguel','investimento'];
-  let total=campos.length, preenchidos=campos.filter(k=>f[k]&&String(f[k]).trim()!=='').length;
-  if(f.aluguel==='Sim'){ total++; if(f.quantoAluguel) preenchidos++; }
-  return Math.round(preenchidos/total*100);
-}
-function ehNF(f){ return progressoFicha(f)===100; }
-function addLead(){
-  const nome=document.getElementById('nome').value.trim(), fone=document.getElementById('fone').value.trim();
-  if(!nome||!fone){ alert('Preencha nome e WhatsApp'); return; }
-  leads.unshift({id:Date.now(), nome, fone, etapa:'Novo Lead', temp:'Morno', ficha:novaFicha(), data:hoje(), falouHoje:false, obs:''});
-  salvar(); document.getElementById('nome').value=''; document.getElementById('fone').value=''; render();
-}
-function filtrar(f){ filtro=f; render(); }
-function abrirFicha(id){
-  editId=id; const l=leads.find(x=>x.id===id); const f=l.ficha||novaFicha();
-  document.getElementById('modalTitulo').textContent='📋 Ficha - '+l.nome;
-  document.getElementById('modalCampos').innerHTML=`
-    <label style="font-size:12px;font-weight:700">Nome:</label><input id="f_nome" value="${l.nome}">
-    <label style="font-size:12px;font-weight:700">Quanto quer:</label><input id="f_quantoQuer" type="number" placeholder="Ex: 150000" value="${f.quantoQuer}">
-    <label style="font-size:12px;font-weight:700">Quanto tem:</label><input id="f_quantoTem" type="number" placeholder="Ex: 30000" value="${f.quantoTem}">
-    <label style="font-size:12px;font-weight:700">Quanto pode:</label><input id="f_quantoPode" type="number" placeholder="Ex: 1200" value="${f.quantoPode}">
-    <label style="font-size:12px;font-weight:700">CPF:</label><input id="f_cpf" placeholder="000.000.000-00" value="${f.cpf}">
-    <label style="font-size:12px;font-weight:700">Decide sozinho:</label><select id="f_decide"><option value="">Selecione</option><option ${f.decide==='Sim'?'selected':''}>Sim</option><option ${f.decide==='Não'?'selected':''}>Não</option></select>
-    <label style="font-size:12px;font-weight:700">Cliente Porto:</label><select id="f_clientePorto"><option value="">Selecione</option><option ${f.clientePorto==='Sim'?'selected':''}>Sim</option><option ${f.clientePorto==='Não'?'selected':''}>Não</option></select>
-    <label style="font-size:12px;font-weight:700">Aluguel:</label><select id="f_aluguel" onchange="document.getElementById('divAluguel').style.display=this.value==='Sim'?'block':'none'"><option value="">Selecione</option><option ${f.aluguel==='Sim'?'selected':''}>Sim</option><option ${f.aluguel==='Não'?'selected':''}>Não</option></select>
-    <div id="divAluguel" style="display:${f.aluguel==='Sim'?'block':'none'}"><label style="font-size:12px;font-weight:700">Quanto paga de aluguel:</label><input id="f_quantoAluguel" type="number" placeholder="Ex: 1800" value="${f.quantoAluguel}"></div>
-    <label style="font-size:12px;font-weight:700">Investimento:</label><input id="f_investimento" placeholder="Ex: Casa própria / Investimento" value="${f.investimento}">
-    <label style="font-size:12px;font-weight:700">Observação:</label><textarea id="f_obs">${l.obs||''}</textarea>
-    <div class="progress">Progresso: <span>${progressoFicha(f)}%</span> ${ehNF(f)?'• 🏆 NF':''}</div>
-  `;
-  document.getElementById('modal').classList.add('open');
-}
-function fecharModal(){ document.getElementById('modal').classList.remove('open'); editId=null; }
-function salvarFicha(){
-  const l=leads.find(x=>x.id===editId); if(!l) return;
-  l.nome=document.getElementById('f_nome').value.trim()||l.nome;
-  l.ficha={quantoQuer:document.getElementById('f_quantoQuer').value,quantoTem:document.getElementById('f_quantoTem').value,quantoPode:document.getElementById('f_quantoPode').value,cpf:document.getElementById('f_cpf').value,decide:document.getElementById('f_decide').value,clientePorto:document.getElementById('f_clientePorto').value,aluguel:document.getElementById('f_aluguel').value,quantoAluguel:document.getElementById('f_quantoAluguel')?.value||'',investimento:document.getElementById('f_investimento').value};
-  l.obs=document.getElementById('f_obs').value;
-  if(ehNF(l.ficha)){ l.etapa='NF - Negócio Fechado'; l.temp='NF'; alert('🏆 '+l.nome+' virou NF - NEGÓCIO FECHADO!'); }
-  else { alert('Ficha salva: '+progressoFicha(l.ficha)+'% completa. Falta '+(100-progressoFicha(l.ficha))+'% para virar NF.'); }
-  salvar(); fecharModal(); render();
-}
-function mover(id){ const l=leads.find(x=>x.id===id); const i=ETAPAS.indexOf(l.etapa); if(i<ETAPAS.length-1) l.etapa=ETAPAS[i+1]; salvar(); render(); }
-function voltar(id){ const l=leads.find(x=>x.id===id); const i=ETAPAS.indexOf(l.etapa); if(i>0) l.etapa=ETAPAS[i-1]; salvar(); render(); }
-function falar(id){
-  const l=leads.find(x=>x.id===id);
-  const txt=encodeURIComponent(`Olá ${l.nome}! ✨ Aqui é o Lucas Fortes - Consórcio Porto Seguro. ${l.ficha?.investimento?`Sobre seu objetivo de ${l.ficha.investimento}, `:''}tenho uma condição especial pra você hoje, posso te mostrar?`);
-  window.open(`https://wa.me/55${l.fone.replace(/\D/g,'')}?text=${txt}`,'_blank');
-  l.falouHoje=true; l.data=hoje(); salvar(); render();
-}
-function excluir(id){ if(confirm('Excluir lead?')){ leads=leads.filter(x=>x.id!==id); salvar(); render(); } }
+function salvar(){localStorage.setItem('pipe_nf_lucas',JSON.stringify(leads));}
+function hoje(){return new Date().toISOString().slice(0,10);}
+function dias(d){if(!d)return 99;return Math.floor((new Date(hoje())-new Date(d))/(1000*60*60*24));}
+function setMeta(){meta=parseInt(document.getElementById('metaInput').value||'3');localStorage.setItem('meta_nf_lucas',meta);render();}
+function novaFicha(){return {quantoQuer:'',quantoTem:'',quantoPode:'',cpf:'',decide:'',clientePorto:'',aluguel:'',quantoAluguel:'',investimento:''};}
+function progressoFicha(f){const campos=['quantoQuer','quantoTem','quantoPode','cpf','decide','clientePorto','aluguel','investimento'];let total=campos.length,preenchidos=campos.filter(k=>f[k]&&String(f[k]).trim()!=='').length;if(f.aluguel==='Sim'){total++;if(f.quantoAluguel)preenchidos++;}return Math.round(preenchidos/total*100);}
+function ehNF(f){return progressoFicha(f)===100;}
+function addLead(){const nome=document.getElementById('nome').value.trim(),fone=document.getElementById('fone').value.trim();if(!nome||!fone){alert('Preencha nome e WhatsApp');return;}leads.unshift({id:Date.now(),nome,fone,etapa:document.getElementById('etapaNovo').value,temp:document.getElementById('etiquetaNovo').value,ficha:novaFicha(),data:hoje(),falouHoje:false,obs:''});salvar();document.getElementById('nome').value='';document.getElementById('fone').value='';render();}
+function filtrar(f){filtro=f;render();}
+function abrirFicha(id){editId=id;const l=leads.find(x=>x.id===id);const f=l.ficha||novaFicha();document.getElementById('modalTitulo').textContent='📋 Ficha - '+l.nome;document.getElementById('modalCampos').innerHTML=`<label style="font-size:12px;font-weight:700">Nome:</label><input id="f_nome" value="${l.nome}"><label style="font-size:12px;font-weight:700">Quanto quer:</label><input id="f_quantoQuer" type="number" placeholder="Ex: 150000" value="${f.quantoQuer}"><label style="font-size:12px;font-weight:700">Quanto tem:</label><input id="f_quantoTem" type="number" placeholder="Ex: 30000" value="${f.quantoTem}"><label style="font-size:12px;font-weight:700">Quanto pode:</label><input id="f_quantoPode" type="number" placeholder="Ex: 1200" value="${f.quantoPode}"><label style="font-size:12px;font-weight:700">CPF:</label><input id="f_cpf" placeholder="000.000.000-00" value="${f.cpf}"><label style="font-size:12px;font-weight:700">Decide sozinho:</label><select id="f_decide"><option value="">Selecione</option><option ${f.decide==='Sim'?'selected':''}>Sim</option><option ${f.decide==='Não'?'selected':''}>Não</option></select><label style="font-size:12px;font-weight:700">Cliente Porto:</label><select id="f_clientePorto"><option value="">Selecione</option><option ${f.clientePorto==='Sim'?'selected':''}>Sim</option><option ${f.clientePorto==='Não'?'selected':''}>Não</option></select><label style="font-size:12px;font-weight:700">Aluguel:</label><select id="f_aluguel" onchange="document.getElementById('divAluguel').style.display=this.value==='Sim'?'block':'none'"><option value="">Selecione</option><option ${f.aluguel==='Sim'?'selected':''}>Sim</option><option ${f.aluguel==='Não'?'selected':''}>Não</option></select><div id="divAluguel" style="display:${f.aluguel==='Sim'?'block':'none'}"><label style="font-size:12px;font-weight:700">Quanto paga de aluguel:</label><input id="f_quantoAluguel" type="number" placeholder="Ex: 1800" value="${f.quantoAluguel}"></div><label style="font-size:12px;font-weight:700">Investimento:</label><input id="f_investimento" placeholder="Ex: Casa própria / Investimento" value="${f.investimento}"><label style="font-size:12px;font-weight:700">Observação:</label><textarea id="f_obs">${l.obs||''}</textarea><div class="progress">Progresso: <span>${progressoFicha(f)}%</span> ${ehNF(f)?'• 🏆 NF':''}</div>`;document.getElementById('modal').classList.add('open');}
+function fecharModal(){document.getElementById('modal').classList.remove('open');editId=null;}
+function salvarFicha(){const l=leads.find(x=>x.id===editId);if(!l)return;l.nome=document.getElementById('f_nome').value.trim()||l.nome;l.ficha={quantoQuer:document.getElementById('f_quantoQuer').value,quantoTem:document.getElementById('f_quantoTem').value,quantoPode:document.getElementById('f_quantoPode').value,cpf:document.getElementById('f_cpf').value,decide:document.getElementById('f_decide').value,clientePorto:document.getElementById('f_clientePorto').value,aluguel:document.getElementById('f_aluguel').value,quantoAluguel:document.getElementById('f_quantoAluguel')?.value||'',investimento:document.getElementById('f_investimento').value};l.obs=document.getElementById('f_obs').value;if(ehNF(l.ficha)){l.etapa='NF - Negócio Fechado';l.temp='NF';alert('🏆 '+l.nome+' virou NF - NEGÓCIO FECHADO!');}else{alert('Ficha salva: '+progressoFicha(l.ficha)+'% completa. Falta '+(100-progressoFicha(l.ficha))+'% para virar NF.');}salvar();fecharModal();render();}
+function mover(id){const l=leads.find(x=>x.id===id);const i=ETAPAS.indexOf(l.etapa);if(i<ETAPAS.length-1)l.etapa=ETAPAS[i+1];salvar();render();}
+function voltar(id){const l=leads.find(x=>x.id===id);const i=ETAPAS.indexOf(l.etapa);if(i>0)l.etapa=ETAPAS[i-1];salvar();render();}
+function falar(id){const l=leads.find(x=>x.id===id);const txt=encodeURIComponent(`Olá ${l.nome}! ✨ Aqui é o Lucas Fortes - Consórcio Porto Seguro. ${l.ficha?.investimento?`Sobre seu objetivo de ${l.ficha.investimento}, `:''}tenho uma condição especial pra você hoje, posso te mostrar?`);window.open(`https://wa.me/55${l.fone.replace(/\D/g,'')}?text=${txt}`,'_blank');l.falouHoje=true;l.data=hoje();salvar();render();}
+function excluir(id){if(confirm('Excluir lead?')){leads=leads.filter(x=>x.id!==id);salvar();render();}}
 function render(){
   const busca=(document.getElementById('busca').value||'').toLowerCase();
   let lista=leads.filter(l=>{
     if(busca && !l.nome.toLowerCase().includes(busca)) return false;
-    if(filtro==='NF' && !ehNF(l.ficha||{})) return false;
-    if(filtro==='incompleto' && ehNF(l.ficha||{})) return false;
+    if(filtro==='nao' && l.falouHoje) return false;
     if(filtro==='3dias' && dias(l.data)<3) return false;
+    if(filtro==='negociacao' && l.etapa!=='Negociação') return false;
+    if(filtro==='NF' && !ehNF(l.ficha||{})) return false;
+    if(filtro==='Quente' && l.temp!=='Quente') return false;
+    if(filtro==='Frio' && l.temp!=='Frio') return false;
     return true;
   });
   const nfs=leads.filter(l=>ehNF(l.ficha||{})).length;
@@ -253,25 +229,19 @@ function render(){
   document.getElementById('totalNF2').textContent=nfs;
   document.getElementById('vendasHoje').textContent=nfs;
   document.getElementById('metaTxt').textContent=meta;
-  document.getElementById('barra').style.width=Math.min(100, nfs/meta*100)+'%';
+  document.getElementById('barra').style.width=Math.min(100,nfs/meta*100)+'%';
   document.getElementById('valorPipe').textContent='R$ '+leads.reduce((s,l)=>s+(parseInt(l.ficha?.quantoQuer||0)),0).toLocaleString('pt-BR');
   document.getElementById('faltaFalar').textContent=leads.filter(l=>!l.falouHoje).length;
+  // Textos do Meu Dia
+  document.getElementById('txtNao').textContent=leads.filter(l=>!l.falouHoje).length+' esperando contato';
+  document.getElementById('txt3dias').textContent=leads.filter(l=>dias(l.data)>=3).length+' há 3+ dias sem falar';
+  document.getElementById('txtOntem').textContent=leads.filter(l=>l.etapa==='Negociação').length+' em Negociação';
+  const quentes=leads.filter(l=>l.temp==='Quente').length, frios=leads.filter(l=>l.temp==='Frio').length;
+  document.getElementById('txtEtiquetas').textContent=quentes+' Quentes • '+frios+' Frios • '+nfs+' NF';
   document.getElementById('board').innerHTML=ETAPAS.map(et=>{
     const itens=lista.filter(l=>l.etapa===et);
     return `<div class="col"><h3>${et}</h3><p>${itens.length} clientes</p>
-    ${itens.map(l=>{
-      const f=l.ficha||novaFicha(); const prog=progressoFicha(f); const isNF=ehNF(f);
-      return `<div class="lead ${isNF?'nf':''}">
-      <b>${l.falouHoje?'✅ ':'❌ '}${l.nome} ${isNF?'🏆 NF':''}</b><br>
-      <small>📱 ${l.fone}<br>${f.quantoQuer?'💰 Quer: R$ '+parseInt(f.quantoQuer).toLocaleString('pt-BR')+' • ':''}${f.quantoPode?'Pode: R$ '+parseInt(f.quantoPode).toLocaleString('pt-BR')+'/mês':''}<br>${f.investimento?'🎯 '+f.investimento+' • ':''}${dias(l.data)===0?'Hoje':dias(l.data)+' dia(s) sem falar'}</small>
-      <div class="progress">Ficha: <span>${prog}% ${isNF?'• NF':prog===0?'• Ficha vazia':'• Falta '+(100-prog)+'%'}</span></div>
-      <div style="height:8px;background:#E5E7EB;border-radius:20px;overflow:hidden"><div style="width:${prog}%;height:100%;background:${isNF?'#22C55E':'#FFC700'}"></div></div>
-      ${l.obs?`<div style="font-size:13px;background:#F8FAFC;padding:6px;border-radius:8px;margin-top:6px">${l.obs}</div>`:''}
-      <div class="actions"><button class="wa" onclick="falar(${l.id})">💬 WhatsApp</button><button onclick="abrirFicha(${l.id})" style="background:#FFC700">📋 Ficha</button><button class="del" onclick="excluir(${l.id})">🗑️</button></div>
-      <div class="actions"><button class="next" onclick="mover(${l.id})">➡️ Próxima</button><button onclick="voltar(${l.id})" style="background:#E5E7EB">⬅️ Voltar</button></div>
-      </div>`
-    }).join('') || '<p style="text-align:center">Nenhum aqui</p>'}
-    </div>`
+    ${itens.map(l=>{const f=l.ficha||novaFicha();const prog=progressoFicha(f);const isNF=ehNF(f);return `<div class="lead ${isNF?'nf':''}"><b>${l.falouHoje?'✅ ':'❌ '}${l.nome} ${isNF?'🏆 NF':''}</b><br><small>📱 ${l.fone}<br>${f.quantoQuer?'💰 Quer: R$ '+parseInt(f.quantoQuer).toLocaleString('pt-BR')+' • ':''}${f.quantoPode?'Pode: R$ '+parseInt(f.quantoPode).toLocaleString('pt-BR')+'/mês':''}<br>🏷️ ${l.temp} ${f.investimento?'• 🎯 '+f.investimento:''} • ${dias(l.data)===0?'Hoje':dias(l.data)+' dia(s) sem falar'}</small><div class="progress">Ficha: <span>${prog}% ${isNF?'• NF':prog===0?'• Ficha vazia':'• Falta '+(100-prog)+'%'}</span></div><div style="height:8px;background:#E5E7EB;border-radius:20px;overflow:hidden"><div style="width:${prog}%;height:100%;background:${isNF?'#22C55E':'#FFC700'}"></div></div>${l.obs?`<div style="font-size:13px;background:#F8FAFC;padding:6px;border-radius:8px;margin-top:6px">${l.obs}</div>`:''}<div class="actions"><button class="wa" onclick="falar(${l.id})">💬 WhatsApp</button><button onclick="abrirFicha(${l.id})" style="background:#FFC700">📋 Ficha</button><button class="del" onclick="excluir(${l.id})">🗑️</button></div><div class="actions"><button class="next" onclick="mover(${l.id})">➡️ Próxima</button><button onclick="voltar(${l.id})" style="background:#E5E7EB">⬅️ Voltar</button></div></div>`}).join('')||'<p style="text-align:center">Nenhum aqui</p>'}</div>`
   }).join('');
 }
 render();
