@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pipeline + Foco - Lucas Fortes</title>
+<title>Pipeline + Foco + Calendário - Lucas Fortes</title>
 <style>
 *{box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
 body{margin:0;background:#0B2A5B;color:#fff;padding:14px}
@@ -16,13 +16,11 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
 .meta b{font-size:26px;display:block}.meta span{font-size:12px;opacity:.7}
 .bar{height:10px;background:#E5E7EB;border-radius:20px;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:#22C55E;width:0%}
 .board{display:flex;gap:10px;overflow-x:auto;padding:12px 0 20px;align-items:flex-start}
-.col{min-width:300px;background:#F1F5F9;border-radius:14px;padding:10px;color:#111}
-.col h3{font-size:14px;margin:4px 0 2px}.col p{font-size:12px;color:#666;margin:0 0 10px}
+.col{min-width:300px;background:#F1F5F9;border-radius:14px;padding:10px;color:#111;flex:1}
+.col h3{font-size:15px;margin:4px 0 2px}.col p{font-size:12px;color:#666;margin:0 0 10px}
 .lead{background:#fff;border-radius:12px;padding:12px;margin-bottom:10px;border-left:5px solid #FFC700;box-shadow:0 1px 4px rgba(0,0,0,.08)}
 .lead.nf{border-left-color:#22C55E;background:#F0FDF4}
 .lead b{font-size:15px}.lead small{color:#666;font-size:12px}
-.tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:20px;font-weight:700;margin:6px 0}
-.Quente{background:#FEE2E2}.Morno{background:#FEF3C7}.Frio{background:#DBEAFE}.NF{background:#22C55E;color:#fff}
 .actions{display:flex;gap:6px;margin-top:8px}.actions button{flex:1;font-size:13px}
 .wa{background:#25D366;color:#fff}.next{background:#0B2A5B;color:#fff}.del{background:#FEE2E2;color:#B91C1C;flex:0}
 .progress{font-size:12px;font-weight:700;margin:6px 0}.progress span{color:#0B2A5B}
@@ -36,21 +34,30 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
 .modes{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;justify-content:center}
 .modes button{background:#F1F5F9;padding:11px 12px;font-size:13px}
 .modes button.active{background:#FFC700}
-.foco-btns{display:flex;gap:8px;margin-top:10px}
-.foco-btns button{flex:1}
+.foco-btns{display:flex;gap:8px;margin-top:10px}.foco-btns button{flex:1}
 .tarefa-dia{display:flex;align-items:center;gap:8px;background:#F8FAFC;padding:10px;border-radius:10px;margin-bottom:8px;font-size:14px;cursor:pointer}
-.tarefa-dia input{width:18px;height:18px;margin:0}
-.tarefa-dia.feita{opacity:.5;text-decoration:line-through}
-.tarefa-dia b{color:#0B2A5B}
+.tarefa-dia input{width:18px;height:18px;margin:0}.tarefa-dia.feita{opacity:.5;text-decoration:line-through}.tarefa-dia b{color:#0B2A5B}
 .mini-btn{background:#0B2A5B;color:#fff;font-size:12px;padding:6px 10px;margin-left:auto;white-space:nowrap}
+/* CALENDÁRIO */
+.cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.cal-head b{font-size:17px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-dia{font-size:11px;font-weight:700;text-align:center;color:#666;padding:4px}
+.cal-cell{background:#F8FAFC;border-radius:10px;padding:8px;min-height:58px;cursor:pointer;text-align:left;position:relative}
+.cal-cell.hoje{background:#FFC700}
+.cal-cell.selecionado{outline:3px solid #0B2A5B}
+.cal-cell .num{font-weight:800;font-size:14px}
+.cal-cell .qtd{font-size:11px;background:#0B2A5B;color:#fff;border-radius:20px;padding:1px 6px;display:inline-block;margin-top:4px}
+.cal-cell .qtd.nf{background:#22C55E}
+.cal-cell.outro{opacity:.35}
 </style>
 </head>
 <body>
 
-<h1>🚀 Pipeline + Foco - Lucas Fortes</h1>
-<p class="sub">Consórcio Porto Seguro • Foco + Pipeline + Ficha NF em uma página só</p>
+<h1>🚀 Pipeline + Foco + Calendário</h1>
+<p class="sub">Lucas Fortes • Consórcio Porto Seguro • Simples: Novo Lead → NF → Pós-venda</p>
 
-<!-- ===== CRONÔMETRO + MEU DIA ===== -->
+<!-- CRONÔMETRO + MEU DIA -->
 <div class="foco">
   <div class="card foco-main">
     <h3 id="tituloModo" style="margin:0">🎯 1 HORA - FOCO NO C2S</h3>
@@ -71,7 +78,6 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
     <div id="fimMsg" style="display:none;color:#22C55E;font-weight:800;margin-top:10px">✅ TEMPO CONCLUÍDO! Vai pro próximo bloco 👊</div>
   </div>
 
-  <!-- MEU DIA - ALTERADO COMO VOCÊ PEDIU -->
   <div class="card foco-side">
     <h3 style="margin:0 0 4px">📊 Seu dia</h3>
     <p style="font-size:12px;color:#666;margin:0 0 10px">Faça na ordem. Ao clicar em Ver, ele já filtra o pipeline abaixo.</p>
@@ -80,40 +86,34 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
       <div style="flex:1;background:#F1F5F9;border-radius:10px;padding:10px"><b id="tempoFoco" style="font-size:22px">0 min</b><br><span style="font-size:12px">Focado</span></div>
       <div style="flex:1;background:#F1F5F9;border-radius:10px;padding:10px"><b id="totalNF" style="font-size:22px">0</b><br><span style="font-size:12px">NF hoje</span></div>
     </div>
-
     <h4 style="margin:0 0 10px;font-size:14px">✅ Meu dia - Faça na ordem</h4>
-
-    <label class="tarefa-dia" id="t1">
-      <input type="checkbox" onchange="marcarTarefa('t1')">
-      <span><b>1. Falar para não interagidos</b><br><small id="txtNao">0 esperando contato</small></span>
-      <button class="mini-btn" onclick="filtrar('nao'); rolarPipeline()">Ver →</button>
-    </label>
-
-    <label class="tarefa-dia" id="t2">
-      <input type="checkbox" onchange="marcarTarefa('t2')">
-      <span><b>2. Fazer o filtro 3 dias</b><br><small id="txt3dias">0 há 3+ dias sem falar</small></span>
-      <button class="mini-btn" onclick="filtrar('3dias'); rolarPipeline()">Ver →</button>
-    </label>
-
-    <label class="tarefa-dia" id="t3">
-      <input type="checkbox" onchange="marcarTarefa('t3')">
-      <span><b>3. Verificar negociações do dia anterior</b><br><small id="txtOntem">0 em Negociação</small></span>
-      <button class="mini-btn" onclick="filtrar('negociacao'); rolarPipeline()">Ver →</button>
-    </label>
-
-    <label class="tarefa-dia" id="t4">
-      <input type="checkbox" onchange="marcarTarefa('t4')">
-      <span><b>4. Verificar etiquetas</b><br><small id="txtEtiquetas">Quentes, Frios, NF</small></span>
-      <button class="mini-btn" onclick="filtrar(''); rolarPipeline()">Ver →</button>
-    </label>
-
+    <label class="tarefa-dia" id="t1"><input type="checkbox" onchange="marcarTarefa('t1')"><span><b>1. Falar para não interagidos</b><br><small id="txtNao">0 esperando</small></span><button class="mini-btn" onclick="filtrar('nao');rolarPipeline()">Ver →</button></label>
+    <label class="tarefa-dia" id="t2"><input type="checkbox" onchange="marcarTarefa('t2')"><span><b>2. Fazer o filtro 3 dias</b><br><small id="txt3dias">0 há 3+ dias</small></span><button class="mini-btn" onclick="filtrar('3dias');rolarPipeline()">Ver →</button></label>
+    <label class="tarefa-dia" id="t3"><input type="checkbox" onchange="marcarTarefa('t3')"><span><b>3. Verificar negociações do dia anterior</b><br><small id="txtOntem">0 em Negociação</small></span><button class="mini-btn" onclick="filtrar('negociacao');rolarPipeline()">Ver →</button></label>
+    <label class="tarefa-dia" id="t4"><input type="checkbox" onchange="marcarTarefa('t4')"><span><b>4. Verificar etiquetas</b><br><small id="txtEtiquetas">Quentes, Frios, NF</small></span><button class="mini-btn" onclick="filtrar('');rolarPipeline()">Ver →</button></label>
     <div id="progressoDia" style="font-size:13px;font-weight:700;margin-top:10px;text-align:center">0 de 4 concluídos</div>
     <div class="bar"><i id="barraDia" style="background:#0B2A5B"></i></div>
-    <p style="font-size:12px;color:#666;margin:10px 0 0">Rotina: 1h C2S → 10 min Café → 1h Lista → Repete 🔁</p>
   </div>
 </div>
 
-<!-- ===== METAS ===== -->
+<!-- CALENDÁRIO -->
+<div class="card" style="margin-bottom:12px">
+  <div class="cal-head">
+    <button onclick="mudarMes(-1)" style="background:#F1F5F9">⬅️ Anterior</button>
+    <div style="text-align:center"><b id="tituloMes">Novembro 2026</b><br><span style="font-size:12px;color:#666" id="subMes">Clique em um dia para ver os clientes daquele dia</span></div>
+    <button onclick="mudarMes(1)" style="background:#F1F5F9">Próximo ➡️</button>
+  </div>
+  <div class="cal-grid"><div class="cal-dia">DOM</div><div class="cal-dia">SEG</div><div class="cal-dia">TER</div><div class="cal-dia">QUA</div><div class="cal-dia">QUI</div><div class="cal-dia">SEX</div><div class="cal-dia">SÁB</div></div>
+  <div class="cal-grid" id="calGrid" style="margin-top:6px"></div>
+  <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+    <button onclick="irHoje()" style="background:#FFC700">📅 Hoje</button>
+    <button onclick="limparData()" style="background:#E5E7EB">Limpar filtro de data</button>
+    <span id="filtroDataTxt" style="font-size:13px;align-self:center;font-weight:700"></span>
+  </div>
+  <div id="listaDia" style="margin-top:10px"></div>
+</div>
+
+<!-- METAS -->
 <div class="top">
   <div class="card meta"><span>🎯 META HOJE</span><b><span id="vendasHoje">0</span> / <span id="metaTxt">3</span></b><div class="bar"><i id="barra"></i></div><div style="display:flex;gap:6px;margin-top:8px"><input id="metaInput" type="number" value="3" style="margin:0"><button onclick="setMeta()" style="background:#0B2A5B;color:#fff">Salvar</button></div></div>
   <div class="card meta"><span>🏆 NF - NEGÓCIO FECHADO</span><b id="totalNF2">0</b><span>fichas 100% completas</span></div>
@@ -121,27 +121,25 @@ button{border:0;border-radius:10px;padding:10px 12px;font-weight:700;cursor:poin
   <div class="card meta"><span>📞 FALTA FALAR</span><b id="faltaFalar">0</b><span>leads sem contato hoje</span></div>
 </div>
 
+<!-- NOVO LEAD SIMPLIFICADO - SÓ NOME E TELEFONE -->
 <div class="card" style="margin-top:12px">
-  <h3 style="margin:0 0 10px">➕ Novo Lead - Comece só com Nome e WhatsApp</h3>
-  <div class="row2"><input id="nome" placeholder="Nome *"><input id="fone" placeholder="WhatsApp *"></div>
-  <div class="row2" style="margin-top:8px">
-    <select id="etiquetaNovo"><option value="Morno">🏷️ Morno</option><option value="Quente">🔥 Quente</option><option value="Frio">🧊 Frio</option><option value="Novo">✨ Novo</option></select>
-    <select id="etapaNovo"><option>Novo Lead</option><option>1º Contato</option><option>Qualificação</option><option>Proposta / Lance</option><option>Negociação</option><option>Pós-venda</option></select>
-  </div>
-  <button class="btn-yellow" onclick="addLead()">Adicionar ao Pipeline →</button>
+  <h3 style="margin:0 0 10px">➕ Novo Lead</h3>
+  <div class="row2"><input id="nome" placeholder="Nome do cliente *"><input id="fone" placeholder="Telefone / WhatsApp *"></div>
+  <button class="btn-yellow" onclick="addLead()">Adicionar ao Pipeline → Vai para Novo Lead</button>
+  <p style="font-size:12px;color:#666;margin:8px 0 0">Os outros dados você preenche depois, na Ficha, durante o atendimento.</p>
 </div>
 
-<div style="display:flex;gap:8px;margin-top:12px;overflow:auto" id="filtrosBar">
+<div style="display:flex;gap:8px;margin-top:12px;overflow:auto">
   <button onclick="filtrar('')" style="background:#fff">Todos</button>
   <button onclick="filtrar('nao')" style="background:#FEE2E2">❌ Não interagidos</button>
   <button onclick="filtrar('3dias')" style="background:#FEF3C7">📅 Filtro 3 dias</button>
-  <button onclick="filtrar('negociacao')" style="background:#EDE9FE">💬 Negociações</button>
   <button onclick="filtrar('NF')" style="background:#22C55E;color:#fff">🏆 Só NF</button>
   <button onclick="filtrar('Quente')" style="background:#FEE2E2">🔥 Quentes</button>
   <button onclick="filtrar('Frio')" style="background:#DBEAFE">🧊 Frios</button>
   <input id="busca" placeholder="🔍 Buscar..." oninput="render()" style="background:#fff;margin:0;min-width:150px">
 </div>
 
+<!-- PIPELINE SIMPLIFICADO: SÓ 3 COLUNAS -->
 <div class="board" id="board"></div>
 
 <div class="modal" id="modal" onclick="if(event.target===this) fecharModal()">
@@ -169,32 +167,17 @@ function toggleFoco(){if(rodando){pausarFoco();return;}rodando=true;document.get
 function pausarFoco(){clearInterval(timerFoco);rodando=false;document.getElementById('btnPrincipal').textContent='▶️ CONTINUAR';document.getElementById('status').textContent='⏸️ Pausado. Respira e volta!';}
 function resetarFoco(){pausarFoco();restante=totalSeg;document.getElementById('fimMsg').style.display='none';atualizarFoco();}
 atualizarFoco();
-
-// MEU DIA - CHECKLIST
 let tarefasDia=JSON.parse(localStorage.getItem('tarefas_dia_lucas')||'[false,false,false,false]');
-function marcarTarefa(id){
-  const idx=parseInt(id.replace('t',''))-1;
-  tarefasDia[idx]=!tarefasDia[idx];
-  localStorage.setItem('tarefas_dia_lucas',JSON.stringify(tarefasDia));
-  atualizarTarefasDia();
-}
-function atualizarTarefasDia(){
-  tarefasDia.forEach((v,i)=>{
-    const el=document.getElementById('t'+(i+1));
-    if(el){ el.querySelector('input').checked=v; el.classList.toggle('feita',v); }
-  });
-  const feitos=tarefasDia.filter(Boolean).length;
-  document.getElementById('progressoDia').textContent=feitos+' de 4 concluídos'+(feitos===4?' 🎉 Dia concluído!':'');
-  document.getElementById('barraDia').style.width=(feitos/4*100)+'%';
-}
-function rolarPipeline(){ document.getElementById('board').scrollIntoView({behavior:'smooth'}); }
+function marcarTarefa(id){const idx=parseInt(id.replace('t',''))-1;tarefasDia[idx]=!tarefasDia[idx];localStorage.setItem('tarefas_dia_lucas',JSON.stringify(tarefasDia));atualizarTarefasDia();}
+function atualizarTarefasDia(){tarefasDia.forEach((v,i)=>{const el=document.getElementById('t'+(i+1));if(el){el.querySelector('input').checked=v;el.classList.toggle('feita',v);}});const feitos=tarefasDia.filter(Boolean).length;document.getElementById('progressoDia').textContent=feitos+' de 4 concluídos'+(feitos===4?' 🎉 Dia concluído!':'');document.getElementById('barraDia').style.width=(feitos/4*100)+'%';}
+function rolarPipeline(){document.getElementById('board').scrollIntoView({behavior:'smooth'});}
 atualizarTarefasDia();
 
-// ===== PIPELINE + FICHA NF =====
-const ETAPAS=["Novo Lead","1º Contato","Qualificação","Proposta / Lance","Negociação","NF - Negócio Fechado","Pós-venda"];
+// ===== PIPELINE SIMPLIFICADO - SÓ 3 ETAPAS =====
+const ETAPAS=["Novo Lead","NF - Negócio Fechado","Pós-venda"];
 let leads=JSON.parse(localStorage.getItem('pipe_nf_lucas')||'[]');
 let meta=parseInt(localStorage.getItem('meta_nf_lucas')||'3');
-let filtro=''; let editId=null;
+let filtro=''; let editId=null; let dataFiltro=''; let mesAtual=new Date(); mesAtual.setDate(1);
 document.getElementById('metaInput').value=meta;
 function salvar(){localStorage.setItem('pipe_nf_lucas',JSON.stringify(leads));}
 function hoje(){return new Date().toISOString().slice(0,10);}
@@ -203,7 +186,13 @@ function setMeta(){meta=parseInt(document.getElementById('metaInput').value||'3'
 function novaFicha(){return {quantoQuer:'',quantoTem:'',quantoPode:'',cpf:'',decide:'',clientePorto:'',aluguel:'',quantoAluguel:'',investimento:''};}
 function progressoFicha(f){const campos=['quantoQuer','quantoTem','quantoPode','cpf','decide','clientePorto','aluguel','investimento'];let total=campos.length,preenchidos=campos.filter(k=>f[k]&&String(f[k]).trim()!=='').length;if(f.aluguel==='Sim'){total++;if(f.quantoAluguel)preenchidos++;}return Math.round(preenchidos/total*100);}
 function ehNF(f){return progressoFicha(f)===100;}
-function addLead(){const nome=document.getElementById('nome').value.trim(),fone=document.getElementById('fone').value.trim();if(!nome||!fone){alert('Preencha nome e WhatsApp');return;}leads.unshift({id:Date.now(),nome,fone,etapa:document.getElementById('etapaNovo').value,temp:document.getElementById('etiquetaNovo').value,ficha:novaFicha(),data:hoje(),falouHoje:false,obs:''});salvar();document.getElementById('nome').value='';document.getElementById('fone').value='';render();}
+// NOVO LEAD - SÓ NOME E TELEFONE, VAI DIRETO PARA NOVO LEAD
+function addLead(){
+  const nome=document.getElementById('nome').value.trim(), fone=document.getElementById('fone').value.trim();
+  if(!nome||!fone){alert('Preencha nome e telefone');return;}
+  leads.unshift({id:Date.now(),nome,fone,etapa:'Novo Lead',temp:'Morno',ficha:novaFicha(),data:hoje(),falouHoje:false,obs:''});
+  salvar(); document.getElementById('nome').value=''; document.getElementById('fone').value=''; render();
+}
 function filtrar(f){filtro=f;render();}
 function abrirFicha(id){editId=id;const l=leads.find(x=>x.id===id);const f=l.ficha||novaFicha();document.getElementById('modalTitulo').textContent='📋 Ficha - '+l.nome;document.getElementById('modalCampos').innerHTML=`<label style="font-size:12px;font-weight:700">Nome:</label><input id="f_nome" value="${l.nome}"><label style="font-size:12px;font-weight:700">Quanto quer:</label><input id="f_quantoQuer" type="number" placeholder="Ex: 150000" value="${f.quantoQuer}"><label style="font-size:12px;font-weight:700">Quanto tem:</label><input id="f_quantoTem" type="number" placeholder="Ex: 30000" value="${f.quantoTem}"><label style="font-size:12px;font-weight:700">Quanto pode:</label><input id="f_quantoPode" type="number" placeholder="Ex: 1200" value="${f.quantoPode}"><label style="font-size:12px;font-weight:700">CPF:</label><input id="f_cpf" placeholder="000.000.000-00" value="${f.cpf}"><label style="font-size:12px;font-weight:700">Decide sozinho:</label><select id="f_decide"><option value="">Selecione</option><option ${f.decide==='Sim'?'selected':''}>Sim</option><option ${f.decide==='Não'?'selected':''}>Não</option></select><label style="font-size:12px;font-weight:700">Cliente Porto:</label><select id="f_clientePorto"><option value="">Selecione</option><option ${f.clientePorto==='Sim'?'selected':''}>Sim</option><option ${f.clientePorto==='Não'?'selected':''}>Não</option></select><label style="font-size:12px;font-weight:700">Aluguel:</label><select id="f_aluguel" onchange="document.getElementById('divAluguel').style.display=this.value==='Sim'?'block':'none'"><option value="">Selecione</option><option ${f.aluguel==='Sim'?'selected':''}>Sim</option><option ${f.aluguel==='Não'?'selected':''}>Não</option></select><div id="divAluguel" style="display:${f.aluguel==='Sim'?'block':'none'}"><label style="font-size:12px;font-weight:700">Quanto paga de aluguel:</label><input id="f_quantoAluguel" type="number" placeholder="Ex: 1800" value="${f.quantoAluguel}"></div><label style="font-size:12px;font-weight:700">Investimento:</label><input id="f_investimento" placeholder="Ex: Casa própria / Investimento" value="${f.investimento}"><label style="font-size:12px;font-weight:700">Observação:</label><textarea id="f_obs">${l.obs||''}</textarea><div class="progress">Progresso: <span>${progressoFicha(f)}%</span> ${ehNF(f)?'• 🏆 NF':''}</div>`;document.getElementById('modal').classList.add('open');}
 function fecharModal(){document.getElementById('modal').classList.remove('open');editId=null;}
@@ -212,13 +201,48 @@ function mover(id){const l=leads.find(x=>x.id===id);const i=ETAPAS.indexOf(l.eta
 function voltar(id){const l=leads.find(x=>x.id===id);const i=ETAPAS.indexOf(l.etapa);if(i>0)l.etapa=ETAPAS[i-1];salvar();render();}
 function falar(id){const l=leads.find(x=>x.id===id);const txt=encodeURIComponent(`Olá ${l.nome}! ✨ Aqui é o Lucas Fortes - Consórcio Porto Seguro. ${l.ficha?.investimento?`Sobre seu objetivo de ${l.ficha.investimento}, `:''}tenho uma condição especial pra você hoje, posso te mostrar?`);window.open(`https://wa.me/55${l.fone.replace(/\D/g,'')}?text=${txt}`,'_blank');l.falouHoje=true;l.data=hoje();salvar();render();}
 function excluir(id){if(confirm('Excluir lead?')){leads=leads.filter(x=>x.id!==id);salvar();render();}}
+
+// ===== CALENDÁRIO =====
+function mudarMes(n){mesAtual.setMonth(mesAtual.getMonth()+n);renderCalendario();}
+function irHoje(){mesAtual=new Date();mesAtual.setDate(1);dataFiltro=hoje();render();}
+function limparData(){dataFiltro='';render();}
+function selecionarDia(data){dataFiltro=data;render();}
+function renderCalendario(){
+  const meses=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  document.getElementById('tituloMes').textContent=meses[mesAtual.getMonth()]+' '+mesAtual.getFullYear();
+  const ano=mesAtual.getFullYear(), mes=mesAtual.getMonth();
+  const primeiro=new Date(ano,mes,1); const ultimo=new Date(ano,mes+1,0);
+  const inicio=new Date(ano,mes,1-primeiro.getDay());
+  let html='';
+  for(let i=0;i<42;i++){
+    const d=new Date(inicio); d.setDate(inicio.getDate()+i);
+    const iso=d.toISOString().slice(0,10);
+    const doMes=d.getMonth()===mes;
+    const ehHoje=iso===hoje();
+    const doDia=leads.filter(l=>l.data===iso);
+    const nfs=doDia.filter(l=>ehNF(l.ficha||{})).length;
+    html+=`<div class="cal-cell ${ehHoje?'hoje':''} ${!doMes?'outro':''} ${dataFiltro===iso?'selecionado':''}" onclick="selecionarDia('${iso}')">
+      <div class="num">${d.getDate()}</div>
+      ${doDia.length?`<span class="qtd">${doDia.length} cliente(s)</span>`:''}
+      ${nfs?`<br><span class="qtd nf">🏆 ${nfs} NF</span>`:''}
+    </div>`;
+  }
+  document.getElementById('calGrid').innerHTML=html;
+  document.getElementById('filtroDataTxt').textContent=dataFiltro?`📅 Filtrando: ${dataFiltro.split('-').reverse().join('/')} — ${leads.filter(l=>l.data===dataFiltro).length} cliente(s)`:'' ;
+  if(dataFiltro){
+    const doDia=leads.filter(l=>l.data===dataFiltro);
+    document.getElementById('listaDia').innerHTML=doDia.length?`<b>Clientes em ${dataFiltro.split('-').reverse().join('/')}:</b><br>`+doDia.map(l=>`• ${l.nome} - ${l.etapa} ${ehNF(l.ficha||{})?'🏆 NF':''} - ${l.fone}`).join('<br>'):'<span style="color:#666">Nenhum cliente nesse dia.</span>';
+  } else { document.getElementById('listaDia').innerHTML=''; }
+}
+
 function render(){
   const busca=(document.getElementById('busca').value||'').toLowerCase();
   let lista=leads.filter(l=>{
+    if(dataFiltro && l.data!==dataFiltro) return false;
     if(busca && !l.nome.toLowerCase().includes(busca)) return false;
     if(filtro==='nao' && l.falouHoje) return false;
     if(filtro==='3dias' && dias(l.data)<3) return false;
-    if(filtro==='negociacao' && l.etapa!=='Negociação') return false;
+    if(filtro==='negociacao' && l.etapa!=='NF - Negócio Fechado') return false;
     if(filtro==='NF' && !ehNF(l.ficha||{})) return false;
     if(filtro==='Quente' && l.temp!=='Quente') return false;
     if(filtro==='Frio' && l.temp!=='Frio') return false;
@@ -232,17 +256,17 @@ function render(){
   document.getElementById('barra').style.width=Math.min(100,nfs/meta*100)+'%';
   document.getElementById('valorPipe').textContent='R$ '+leads.reduce((s,l)=>s+(parseInt(l.ficha?.quantoQuer||0)),0).toLocaleString('pt-BR');
   document.getElementById('faltaFalar').textContent=leads.filter(l=>!l.falouHoje).length;
-  // Textos do Meu Dia
   document.getElementById('txtNao').textContent=leads.filter(l=>!l.falouHoje).length+' esperando contato';
   document.getElementById('txt3dias').textContent=leads.filter(l=>dias(l.data)>=3).length+' há 3+ dias sem falar';
-  document.getElementById('txtOntem').textContent=leads.filter(l=>l.etapa==='Negociação').length+' em Negociação';
+  document.getElementById('txtOntem').textContent=leads.filter(l=>l.etapa==='NF - Negócio Fechado').length+' em NF / Negociação';
   const quentes=leads.filter(l=>l.temp==='Quente').length, frios=leads.filter(l=>l.temp==='Frio').length;
   document.getElementById('txtEtiquetas').textContent=quentes+' Quentes • '+frios+' Frios • '+nfs+' NF';
   document.getElementById('board').innerHTML=ETAPAS.map(et=>{
     const itens=lista.filter(l=>l.etapa===et);
-    return `<div class="col"><h3>${et}</h3><p>${itens.length} clientes</p>
-    ${itens.map(l=>{const f=l.ficha||novaFicha();const prog=progressoFicha(f);const isNF=ehNF(f);return `<div class="lead ${isNF?'nf':''}"><b>${l.falouHoje?'✅ ':'❌ '}${l.nome} ${isNF?'🏆 NF':''}</b><br><small>📱 ${l.fone}<br>${f.quantoQuer?'💰 Quer: R$ '+parseInt(f.quantoQuer).toLocaleString('pt-BR')+' • ':''}${f.quantoPode?'Pode: R$ '+parseInt(f.quantoPode).toLocaleString('pt-BR')+'/mês':''}<br>🏷️ ${l.temp} ${f.investimento?'• 🎯 '+f.investimento:''} • ${dias(l.data)===0?'Hoje':dias(l.data)+' dia(s) sem falar'}</small><div class="progress">Ficha: <span>${prog}% ${isNF?'• NF':prog===0?'• Ficha vazia':'• Falta '+(100-prog)+'%'}</span></div><div style="height:8px;background:#E5E7EB;border-radius:20px;overflow:hidden"><div style="width:${prog}%;height:100%;background:${isNF?'#22C55E':'#FFC700'}"></div></div>${l.obs?`<div style="font-size:13px;background:#F8FAFC;padding:6px;border-radius:8px;margin-top:6px">${l.obs}</div>`:''}<div class="actions"><button class="wa" onclick="falar(${l.id})">💬 WhatsApp</button><button onclick="abrirFicha(${l.id})" style="background:#FFC700">📋 Ficha</button><button class="del" onclick="excluir(${l.id})">🗑️</button></div><div class="actions"><button class="next" onclick="mover(${l.id})">➡️ Próxima</button><button onclick="voltar(${l.id})" style="background:#E5E7EB">⬅️ Voltar</button></div></div>`}).join('')||'<p style="text-align:center">Nenhum aqui</p>'}</div>`
+    return `<div class="col"><h3>${et==='Novo Lead'?'🆕 Novo Lead':et==='NF - Negócio Fechado'?'🏆 NF - Negócio Fechado':'💚 Pós-venda'}</h3><p>${itens.length} clientes</p>
+    ${itens.map(l=>{const f=l.ficha||novaFicha();const prog=progressoFicha(f);const isNF=ehNF(f);return `<div class="lead ${isNF?'nf':''}"><b>${l.falouHoje?'✅ ':'❌ '}${l.nome} ${isNF?'🏆 NF':''}</b><br><small>📱 ${l.fone}<br>${f.quantoQuer?'💰 Quer: R$ '+parseInt(f.quantoQuer).toLocaleString('pt-BR')+' • ':''}${f.quantoPode?'Pode: R$ '+parseInt(f.quantoPode).toLocaleString('pt-BR')+'/mês':''}<br>🏷️ ${l.temp} ${f.investimento?'• 🎯 '+f.investimento:''} • ${dias(l.data)===0?'Hoje':dias(l.data)+' dia(s) sem falar'} • 📅 ${l.data.split('-').reverse().join('/')}</small><div class="progress">Ficha: <span>${prog}% ${isNF?'• NF':prog===0?'• Ficha vazia':'• Falta '+(100-prog)+'%'}</span></div><div style="height:8px;background:#E5E7EB;border-radius:20px;overflow:hidden"><div style="width:${prog}%;height:100%;background:${isNF?'#22C55E':'#FFC700'}"></div></div>${l.obs?`<div style="font-size:13px;background:#F8FAFC;padding:6px;border-radius:8px;margin-top:6px">${l.obs}</div>`:''}<div class="actions"><button class="wa" onclick="falar(${l.id})">💬 WhatsApp</button><button onclick="abrirFicha(${l.id})" style="background:#FFC700">📋 Ficha</button><button class="del" onclick="excluir(${l.id})">🗑️</button></div><div class="actions"><button class="next" onclick="mover(${l.id})">➡️ Próxima</button><button onclick="voltar(${l.id})" style="background:#E5E7EB">⬅️ Voltar</button></div></div>`}).join('')||'<p style="text-align:center">Nenhum aqui</p>'}</div>`
   }).join('');
+  renderCalendario();
 }
 render();
 </script>
